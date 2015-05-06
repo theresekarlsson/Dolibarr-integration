@@ -3,18 +3,30 @@ package Main;
 import Properties.*;
 
 import java.util.logging.*;
-
+import Leads.getLeads;
 public class mainClass
 {
 	private static final Logger log = Logger.getLogger(mainClass.class.getName()); 
 	/* Används för loggning, ska ligga överst i varje klass. Observera att rätt klassnamn används. */
 
-	//private getLeads GL = new getLeads();
-	private handleProperties HP = new handleProperties();
+	private handleProperties HP;
+	private getLeads GL;
+	
+	private String URI;
+	private String oauth2Key;
+	private String email;
+	
+	
+	public static void main(String[] args)
+	{
+		// TODO Auto-generated method stub
+		mainClass _m = new mainClass();
+	}
+	
 	
 	public mainClass()
 	{
-
+		importProperties();
 		getLeads();
 		// TODO Initialize properties Class
 		// TODO Initialize sendAlarm Class
@@ -24,18 +36,21 @@ public class mainClass
 		// TODO Initialize removeLeads Class
 	}
 	
-	public void establishConnection()
+	public void importProperties()
 	{
-		// TODO Run establishConnection, save the result in a boolean
+		HP = new handleProperties();
+		HP.getAllPropertiesFromPropertiesFile();
+		URI = HP.getURI();
+		oauth2Key = HP.getOauth2Key();
+		email = HP.getEmail();
 		
 	}
 	
 	public void getLeads()
 	{
-		// TODO Run getLeads
-		String url = null;
-		url = HP.getURLFromPropertiesFile();	//hämtar url
-		System.out.println(url);
+		GL = new getLeads();
+		GL.getResponse(URI, oauth2Key);
+		
 		//log.log(Level.FINEST, "testlogg - funkar inte...");
 		
 	}
@@ -44,7 +59,7 @@ public class mainClass
 	{
 		// TODO Run senAlarm
 		String email = null;
-		email = HP.getEmailFromPropertiesFile();	//hämtar e-post
+		
 		System.out.println(email);
 	}
 	
@@ -58,9 +73,5 @@ public class mainClass
 		// TODO run revoeLeads	
 	}
 	
-	public static void main(String[] args)
-	{
-		// TODO Auto-generated method stub
-		mainClass _m = new mainClass();
-	}
+	
 }

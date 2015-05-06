@@ -7,62 +7,74 @@ import java.util.Properties;
 
 
 public class handleProperties {
-
-	/* Hämtar url (där leads hämtas) från config.properties och returnerar som en sträng. */
-	public String getURLFromPropertiesFile() {
-		
-		Properties properties = new Properties();
-		InputStream input = null;
-		String url = null;
-		
-		try {
-			String fileName = "config.properties";
-			input = getClass().getClassLoader().getResourceAsStream(fileName);
-			properties.load(input);
-			url = properties.getProperty("url");
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return url;
-	}
+	String URI;
+	String oauth2Key;
+	String email;
 	
-	/* Hämtar e-post (till tekniker) från config.properties och returnerar som en sträng. */
-	public String getEmailFromPropertiesFile() {
+	/* Hämtar url (där leads hämtas) från config.properties och returnerar som en sträng. */
+	public void getAllPropertiesFromPropertiesFile() {
 		
 		Properties properties = new Properties();
 		InputStream input = null;
-		String email = null;
 		
-		try {
+		
+		try 
+		{
+			
 			String fileName = "config.properties";
 			input = getClass().getClassLoader().getResourceAsStream(fileName);
 			properties.load(input);
+			
+			URI = properties.getProperty("URI");
+			oauth2Key = properties.getProperty("oauth2Key");
 			email = properties.getProperty("email");
 			
-		} catch (FileNotFoundException e) {
+		} 
+		
+		catch (FileNotFoundException e) 
+		{
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		
+		catch (IOException e) 
+		{
 			e.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
+		} 
+		
+		finally 
+		{
+			if (input != null) 
+			{
+				
+				try 
+				{
 					input.close();
-				} catch (IOException e) {
+				} 
+				
+				catch (IOException e)
+				{
 					e.printStackTrace();
 				}
 			}
 		}
+		
+	}
+	
+	public String getURI()
+	{
+		return URI;
+	}
+	
+	public String getOauth2Key()
+	{
+		return oauth2Key;
+	}
+	
+	public String getEmail()
+	{
 		return email;
 	}
+	
+	
+
 }
