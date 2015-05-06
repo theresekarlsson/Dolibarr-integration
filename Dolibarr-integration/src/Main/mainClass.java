@@ -2,8 +2,12 @@ package Main;
 
 import Properties.*;
 
+import java.util.logging.*;
+
 public class mainClass
 {
+	private static final Logger log = Logger.getLogger(mainClass.class.getName()); 
+	/* Används för loggning, ska ligga överst i varje klass. Observera att rätt klassnamn används. */
 
 	//private getLeads GL = new getLeads();
 	private handleProperties HP = new handleProperties();
@@ -29,15 +33,19 @@ public class mainClass
 	public void getLeads()
 	{
 		// TODO Run getLeads
-			String url = null;
-			url = HP.getURLFromPropertiesFile();	//hämtar url
-			System.out.println(url);
+		String url = null;
+		url = HP.getURLFromPropertiesFile();	//hämtar url
+		System.out.println(url);
+		//log.log(Level.FINEST, "testlogg - funkar inte...");
+		
 	}
 	
 	public void sendAlarm()
 	{
 		// TODO Run senAlarm
-		
+		String email = null;
+		email = HP.getEmailFromPropertiesFile();	//hämtar e-post
+		System.out.println(email);
 	}
 	
 	public void loggToFile()
