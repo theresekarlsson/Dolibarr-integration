@@ -15,50 +15,63 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 public class getLeads {
 
-	public static final String oauth2Key= "Bearer " +"3C9GqkjMaDmTg6uIZ4wBP1f7TwEa";
-	public String URI="http://130.243.27.132:8280/leadsprovider/v1/getAll";
+	
+	//public String URI="http://130.243.27.132:8280/leadsprovider/v1/getAll";
 	
 	
 	
-	public void getResponse()
+	public void getResponse(String URI, String oauth2Key)
 	{
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(URI);
 		HttpResponse response = null;
 		InputStream content= null;
 		String result = "";
-		try {
+		try 
+		{
 			
 			httpGet.addHeader("Authorization", oauth2Key);
 			response = httpClient.execute(httpGet);
 			
 			
-		} catch (ClientProtocolException e) {
+		} 
+		catch (ClientProtocolException e) 
+		{
 			
 			e.printStackTrace();
 			
-		} catch (IOException e) {
+		}
+		catch (IOException e) 
+		{
 			
 			e.printStackTrace();
 		} 
 		HttpEntity httpEntity = response.getEntity();
 		
-		try {
+		try
+		{
 			content = httpEntity.getContent();
-		} catch (UnsupportedOperationException e) {
+		} 
+		catch (UnsupportedOperationException e)
+		{
 			
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			
 			e.printStackTrace();
 		}
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(content));
 		
-		try {
+		try 
+		{
 			
 			result =br.readLine().toString();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
