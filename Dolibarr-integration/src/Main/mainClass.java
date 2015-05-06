@@ -1,16 +1,17 @@
 package Main;
 
+import Properties.*;
+
 public class mainClass
 {
 
-	public static void main(String[] args)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	//private getLeads GL = new getLeads();
+	private handleProperties HP = new handleProperties();
 	
 	public mainClass()
 	{
+
+		getLeads();
 		// TODO Initialize properties Class
 		// TODO Initialize sendAlarm Class
 		// TODO Initialize getLeads Class 
@@ -28,7 +29,9 @@ public class mainClass
 	public void getLeads()
 	{
 		// TODO Run getLeads
-	
+			String url = null;
+			url = HP.getURLFromPropertiesFile();	//hämtar url
+			System.out.println(url);
 	}
 	
 	public void sendAlarm()
@@ -47,5 +50,9 @@ public class mainClass
 		// TODO run revoeLeads	
 	}
 	
-
+	public static void main(String[] args)
+	{
+		// TODO Auto-generated method stub
+		mainClass _m = new mainClass();
+	}
 }
