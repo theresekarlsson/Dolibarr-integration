@@ -11,10 +11,10 @@ public class mainClass
 	
 	public mainClass()
 	{
-		// TODO Initialize ConfigFile Class
-		// TODO Initialize sendAlarm CLass
+		// TODO Initialize properties Class
+		// TODO Initialize sendAlarm Class
 		// TODO Initialize getLeads Class 
-		// TODO Initialize establishConnection CLass
+		// TODO Initialize establishConnection Class
 		// TODO Initialize loggToFile Class
 		// TODO Initialize removeLeads Class
 	}
