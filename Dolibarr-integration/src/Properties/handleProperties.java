@@ -4,19 +4,24 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import Main.mainClass;
 
 
 public class handleProperties {
-	String URI;
-	String oauth2Key;
-	String email;
+	private String URI;
+	private String oauth2Key;
+	private String email;
+	private static final Logger LOGGER = Logger.getLogger(handleProperties.class.getName()); 
 	
 	/* Hämtar url (där leads hämtas) från config.properties och returnerar som en sträng. */
 	public void getAllPropertiesFromPropertiesFile() {
 		
+		LOGGER.info("inne i handleProperties");
 		Properties properties = new Properties();
 		InputStream input = null;
-		
 		
 		try 
 		{
@@ -33,11 +38,13 @@ public class handleProperties {
 		
 		catch (FileNotFoundException e) 
 		{
+			LOGGER.log(Level.WARNING, "config.properties-filen kan inte hittas",e);
 			e.printStackTrace();
 		}
 		
 		catch (IOException e) 
 		{
+			LOGGER.log(Level.WARNING, "Något gick fel vid hämtning av data från config.properties",e);
 			e.printStackTrace();
 		} 
 		
@@ -53,6 +60,7 @@ public class handleProperties {
 				
 				catch (IOException e)
 				{
+					LOGGER.log(Level.WARNING, "Något gick fel.",e);
 					e.printStackTrace();
 				}
 			}
