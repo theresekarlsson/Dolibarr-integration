@@ -16,17 +16,15 @@ import org.apache.http.impl.client.DefaultHttpClient;
 public class getLeads {
 
 	
-	//public String URI="http://130.243.27.132:8280/leadsprovider/v1/getAll";
-	
-	
-	
 	public void getResponse(String URI, String oauth2Key)
 	{
+		
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(URI);
 		HttpResponse response = null;
 		InputStream content= null;
 		String result = "";
+		
 		try 
 		{
 			
@@ -77,7 +75,6 @@ public class getLeads {
 		}
 		
 		System.out.println(result);
-		
 		
 	}
 	
