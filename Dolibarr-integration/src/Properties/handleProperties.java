@@ -14,12 +14,11 @@ public class handleProperties {
 	private String URI;
 	private String oauth2Key;
 	private String email;
-	private static final Logger LOGGER = Logger.getLogger(handleProperties.class.getName()); 
+	private static final Logger aLogger = Logger.getLogger(handleProperties.class.getName());
 	
 	/* Hämtar url (där leads hämtas) från config.properties och returnerar som en sträng. */
 	public void getAllPropertiesFromPropertiesFile() {
 		
-		LOGGER.info("inne i handleProperties");
 		Properties properties = new Properties();
 		InputStream input = null;
 		
@@ -28,6 +27,7 @@ public class handleProperties {
 			
 			String fileName = "config.properties";
 			input = getClass().getClassLoader().getResourceAsStream(fileName);
+			aLogger.log(Level.INFO, "Startar hämtning av properties.");
 			properties.load(input);
 			
 			URI = properties.getProperty("URI");
@@ -38,13 +38,13 @@ public class handleProperties {
 		
 		catch (FileNotFoundException e) 
 		{
-			LOGGER.log(Level.WARNING, "config.properties-filen kan inte hittas",e);
+			aLogger.log(Level.WARNING, "config.properties-filen kan inte hittas",e);
 			e.printStackTrace();
 		}
 		
 		catch (IOException e) 
 		{
-			LOGGER.log(Level.WARNING, "Något gick fel vid hämtning av data från config.properties",e);
+			aLogger.log(Level.WARNING, "Något gick fel vid hämtning av data från config.properties",e);
 			e.printStackTrace();
 		} 
 		
@@ -56,11 +56,12 @@ public class handleProperties {
 				try 
 				{
 					input.close();
+					aLogger.log(Level.INFO, "Hämtning av properties klar.");
 				} 
 				
 				catch (IOException e)
 				{
-					LOGGER.log(Level.WARNING, "Något gick fel.",e);
+					aLogger.log(Level.WARNING, "Något gick fel.",e);
 					e.printStackTrace();
 				}
 			}

@@ -8,21 +8,31 @@ import java.util.logging.SimpleFormatter;
 
 public class handleLog {
 	
-	public Logger createLogFile(Logger LOGGER) {
-		
-		FileHandler fileHandler = null;
-		String logFileName = "Logg.log";
+	private FileHandler fileHandler = null;
+	
+	// Tar emot Logger, sätter filhanterare och formatterare på den och returnerar den sedan.
+	public Logger createLogFile(Logger logger) 
+	{
+
+		String logFileName = "GetLeadsLog.log";
 		try 
 		{
 			fileHandler = new FileHandler(logFileName);
 		} catch (SecurityException | IOException e) {
-			LOGGER.log(Level.SEVERE, "Loggfil kan inte skapas. ", e);
+			logger.log(Level.SEVERE, "Loggfil kan inte skapas. ", e);
 			e.printStackTrace();
 		}
-		LOGGER.addHandler(fileHandler);
+		Logger.getLogger("").addHandler(fileHandler); //Gör så alla loggar i systemet skriver till "root-loggen"
 		SimpleFormatter formatter = new SimpleFormatter();
 		fileHandler.setFormatter(formatter);
-		LOGGER.info("inne i handleLog");
-		return LOGGER;
+		logger.log(Level.INFO, "Loggfil skapad");
+		return logger;
+	}
+
+	// Stänger streamen till filen.
+	public void closeLogFile() 
+	{
+		fileHandler.flush();
+		fileHandler.close();
 	}
 }
