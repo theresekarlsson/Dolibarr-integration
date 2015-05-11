@@ -10,6 +10,9 @@ public class leads {
 	private String address;
 	private String city;
 	private String contact;
+	private String email;
+	private String current_provider;
+	private String size;
 	
 	public String getContact() 
 	{
@@ -86,6 +89,36 @@ public class leads {
 	public void setLead(int leadID)
 	{
 		this.lead = leadID;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getCurrent_provider() {
+		return current_provider;
+	}
+
+
+	public void setCurrent_provider(String current_provider) {
+		this.current_provider = current_provider;
+	}
+
+
+	public String getSize() {
+		return size;
+	}
+
+
+	public void setSize(String size) {
+		this.size = size;
 	}
 	
 }

@@ -1,10 +1,11 @@
 package Leads;
-
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class validateLeads {
 
-	private boolean duplicates;
+	
 	private boolean value;
 	
 	ArrayList<String> failReport = new ArrayList<String>();
@@ -12,8 +13,8 @@ public class validateLeads {
 	public void checkList(ArrayList<leads> aLeadsList)
 	{
 		checkIfEmpty(aLeadsList);
-		//checkForDuplicates(aLeadsList);
-		//checkValues(aLeadsList);
+		checkForDuplicates(aLeadsList);
+		checkValues(aLeadsList);
 		
 		if(failReport.isEmpty())
 		{
@@ -59,35 +60,93 @@ public class validateLeads {
 			
 			if(aLeadsList.get(i).getZip() == "" || aLeadsList.get(i).getZip() == null)
 				failReport.add("Item number " + i + " has no zip");
-				
 			
+			if(aLeadsList.get(i).getEmail() == "" || aLeadsList.get(i).getEmail() == null)
+				failReport.add("Item number " + i + " has no Email");
+
+			if(aLeadsList.get(i).getCurrent_provider() == "" || aLeadsList.get(i).getCurrent_provider() == null)
+				failReport.add("Item number " + i + " has no Current provider");	
+			
+			if(aLeadsList.get(i).getSize() == "" || aLeadsList.get(i).getSize() == null)
+				failReport.add("Item number " + i + " has no Size");	
 		}
-		
-		
-		
-		
 		
 	}
 	
 	public void checkForDuplicates(ArrayList<leads> aLeadsList)
 	{
+		leads tmpLead = new leads();
+		boolean duplicates = false;
+		for(int i = 0; i < aLeadsList.size(); i++)
+		{
+			tmpLead = aLeadsList.get(i);
+			
+			for(int y = 0; y < aLeadsList.size(); y++)
+			{
+				
+				
+				if(tmpLead == aLeadsList.get(y))
+				{
+					
+					if(duplicates)
+					{
+						failReport.add("Item number: " + y + " has a duplicate" );	
+					} 
+					duplicates = true;
+					
+				}
+				
+			}
+			
+			duplicates = false;
+			
+		}
 		
 		
 	}
 	
 	public void checkValues(ArrayList<leads> aLeadsList)
 	{
+		String regex = "[0-9]+";
 		
-		
+		String tmpTele;
+		for(int i = 0; i < aLeadsList.size(); i++)
+		{
+			tmpTele = aLeadsList.get(i).getTele();
+			tmpTele = tmpTele.replace("-", "");
+			
+			
+			if(!aLeadsList.get(i).getZip().matches(regex))
+			{
+				failReport.add("Item number: " + i + " has unvalid zipcode(can only contain numbers)");
+			}
+			
+			if(aLeadsList.get(i).getCity().matches(regex))
+			{
+				failReport.add("Item number: " + i + " City cannot contain numbers");
+			}
+			
+			if(aLeadsList.get(i).getContact().matches(regex))
+			{
+				failReport.add("Item number: " + i + " contact name cannot contain numbers");
+			}
+			
+			if(!tmpTele.matches(regex))
+			{
+				failReport.add("Item number: " + i + " has unvalid phonenumber (can only contain numbers)");
+			}
+			
+			String email = aLeadsList.get(i).getEmail();
+	        Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
+	        Matcher mat = pattern.matcher(email);
+
+	        if(!mat.matches()){
+	            failReport.add("Item number: " + i + " Has invalid email");
+	        }
+	        
+			
+		}
 		
 	}
-	
-	//tomt
-	//dubbletter
-	//felaktig attribut
-	
-	
-	
-	
 	
 }
