@@ -24,7 +24,6 @@ public class handleProperties {
 		
 		try 
 		{
-			
 			String fileName = "config.properties";
 			input = getClass().getClassLoader().getResourceAsStream(fileName);
 			aLogger.log(Level.INFO, "Startar hämtning av properties.");
@@ -33,7 +32,6 @@ public class handleProperties {
 			URI = properties.getProperty("URI");
 			oauth2Key = properties.getProperty("oauth2Key");
 			email = properties.getProperty("email");
-			
 		} 
 		
 		catch (FileNotFoundException e) 
