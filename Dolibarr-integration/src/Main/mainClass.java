@@ -10,8 +10,6 @@ import Log.handleLog;
 public class mainClass
 {
 	private static final Logger LOGGER = Logger.getLogger(mainClass.class.getName()); 
-	
-	/* LOGGNING EJ KLAR */
 
 	private handleProperties HP;
 	private handleLog HL;
@@ -29,8 +27,8 @@ public class mainClass
 	
 	public mainClass()
 	{
-		logToFile();
-		LOGGER.info("Kör program.");
+		startLogToFile();
+		LOGGER.log(Level.INFO, "Program körs.");
 		
 		importProperties();
 		getLeads();
@@ -38,25 +36,22 @@ public class mainClass
 		// TODO Initialize sendAlarm Class
 		// TODO Initialize getLeads Class 
 		// TODO Initialize removeLeads Class
+		stopLogToFile();
 	}
 	
 	public void importProperties()
 	{
-		LOGGER.info("Startar import från config.properties.");
 		HP = new handleProperties();
 		HP.getAllPropertiesFromPropertiesFile();
 		URI = HP.getURI();
 		oauth2Key = HP.getOauth2Key();
 		email = HP.getEmail();
-		LOGGER.info("Hämtning från config.properties klar.");
 	}
 	
 	public void getLeads()
 	{
-		LOGGER.info("Startar hämtning av leads.");
 		GL = new getLeads();
 		GL.getResponse(URI, oauth2Key);
-		LOGGER.info("Hämtning av leads klar.");
 	}
 	
 	public void sendAlarm()
@@ -66,10 +61,14 @@ public class mainClass
 		System.out.println(email);
 	}
 	
-	public void logToFile()
+	public void startLogToFile()
 	{
 		HL = new handleLog();
 		HL.createLogFile(LOGGER);
+	}
+	
+	private void stopLogToFile() {
+		HL.closeLogFile();
 	}
 	
 	public void removeLeads()
