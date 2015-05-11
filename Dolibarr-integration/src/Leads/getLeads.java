@@ -152,9 +152,12 @@ public class getLeads {
 		for (int i = 0; i < leadsList.size(); i++)
 		{
 			System.out.println(leadsList.get(i).getName());
+			
+			
 				
 		}
-		leadsList.get(1).setName(null);
+		
+		
 		validateLeads vl = new validateLeads();
 		vl.checkList(leadsList);
 			
