@@ -1,10 +1,12 @@
 package Leads;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class validateLeads {
 
+	private static final Logger LOGGER = Logger.getLogger(validateLeads.class.getName());
 	
 	private boolean value;
 	
@@ -20,6 +22,7 @@ public class validateLeads {
 		{
 			
 			System.out.println("Inga fel");
+			//LOGGER.log(Level.INFO, "Inga fel");
 			
 		}
 		else
@@ -28,6 +31,7 @@ public class validateLeads {
 			{
 				
 			System.out.println(failReport.get(i));
+			//LOGGER.log...
 				
 			}
 			

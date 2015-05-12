@@ -1,7 +1,11 @@
 package Leads;
 
+import java.util.logging.Logger;
+
 
 public class leads {
+	
+	private static final Logger LOGGER = Logger.getLogger(leads.class.getName());
 
 	private int lead;
 	private String zip;

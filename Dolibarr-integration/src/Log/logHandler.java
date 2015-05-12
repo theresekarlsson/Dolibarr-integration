@@ -1,8 +1,12 @@
 package Log;
 
 import java.io.IOException;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
@@ -11,12 +15,10 @@ public class logHandler {
 	FileHandler fileHandler = null;
 	private static final Logger LOGGER = Logger.getLogger(logHandler.class.getName());
 	
-	/* Tar emot ett Logger-objekt, sätter filhanterare och formatterare på den.
-	 * Returnerar den sedan. */
+	/* Sätter filhanterare och formatterare på root-loggern. */
 	public void startLogging() 
 	{
 		String logFileName = "GetLeadsLog.log";
-		LOGGER.setUseParentHandlers(false);
 		
 		try 
 		{
@@ -26,11 +28,24 @@ public class logHandler {
 		{
 			LOGGER.log(Level.SEVERE, "Loggfil kan inte skapas. ", e);
 		}
-		SimpleFormatter formatter = new SimpleFormatter(); 
+		SimpleFormatter formatter = new SimpleFormatter();
 		fileHandler.setFormatter(formatter);
+		/*
+	    Handler conHdlr = new ConsoleHandler();
+	    conHdlr.setFormatter(new Formatter() 
+	    {
+	    public String format(LogRecord record) {
+	        return record.getLevel() + "  :  "
+	          + record.getSourceClassName() + ":"
+	          + record.getSourceMethodName() + ":"
+	          + record.getMessage() + "\n";
+	      }
+	    })*/;
+	    Logger.getLogger("").addHandler(new MailingHandler()); //lägger till mailhanterare
+	    //Logger.getLogger("").addHandler(conHdlr);
 		Logger.getLogger("").addHandler(fileHandler); //Lägger till filhanterare till "root-loggern"
-		Logger.getLogger("").addHandler(new MailingHandler()); //lägger till mailhanterare
-		LOGGER.log(Level.INFO, "Loggfil skapad");
+		
+		
 	}
 
 	// Stänger streamen till filen.
