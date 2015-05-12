@@ -55,7 +55,7 @@ public class getLeads {
 			
 			httpGet.addHeader("Authorization", oauth2Key);
 			response = httpClient.execute(httpGet);
-			LOGGER.log(Level.INFO, "Http-request genomförd");
+			LOGGER.log(Level.INFO, "Http-request genomförd.");
 			
 		} 
 		catch (ClientProtocolException e) 
@@ -101,7 +101,7 @@ public class getLeads {
 		
 		System.out.println(result);
 		createLeadArray(result);
-		
+		LOGGER.log(Level.INFO, "Hämtning av leads klar.");
 	}
 	
 	public void createLeadArray(String result){

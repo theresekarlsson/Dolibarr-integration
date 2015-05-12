@@ -13,10 +13,9 @@ import java.util.logging.SimpleFormatter;
 public class logHandler {
 	
 	FileHandler fileHandler = null;
-	private static final Logger LOGGER = Logger.getLogger(logHandler.class.getName());
-	
+
 	/* Sätter filhanterare och formatterare på root-loggern. */
-	public void startLogging() 
+	public Logger startLogging(Logger logger) 
 	{
 		String logFileName = "GetLeadsLog.log";
 		
@@ -26,7 +25,7 @@ public class logHandler {
 			
 		} catch (SecurityException | IOException e) 
 		{
-			LOGGER.log(Level.SEVERE, "Loggfil kan inte skapas. ", e);
+			logger.log(Level.SEVERE, "Loggfil kan inte skapas. ", e);
 		}
 		SimpleFormatter formatter = new SimpleFormatter();
 		fileHandler.setFormatter(formatter);
@@ -44,7 +43,8 @@ public class logHandler {
 	    Logger.getLogger("").addHandler(new MailingHandler()); //lägger till mailhanterare
 	    //Logger.getLogger("").addHandler(conHdlr);
 		Logger.getLogger("").addHandler(fileHandler); //Lägger till filhanterare till "root-loggern"
-		
+		logger.log(Level.INFO, "Filhanterare och loggfil skapad. Loggning till fil påbörjad.");
+		return logger;
 		
 	}
 
