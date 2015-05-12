@@ -18,8 +18,8 @@ public class MailingHandler extends Handler {
 		//Konverterar level till String
 		String checkLevel = record.getLevel().toString();
 
-		// Kontrollen ska egentligen vara SEVERE, men kör på INFO nu bara för att komma in i mailfunktionen.
-		if (checkLevel.equals("INFO"))
+		// Kontrollen ska vara SEVERE, men kör på INFO om man vill komma vidare in i mailfunktionen.
+		if (checkLevel.equals("SEVERE"))
 		{
 			// Vet inte exakt vilken data vi ska skicka med här.
 			System.out.println("mailfunktion triggad");

@@ -26,6 +26,7 @@ public class mainClass
 	public mainClass()
 	{
 		startLogToFile();
+		
 		LOGGER.log(Level.INFO, "Program körs.");
 		
 		importProperties();
@@ -63,7 +64,7 @@ public class mainClass
 	public void startLogToFile()
 	{
 		HL = new logHandler();
-		HL.startLogging();
+		HL.startLogging(LOGGER);
 	}
 	
 	private void stopLogToFile() {
