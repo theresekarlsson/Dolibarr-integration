@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit.Parser;
@@ -30,11 +32,14 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.xml.sax.InputSource;
 
+import Main.mainClass;
+
 
 
 
 public class getLeads {
 
+	private static final Logger LOGGER = Logger.getLogger(getLeads.class.getName());
 	
 	public void getResponse(String URI, String oauth2Key)
 	{
@@ -50,13 +55,13 @@ public class getLeads {
 			
 			httpGet.addHeader("Authorization", oauth2Key);
 			response = httpClient.execute(httpGet);
-			
+			LOGGER.log(Level.INFO, "Http-request genomförd");
 			
 		} 
 		catch (ClientProtocolException e) 
 		{
 			
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Http-request misslyckad.", e);
 			
 		}
 		catch (IOException e) 
