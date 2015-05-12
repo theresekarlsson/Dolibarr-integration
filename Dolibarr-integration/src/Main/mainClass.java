@@ -1,18 +1,16 @@
 package Main;
 
 import Properties.*;
-
 import java.util.logging.*;
-
 import Leads.getLeads;
-import Log.handleLog;
+import Log.logHandler;
 
 public class mainClass
 {
 	private static final Logger LOGGER = Logger.getLogger(mainClass.class.getName()); 
 
-	private handleProperties HP;
-	private handleLog HL;
+	private propertiesHandler HP;
+	private logHandler HL;
 	private getLeads GL;
 	private String URI;
 	private String oauth2Key;
@@ -36,12 +34,13 @@ public class mainClass
 		// TODO Initialize sendAlarm Class
 		// TODO Initialize getLeads Class 
 		// TODO Initialize removeLeads Class
+		
 		stopLogToFile();
 	}
 	
 	public void importProperties()
 	{
-		HP = new handleProperties();
+		HP = new propertiesHandler();
 		HP.getAllPropertiesFromPropertiesFile();
 		URI = HP.getURI();
 		oauth2Key = HP.getOauth2Key();
@@ -63,8 +62,8 @@ public class mainClass
 	
 	public void startLogToFile()
 	{
-		HL = new handleLog();
-		HL.createLogFile(LOGGER);
+		HL = new logHandler();
+		HL.startLogging();
 	}
 	
 	private void stopLogToFile() {
