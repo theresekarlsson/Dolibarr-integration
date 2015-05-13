@@ -11,6 +11,9 @@ public class propertiesHandler {
 	private String URI;
 	private String oauth2Key;
 	private String email;
+	private String URLDolibarrDB;
+	private String dbName;
+	private String dbPassword;
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
 	
 	/* Hämtar properties från config.properties och sparar som strängar. */
@@ -27,9 +30,13 @@ public class propertiesHandler {
 			LOGGER.log(Level.INFO, "Startar hämtning av properties.");
 			properties.load(input);
 			
+			dbName = properties.getProperty("dbName");
+			dbPassword = properties.getProperty("dbPassword");
 			URI = properties.getProperty("URI");
 			oauth2Key = properties.getProperty("oauth2Key");
 			email = properties.getProperty("email");
+			URLDolibarrDB = properties.getProperty("URLDolibarrDB");
+			
 		} 
 		
 		catch (FileNotFoundException e) 
@@ -77,5 +84,20 @@ public class propertiesHandler {
 	public String getEmail()
 	{
 		return email;
+	}
+	
+	public String getURLDolibarrDB()
+	{
+		return URLDolibarrDB;
+	}
+	
+	public String getDbName()
+	{	
+	return dbName;	
+	}
+	
+	public String getDbPassword()
+	{
+		return dbPassword;
 	}
 }

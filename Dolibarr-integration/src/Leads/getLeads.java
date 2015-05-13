@@ -40,10 +40,12 @@ import Main.mainClass;
 public class getLeads {
 
 	private static final Logger LOGGER = Logger.getLogger(getLeads.class.getName());
+	private validateLeads vl;
 	
 	public String getResponse(String URI, String oauth2Key)
 	{
 		
+		@SuppressWarnings({ "deprecation", "resource" })
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(URI);
 		HttpResponse response = null;
@@ -163,7 +165,7 @@ public class getLeads {
 				
 		}
 		
-		validateLeads vl = new validateLeads();
+		vl = new validateLeads();
 		vl.checkList(leadsList);
 		return leadsList;
 			

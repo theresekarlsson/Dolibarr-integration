@@ -17,9 +17,15 @@ public class mainClass
 	private propertiesHandler HP;
 	private logHandler HL;
 	private getLeads GL;
+	private JDBCinsert JI;
+	
 	private String URI;
-	private String oauth2Key;
-	private String email;
+	private String OAUTH2KEY;
+	private String EMAIL;
+	private String URLDOLIBARRDB;
+	private String DBNAME;
+	private String DBPASSWORD;
+	
 	ArrayList<leads> leadsList = new ArrayList<leads>();
 	
 	public static void main(String[] args)
@@ -36,7 +42,7 @@ public class mainClass
 		
 		importProperties();
 		leadsList = getLeads();
-		JDBCinsert JI = new JDBCinsert();
+		JI = new JDBCinsert(URLDOLIBARRDB, DBNAME, DBPASSWORD);
 		
 		for(int i = 0; i < leadsList.size(); i++)
 		{
@@ -56,14 +62,17 @@ public class mainClass
 		HP = new propertiesHandler();
 		HP.getAllPropertiesFromPropertiesFile();
 		URI = HP.getURI();
-		oauth2Key = HP.getOauth2Key();
-		email = HP.getEmail();
+		OAUTH2KEY = HP.getOauth2Key();
+		EMAIL = HP.getEmail();
+		URLDOLIBARRDB = HP.getURLDolibarrDB();
+		DBNAME = HP.getDbName();
+		DBPASSWORD = HP.getDbPassword();
 	}
 	
 	public ArrayList<leads> getLeads()
 	{
 		GL = new getLeads();
-		return GL.createLeadArray(GL.getResponse(URI, oauth2Key));
+		return GL.createLeadArray(GL.getResponse(URI, OAUTH2KEY));
 	}
 	
 	public void sendAlarm()

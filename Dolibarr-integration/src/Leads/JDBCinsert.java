@@ -3,11 +3,16 @@ import java.sql.*;
 public class JDBCinsert
 {
 
-	private final String URL = "jdbc:mysql://localhost/dolibarr"; 
+	private final String URL;
+	private final String DBNAME;
+	private final String DBPASSWORD;
 	private Connection conn = null;
 	
-	public JDBCinsert()
+	public JDBCinsert(String aURL, String adbName, String adbPassword)
 	{
+		URL = aURL;
+		DBNAME = adbName;
+		DBPASSWORD = adbPassword;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -21,12 +26,11 @@ public class JDBCinsert
 	
 	public void establishConnection()
 	{
-		System.out.println("i EC");
 		 
 		try {
 			
 			
-			conn = DriverManager.getConnection(URL, "dolibarrmysql", "admin");
+			conn = DriverManager.getConnection(URL, DBNAME, DBPASSWORD);
 			System.out.println("conn made");
 			
 		} catch (SQLException e) {
