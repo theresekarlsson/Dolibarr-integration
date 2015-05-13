@@ -1,7 +1,6 @@
 package Main;
 
 import Properties.*;
-
 import java.util.ArrayList;
 import java.util.logging.*;
 
@@ -18,6 +17,7 @@ public class mainClass
 	private logHandler HL;
 	private getLeads GL;
 	private JDBCinsert JI;
+	private Leads.removeLeads RL;
 	
 	private String URI;
 	private String OAUTH2KEY;
@@ -42,6 +42,11 @@ public class mainClass
 		
 		importProperties();
 		leadsList = getLeads();
+		RL = new Leads.removeLeads();
+		
+		RL.deleteProspectLeads();
+		
+		
 		JI = new JDBCinsert(URLDOLIBARRDB, DBNAME, DBPASSWORD);
 		
 		for(int i = 0; i < leadsList.size(); i++)
