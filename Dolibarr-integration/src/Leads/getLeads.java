@@ -41,7 +41,7 @@ public class getLeads {
 
 	private static final Logger LOGGER = Logger.getLogger(getLeads.class.getName());
 	
-	public void getResponse(String URI, String oauth2Key)
+	public String getResponse(String URI, String oauth2Key)
 	{
 		
 		HttpClient httpClient = new DefaultHttpClient();
@@ -100,11 +100,12 @@ public class getLeads {
 		}
 		
 		System.out.println(result);
-		createLeadArray(result);
+		
 		LOGGER.log(Level.INFO, "Hämtning av leads klar.");
+		return result;
 	}
 	
-	public void createLeadArray(String result){
+	public ArrayList<leads> createLeadArray(String result){
 	
 		ArrayList<leads> leadsList = new ArrayList<leads>();
 		
@@ -162,9 +163,9 @@ public class getLeads {
 				
 		}
 		
-		
 		validateLeads vl = new validateLeads();
 		vl.checkList(leadsList);
+		return leadsList;
 			
 		}
 		
