@@ -125,4 +125,16 @@ public class leads {
 		this.size = size;
 	}
 	
+	public String getFirstName()
+	{
+		String[] names = contact.split(" ");
+		return names[0];
+	}
+	
+	public String getLastName()
+	{
+		String[] names = contact.split(" ");
+		return names[1];
+	}
+	
 }

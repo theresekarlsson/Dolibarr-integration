@@ -1,8 +1,13 @@
 package Main;
 
 import Properties.*;
+
+import java.util.ArrayList;
 import java.util.logging.*;
+
+import Leads.JDBCinsert;
 import Leads.getLeads;
+import Leads.leads;
 import Log.logHandler;
 
 public class mainClass
@@ -15,7 +20,7 @@ public class mainClass
 	private String URI;
 	private String oauth2Key;
 	private String email;
-	
+	ArrayList<leads> leadsList = new ArrayList<leads>();
 	
 	public static void main(String[] args)
 	{
@@ -30,7 +35,14 @@ public class mainClass
 		LOGGER.log(Level.INFO, "Program körs.");
 		
 		importProperties();
-		getLeads();
+		leadsList = getLeads();
+		JDBCinsert JI = new JDBCinsert();
+		
+		for(int i = 0; i < leadsList.size(); i++)
+		{
+			JI.insertLead(leadsList.get(i));
+		}
+		JI.closeConnection();
 		
 		// TODO Initialize sendAlarm Class
 		// TODO Initialize getLeads Class 
@@ -48,10 +60,10 @@ public class mainClass
 		email = HP.getEmail();
 	}
 	
-	public void getLeads()
+	public ArrayList<leads> getLeads()
 	{
 		GL = new getLeads();
-		GL.getResponse(URI, oauth2Key);
+		return GL.createLeadArray(GL.getResponse(URI, oauth2Key));
 	}
 	
 	public void sendAlarm()
