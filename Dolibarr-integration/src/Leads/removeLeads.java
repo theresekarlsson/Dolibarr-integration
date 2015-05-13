@@ -50,19 +50,43 @@ public class removeLeads {
 			while(rs.next())
 			{
 				rowId = rs.getString(1);
-				System.out.println(rowId);
+				System.out.println(rowId +"remove");
+				deleteRowsInContacts(rowId);
 				
 				
 			}
-			st.executeUpdate("DELETE FROM llx_socpeople WHERE "+rowId+"=fk_soc");
+			
 			st.executeUpdate("DELETE FROM llx_societe WHERE client='2'");
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 		}
-		
+	
 		
 	}
 	
+	public void deleteRowsInContacts(String rowId)
+	{
+		Statement st;
+		try {
+			st = conn.createStatement();
+			st.executeUpdate("DELETE FROM llx_socpeople WHERE fk_soc='"+rowId+"'");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void colseConnection()
+	{
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }
