@@ -63,42 +63,39 @@ public class getLeads {
 		catch (ClientProtocolException e) 
 		{
 			
-			LOGGER.log(Level.SEVERE, "Http-request misslyckad.", e);
+			LOGGER.log(Level.SEVERE, "Http-request till servern misslyckad.", e);
 			
 		}
 		catch (IOException e) 
 		{
-			
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Något gick fel och anslutning kunde inte upprättas.", e);
 		} 
 		HttpEntity httpEntity = response.getEntity();
 		
 		try
 		{
 			content = httpEntity.getContent();
+			LOGGER.log(Level.INFO, "");
 		} 
 		catch (UnsupportedOperationException e)
 		{
-			
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "", e);
 		}
 		catch (IOException e)
 		{
-			
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "", e);
 		}
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(content));
 		
 		try 
 		{
-			
 			result =br.readLine().toString();
+			LOGGER.log(Level.INFO, "");
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "", e);
 		}
 		
 		System.out.println(result);
@@ -120,6 +117,7 @@ public class getLeads {
 		result = result.replaceAll(removeFromTag,"");
 		
 		System.out.println(result);
+		LOGGER.log(Level.INFO, "");
 		
 		for(char c: result.toCharArray())
 		{
@@ -145,14 +143,15 @@ public class getLeads {
 				   leads aLead = (leads)je.getValue();
 				   
 				   leadsList.add(aLead);
+				   LOGGER.log(Level.INFO, "");
 				   
 				   
 				  } 
 					catch (JAXBException e) 
 					{
-						   e.printStackTrace();
+						LOGGER.log(Level.SEVERE, "", e);
 					}
-						tmpString = "";
+					tmpString = "";
 				 }
 				
 			
@@ -160,9 +159,7 @@ public class getLeads {
 		for (int i = 0; i < leadsList.size(); i++)
 		{
 			System.out.println(leadsList.get(i).getName());
-			
-			
-				
+			LOGGER.log(Level.INFO, "");	
 		}
 		
 		vl = new validateLeads();
@@ -170,9 +167,4 @@ public class getLeads {
 		return leadsList;
 			
 		}
-		
 	}
-	
-	
-	
-

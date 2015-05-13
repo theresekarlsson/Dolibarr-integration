@@ -14,10 +14,9 @@ public class logHandler {
 	
 	FileHandler fileHandler = null;
 
-	/* Sätter filhanterare och formatterare på root-loggern. */
-	public Logger startLogging(Logger logger) 
+	/* Sätter filhanterare, mailhanterare och formatterare på root-loggern. Returnerar sedan loggern. */
+	public Logger startLogging(Logger logger, String logFileName) 
 	{
-		String logFileName = "GetLeadsLog.log";
 		
 		try 
 		{
@@ -29,21 +28,10 @@ public class logHandler {
 		}
 		SimpleFormatter formatter = new SimpleFormatter();
 		fileHandler.setFormatter(formatter);
-		/*
-	    Handler conHdlr = new ConsoleHandler();
-	    conHdlr.setFormatter(new Formatter() 
-	    {
-	    public String format(LogRecord record) {
-	        return record.getLevel() + "  :  "
-	          + record.getSourceClassName() + ":"
-	          + record.getSourceMethodName() + ":"
-	          + record.getMessage() + "\n";
-	      }
-	    })*/;
 	    Logger.getLogger("").addHandler(new MailingHandler()); //lägger till mailhanterare
-	    //Logger.getLogger("").addHandler(conHdlr);
 		Logger.getLogger("").addHandler(fileHandler); //Lägger till filhanterare till "root-loggern"
 		logger.log(Level.INFO, "Filhanterare och loggfil skapad. Loggning till fil påbörjad.");
+		
 		return logger;
 		
 	}

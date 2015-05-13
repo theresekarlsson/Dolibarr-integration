@@ -21,10 +21,10 @@ public class mainClass
 	
 	private String URI;
 	private String OAUTH2KEY;
-	private String EMAIL;
 	private String URLDOLIBARRDB;
 	private String DBNAME;
 	private String DBPASSWORD;
+	private String LOGFILENAME;
 	
 	ArrayList<leads> leadsList = new ArrayList<leads>();
 	
@@ -36,27 +36,23 @@ public class mainClass
 	
 	public mainClass()
 	{
+		importProperties();
 		startLogToFile();
 		
 		LOGGER.log(Level.INFO, "Program körs.");
 		
-		importProperties();
 		leadsList = getLeads();
 		RL = new Leads.removeLeads();
 		
 		RL.deleteProspectLeads();
-		
-		
 		JI = new JDBCinsert(URLDOLIBARRDB, DBNAME, DBPASSWORD);
 		
-		for(int i = 0; i < leadsList.size(); i++)
+		for (int i = 0; i < leadsList.size(); i++)
 		{
 			JI.insertLead(leadsList.get(i));
 		}
 		JI.closeConnection();
-		
-		// TODO Initialize sendAlarm Class
-		// TODO Initialize getLeads Class 
+
 		// TODO Initialize removeLeads Class
 		
 		stopLogToFile();
@@ -68,10 +64,10 @@ public class mainClass
 		HP.getAllPropertiesFromPropertiesFile();
 		URI = HP.getURI();
 		OAUTH2KEY = HP.getOauth2Key();
-		EMAIL = HP.getEmail();
 		URLDOLIBARRDB = HP.getURLDolibarrDB();
 		DBNAME = HP.getDbName();
 		DBPASSWORD = HP.getDbPassword();
+		LOGFILENAME = HP.getLogFileName();
 	}
 	
 	public ArrayList<leads> getLeads()
@@ -80,17 +76,10 @@ public class mainClass
 		return GL.createLeadArray(GL.getResponse(URI, OAUTH2KEY));
 	}
 	
-	public void sendAlarm()
-	{
-		// TODO Run senAlarm
-		String email = null;
-		System.out.println(email);
-	}
-	
 	public void startLogToFile()
 	{
 		HL = new logHandler();
-		HL.startLogging(LOGGER);
+		HL.startLogging(LOGGER, LOGFILENAME);
 	}
 	
 	private void stopLogToFile() {
