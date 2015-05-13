@@ -1,8 +1,10 @@
 package Leads;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class JDBCinsert
 {
-
+	private static final Logger LOGGER = Logger.getLogger(JDBCinsert.class.getName());
 	private final String URL;
 	private final String DBNAME;
 	private final String DBPASSWORD;
@@ -13,11 +15,14 @@ public class JDBCinsert
 		URL = aURL;
 		DBNAME = adbName;
 		DBPASSWORD = adbPassword;
-		try {
+		try 
+		{
 			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.INFO, "");
+		} 
+		catch (ClassNotFoundException e) 
+		{
+			LOGGER.log(Level.SEVERE, "", e);
 		}
 		establishConnection();
 		
@@ -29,13 +34,13 @@ public class JDBCinsert
 		 
 		try {
 			
-			
 			conn = DriverManager.getConnection(URL, DBNAME, DBPASSWORD);
+			LOGGER.log(Level.INFO, "");
 			System.out.println("conn made");
 			
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "", e);
 		} 
 
 		

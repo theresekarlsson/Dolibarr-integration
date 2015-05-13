@@ -14,6 +14,7 @@ public class propertiesHandler {
 	private String URLDolibarrDB;
 	private String dbName;
 	private String dbPassword;
+	private String logFileName;
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
 	
 	/* Hämtar properties från config.properties och sparar som strängar. */
@@ -36,6 +37,8 @@ public class propertiesHandler {
 			oauth2Key = properties.getProperty("oauth2Key");
 			email = properties.getProperty("email");
 			URLDolibarrDB = properties.getProperty("URLDolibarrDB");
+			logFileName = properties.getProperty("logFileName");
+			
 			
 		} 
 		
@@ -99,5 +102,10 @@ public class propertiesHandler {
 	public String getDbPassword()
 	{
 		return dbPassword;
+	}
+
+	public String getLogFileName() 
+	{
+		return logFileName;
 	}
 }
