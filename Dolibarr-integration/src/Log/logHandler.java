@@ -10,12 +10,14 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import Properties.propertiesHandler;
+
 public class logHandler {
 	
 	FileHandler fileHandler = null;
 
 	/* Sätter filhanterare, mailhanterare och formatterare på root-loggern. Returnerar sedan loggern. */
-	public Logger startLogging(Logger logger, String logFileName, String eMail) 
+	public Logger startLogging(Logger logger, String logFileName, propertiesHandler hp) 
 	{
 		
 		try 
@@ -28,7 +30,7 @@ public class logHandler {
 		}
 		SimpleFormatter formatter = new SimpleFormatter();
 		fileHandler.setFormatter(formatter);
-	    Logger.getLogger("").addHandler(new MailingHandler(eMail)); //lägger till mailhanterare
+	    Logger.getLogger("").addHandler(new MailingHandler(hp)); //lägger till mailhanterare
 		Logger.getLogger("").addHandler(fileHandler); //Lägger till filhanterare till "root-loggern"
 		logger.log(Level.INFO, "Filhanterare och loggfil skapad. Loggning till fil påbörjad.");
 		

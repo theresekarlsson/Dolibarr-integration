@@ -15,6 +15,9 @@ public class propertiesHandler {
 	private String dbName;
 	private String dbPassword;
 	private String logFileName;
+	private String mailSubject;
+	private String mailContent;
+	private String emailSender;
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
 	
 	/* Hämtar properties från config.properties och sparar som strängar. */
@@ -38,6 +41,9 @@ public class propertiesHandler {
 			email = properties.getProperty("email");
 			URLDolibarrDB = properties.getProperty("URLDolibarrDB");
 			logFileName = properties.getProperty("logFileName");
+			mailSubject = properties.getProperty("mailSubject");
+			mailContent = properties.getProperty("mailContent");
+			emailSender = properties.getProperty("emailSender");
 			
 			
 		} 
@@ -107,5 +113,19 @@ public class propertiesHandler {
 	public String getLogFileName() 
 	{
 		return logFileName;
+	}
+	
+	public String getMailSubject() 
+	{
+		return mailSubject;
+	}
+	
+	public String getMailContent() 
+	{
+		return mailContent;
+	}
+
+	public String getEmailSender() {
+		return emailSender;
 	}
 }

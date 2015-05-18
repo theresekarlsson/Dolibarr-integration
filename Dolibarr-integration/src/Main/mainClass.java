@@ -83,7 +83,7 @@ public class mainClass
 	public void startLogToFile()
 	{
 		HL = new logHandler();
-		HL.startLogging(LOGGER, LOGFILENAME, EMAIL);
+		HL.startLogging(LOGGER, LOGFILENAME, HP);
 	}
 	
 	private void stopLogToFile() {
