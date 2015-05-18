@@ -45,6 +45,7 @@ public class mainClass
 		RL = new Leads.removeLeads();
 		
 		RL.deleteProspectLeads();
+		RL.colseConnection();
 		JI = new JDBCinsert(URLDOLIBARRDB, DBNAME, DBPASSWORD);
 		
 		for (int i = 0; i < leadsList.size(); i++)
