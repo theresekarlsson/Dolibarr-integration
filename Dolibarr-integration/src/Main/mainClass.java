@@ -1,6 +1,7 @@
 package Main;
 
 import Properties.*;
+
 import java.util.ArrayList;
 import java.util.logging.*;
 
@@ -25,6 +26,7 @@ public class mainClass
 	private String DBNAME;
 	private String DBPASSWORD;
 	private String LOGFILENAME;
+	private String EMAIL;
 	
 	ArrayList<leads> leadsList = new ArrayList<leads>();
 	
@@ -69,6 +71,7 @@ public class mainClass
 		DBNAME = HP.getDbName();
 		DBPASSWORD = HP.getDbPassword();
 		LOGFILENAME = HP.getLogFileName();
+		EMAIL = HP.getEmail();
 	}
 	
 	public ArrayList<leads> getLeads()
@@ -80,7 +83,7 @@ public class mainClass
 	public void startLogToFile()
 	{
 		HL = new logHandler();
-		HL.startLogging(LOGGER, LOGFILENAME);
+		HL.startLogging(LOGGER, LOGFILENAME, EMAIL);
 	}
 	
 	private void stopLogToFile() {
