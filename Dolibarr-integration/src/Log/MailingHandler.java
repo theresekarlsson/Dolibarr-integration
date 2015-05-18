@@ -7,12 +7,7 @@ import java.util.logging.Logger;
 
 import Properties.propertiesHandler;
 
-/* TODO Den här klassen lyssnar på loggen och avgör när ett mail ska skickas. 
- * Inte klar!
- * 
- * Länkar jag tittat på: http://www.linuxtopia.org/online_books/programming_books/thinking_in_java/TIJ317_019.htm
- * 
- * */
+/* Den här klassen lyssnar på loggen och avgör när ett mail ska skickas.  */
 
 public class MailingHandler extends Handler {
 
@@ -22,6 +17,8 @@ public class MailingHandler extends Handler {
 	private String content;
 	private String subject;
 	private String fileName;
+	private String userName;
+	private String passWord;
 
 
 	public MailingHandler(propertiesHandler hp) {
@@ -30,6 +27,8 @@ public class MailingHandler extends Handler {
 		content = hp.getMailContent();
 		subject = hp.getMailSubject();
 		fileName = hp.getLogFileName();
+		userName = hp.getEmailSenderUserName();
+		passWord = hp.getEmailSenderPassWord();
 	}
 
 	public void publish(LogRecord record) 
@@ -42,7 +41,7 @@ public class MailingHandler extends Handler {
 		{
 
 			System.out.println("Mailfunktion triggad.");
-			new MailCreator(mailFrom,  mailTo, subject, content, fileName).sendMail();
+			new MailCreator(mailFrom,  mailTo, subject, content, fileName, userName, passWord).sendMail();
 		}
 	}
 
