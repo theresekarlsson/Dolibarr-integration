@@ -43,7 +43,10 @@ public class validateLeads {
 	
 	public void checkIfEmpty(ArrayList<leads> aLeadsList)
 	{
-		
+		if(aLeadsList.size() < 1)	
+		{
+		failReport.add("Whole list is empty");	
+		}
 		for(int i=0; i<aLeadsList.size(); i++)
 		{
 		
