@@ -34,14 +34,14 @@ public class MailCreator {
 	private String fileName;
 	
 	
-	public MailCreator(String fromEmail, String toEmail, String subject, String content, String file) 
+	public MailCreator(String fromEmail, String toEmail, String subject, String content, String file, String username, String password) 
 	{
 		fromAddress = fromEmail;
 		toAddress = toEmail;
 		mailSubject = subject;
 		mailContent = content;
-		mailUserNameSender = "teampanthervt15@gmail.com";
-		mailPasswordSender = "12345Panther";
+		mailUserNameSender = username;
+		mailPasswordSender = password;
 		host = "smtp.gmail.com";
 		fileName = file;
 	}

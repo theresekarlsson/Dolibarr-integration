@@ -18,6 +18,8 @@ public class propertiesHandler {
 	private String mailSubject;
 	private String mailContent;
 	private String emailSender;
+	private String emailSenderUserName;
+	private String emailSenderPassWord;
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
 	
 	/* Hämtar properties från config.properties och sparar som strängar. */
@@ -44,6 +46,8 @@ public class propertiesHandler {
 			mailSubject = properties.getProperty("mailSubject");
 			mailContent = properties.getProperty("mailContent");
 			emailSender = properties.getProperty("emailSender");
+			emailSenderUserName = properties.getProperty("emailSenderUserName");
+			emailSenderPassWord = properties.getProperty("emailSenderPassWord");
 			
 			
 		} 
@@ -127,5 +131,13 @@ public class propertiesHandler {
 
 	public String getEmailSender() {
 		return emailSender;
+	}
+	
+	public String getEmailSenderUserName() {
+		return emailSenderUserName;
+	}
+	
+	public String getEmailSenderPassWord() {
+		return emailSenderPassWord;
 	}
 }
