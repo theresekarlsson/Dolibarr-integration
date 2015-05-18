@@ -15,7 +15,7 @@ public class logHandler {
 	FileHandler fileHandler = null;
 
 	/* Sätter filhanterare, mailhanterare och formatterare på root-loggern. Returnerar sedan loggern. */
-	public Logger startLogging(Logger logger, String logFileName) 
+	public Logger startLogging(Logger logger, String logFileName, String eMail) 
 	{
 		
 		try 
@@ -28,7 +28,7 @@ public class logHandler {
 		}
 		SimpleFormatter formatter = new SimpleFormatter();
 		fileHandler.setFormatter(formatter);
-	    Logger.getLogger("").addHandler(new MailingHandler()); //lägger till mailhanterare
+	    Logger.getLogger("").addHandler(new MailingHandler(eMail)); //lägger till mailhanterare
 		Logger.getLogger("").addHandler(fileHandler); //Lägger till filhanterare till "root-loggern"
 		logger.log(Level.INFO, "Filhanterare och loggfil skapad. Loggning till fil påbörjad.");
 		
