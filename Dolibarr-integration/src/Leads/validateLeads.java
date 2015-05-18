@@ -1,5 +1,6 @@
 package Leads;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,7 +23,7 @@ public class validateLeads {
 		{
 			
 			System.out.println("Inga fel");
-			//LOGGER.log(Level.INFO, "Inga fel");
+			LOGGER.log(Level.INFO, "Inga fel i listan hittades");
 			
 		}
 		else
@@ -30,8 +31,7 @@ public class validateLeads {
 			for(int i = 0; i<failReport.size(); i++)
 			{
 				
-			System.out.println(failReport.get(i));
-			//LOGGER.log...
+			LOGGER.log(Level.SEVERE, "Fel i listan: " + failReport.get(i));	
 				
 			}
 			
@@ -43,9 +43,11 @@ public class validateLeads {
 	
 	public void checkIfEmpty(ArrayList<leads> aLeadsList)
 	{
+		LOGGER.log(Level.INFO, "Kollar om listan är tom");
 		if(aLeadsList.size() < 1)	
 		{
-		failReport.add("Whole list is empty");	
+		failReport.add("Whole list is empty");
+	
 		}
 		for(int i=0; i<aLeadsList.size(); i++)
 		{
@@ -82,6 +84,7 @@ public class validateLeads {
 	
 	public void checkForDuplicates(ArrayList<leads> aLeadsList)
 	{
+		LOGGER.log(Level.INFO, "Kollar om lista innehållet dubbletter");
 		leads tmpLead = new leads();
 		boolean duplicates = false;
 		for(int i = 0; i < aLeadsList.size(); i++)
@@ -114,6 +117,7 @@ public class validateLeads {
 	
 	public void checkValues(ArrayList<leads> aLeadsList)
 	{
+		LOGGER.log(Level.INFO, "Kollar om listan innehåller korrupta värden");
 		String regex = "[0-9]+";
 		
 		String tmpTele;

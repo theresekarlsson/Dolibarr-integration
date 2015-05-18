@@ -12,17 +12,19 @@ public class JDBCinsert
 	
 	public JDBCinsert(String aURL, String adbName, String adbPassword)
 	{
+		LOGGER.log(Level.INFO, "JDBCinsert körs");
 		URL = aURL;
 		DBNAME = adbName;
 		DBPASSWORD = adbPassword;
 		try 
 		{
+			
 			Class.forName("com.mysql.jdbc.Driver");
-			LOGGER.log(Level.INFO, "");
+			LOGGER.log(Level.INFO, "Lddar JDBC driver");
 		} 
 		catch (ClassNotFoundException e) 
 		{
-			LOGGER.log(Level.SEVERE, "", e);
+			LOGGER.log(Level.SEVERE, "JDBC driver kunde inte laddas", e);
 		}
 		establishConnection();
 		
@@ -31,16 +33,17 @@ public class JDBCinsert
 	
 	public void establishConnection()
 	{
+		LOGGER.log(Level.INFO, "JDBCinsert.establichConnection() körs");
 		 
 		try {
 			
 			conn = DriverManager.getConnection(URL, DBNAME, DBPASSWORD);
 			LOGGER.log(Level.INFO, "");
-			System.out.println("conn made");
+			System.out.println("Skapar en anslutning till dolibarrs databas");
 			
 		} catch (SQLException e) {
 			
-			LOGGER.log(Level.SEVERE, "", e);
+			LOGGER.log(Level.SEVERE, "Gick inte att skapa en anslutning till dolibarrs databas", e);
 		} 
 
 		
@@ -48,6 +51,7 @@ public class JDBCinsert
 	
 	public void insertLead(leads aLead)
 	{
+		LOGGER.log(Level.INFO, "JDBC.instertLead() körs");
 		try {
 			ResultSet rs;
 			String rowId = null;
@@ -86,11 +90,13 @@ public class JDBCinsert
 	
 	public void closeConnection()
 	{
+		LOGGER.log(Level.INFO, "Stänger connection till dolibarrs databs");
 		try {
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Något gick fel när anslutningen till dolibarrs databas skulle stängas",e);
 		}
 	}
 	

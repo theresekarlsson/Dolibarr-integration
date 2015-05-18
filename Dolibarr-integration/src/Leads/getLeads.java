@@ -44,7 +44,7 @@ public class getLeads {
 	
 	public String getResponse(String URI, String oauth2Key)
 	{
-		
+		LOGGER.log(Level.INFO, "getLeads.getResponse() körs");
 		@SuppressWarnings({ "deprecation", "resource" })
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(URI);
@@ -63,27 +63,28 @@ public class getLeads {
 		catch (ClientProtocolException e) 
 		{
 			
-			LOGGER.log(Level.SEVERE, "Http-request till servern misslyckad.", e);
+			LOGGER.log(Level.SEVERE, "Http-request till servern misslyckad: ", e);
 			
 		}
 		catch (IOException e) 
 		{
-			LOGGER.log(Level.SEVERE, "Något gick fel och anslutning kunde inte upprättas.", e);
+			LOGGER.log(Level.SEVERE, "Något gick fel och anslutning kunde inte upprättas: ", e);
 		} 
+		
 		HttpEntity httpEntity = response.getEntity();
 		
 		try
 		{
 			content = httpEntity.getContent();
-			LOGGER.log(Level.INFO, "");
+			LOGGER.log(Level.INFO, "Lagrar den hämtade XML filen tillfälligt");
 		} 
 		catch (UnsupportedOperationException e)
 		{
-			LOGGER.log(Level.SEVERE, "", e);
+			LOGGER.log(Level.SEVERE, "XML filen kunde inte lagras: ", e);
 		}
 		catch (IOException e)
 		{
-			LOGGER.log(Level.SEVERE, "", e);
+			LOGGER.log(Level.SEVERE, "Något gick fel när XML filen skulle lagras: ", e);
 		}
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(content));
@@ -91,21 +92,22 @@ public class getLeads {
 		try 
 		{
 			result =br.readLine().toString();
-			LOGGER.log(Level.INFO, "");
+			LOGGER.log(Level.INFO, "Läser XML filen och gör om den till en String");
 		}
 		catch (IOException e)
 		{
-			LOGGER.log(Level.SEVERE, "", e);
+			LOGGER.log(Level.SEVERE, "Kunde inte läsa XML filen", e);
 		}
 		
 		System.out.println(result);
 		
-		LOGGER.log(Level.INFO, "Hämtning av leads klar.");
+		LOGGER.log(Level.INFO, "Hämtning av XML filen klar.");
 		return result;
 	}
 	
 	public ArrayList<leads> createLeadArray(String result){
-	
+		
+		LOGGER.log(Level.INFO, "getLeads.createLeadArray() körs");
 		ArrayList<leads> leadsList = new ArrayList<leads>();
 		
 		String tmpString = "";
@@ -117,7 +119,7 @@ public class getLeads {
 		result = result.replaceAll(removeFromTag,"");
 		
 		System.out.println(result);
-		LOGGER.log(Level.INFO, "");
+		LOGGER.log(Level.INFO, "Fixar XML listan så den kan valideras");
 		
 		for(char c: result.toCharArray())
 		{
@@ -143,25 +145,20 @@ public class getLeads {
 				   leads aLead = (leads)je.getValue();
 				   
 				   leadsList.add(aLead);
-				   LOGGER.log(Level.INFO, "");
+				   LOGGER.log(Level.INFO, "Lägger in leads i leadslistan");
 				   
 				   
 				  } 
 					catch (JAXBException e) 
 					{
-						LOGGER.log(Level.SEVERE, "", e);
+						LOGGER.log(Level.SEVERE, "Kunde inte genomföra unmarchall på XML filen", e);
 					}
 					tmpString = "";
-				 }
-				
+				 }		
 			
 		}
-		for (int i = 0; i < leadsList.size(); i++)
-		{
-			System.out.println(leadsList.get(i).getName());
-			LOGGER.log(Level.INFO, "");	
-		}
 		
+		LOGGER.log(Level.INFO, "Hämtning av leads listan genomförd");
 		vl = new validateLeads();
 		vl.checkList(leadsList);
 		return leadsList;
