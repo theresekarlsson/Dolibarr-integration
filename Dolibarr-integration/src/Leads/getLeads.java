@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -87,18 +89,30 @@ public class getLeads {
 			LOGGER.log(Level.SEVERE, "Något gick fel när XML filen skulle lagras: ", e);
 		}
 		
-		BufferedReader br = new BufferedReader(new InputStreamReader(content));
+	
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new InputStreamReader(content,Charset.forName("UTF-8")));
+			result =br.readLine().toString();
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		/*
 		try 
 		{
-			result =br.readLine().toString();
+			
 			LOGGER.log(Level.INFO, "Läser XML filen och gör om den till en String");
 		}
 		catch (IOException e)
 		{
 			LOGGER.log(Level.SEVERE, "Kunde inte läsa XML filen", e);
 		}
-		
+		*/
 		System.out.println(result);
 		
 		LOGGER.log(Level.INFO, "Hämtning av XML filen klar.");
@@ -158,6 +172,8 @@ public class getLeads {
 			
 		}
 		
+		
+		//TODO Logga hur många som hämtas, antal felvaliderade. 
 		LOGGER.log(Level.INFO, "Hämtning av leads listan genomförd");
 		vl = new validateLeads();
 		vl.checkList(leadsList);

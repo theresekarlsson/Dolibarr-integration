@@ -125,6 +125,7 @@ public class validateLeads {
 		{
 			tmpTele = aLeadsList.get(i).getTele();
 			tmpTele = tmpTele.replace("-", "");
+			//ta bort paranteser
 			
 			
 			if(!aLeadsList.get(i).getZip().matches(regex))

@@ -20,7 +20,7 @@ public class JDBCinsert
 		{
 			
 			Class.forName("com.mysql.jdbc.Driver");
-			LOGGER.log(Level.INFO, "Lddar JDBC driver");
+			LOGGER.log(Level.INFO, "Laddar JDBC driver");
 		} 
 		catch (ClassNotFoundException e) 
 		{
