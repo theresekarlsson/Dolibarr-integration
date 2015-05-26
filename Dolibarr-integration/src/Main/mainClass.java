@@ -26,7 +26,7 @@ public class mainClass
 	private String DBNAME;
 	private String DBPASSWORD;
 	private String LOGFILENAME;
-	private String EMAIL;
+	private String LOGFILEPATH;
 	
 	ArrayList<leads> leadsList = new ArrayList<leads>();
 	
@@ -55,8 +55,6 @@ public class mainClass
 			JI.insertLead(leadsList.get(i));
 		}
 		JI.closeConnection();
-
-		// TODO Initialize removeLeads Class
 		
 		stopLogToFile();
 	}
@@ -71,7 +69,7 @@ public class mainClass
 		DBNAME = HP.getDbName();
 		DBPASSWORD = HP.getDbPassword();
 		LOGFILENAME = HP.getLogFileName();
-		EMAIL = HP.getEmail();
+		LOGFILEPATH = HP.getLogFilePath();
 	}
 	
 	public ArrayList<leads> getLeads()
@@ -83,7 +81,7 @@ public class mainClass
 	public void startLogToFile()
 	{
 		HL = new logHandler();
-		HL.startLogging(LOGGER, LOGFILENAME, HP);
+		HL.startLogging(LOGGER, LOGFILENAME, LOGFILEPATH, HP);
 	}
 	
 	private void stopLogToFile() {

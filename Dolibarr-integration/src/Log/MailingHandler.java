@@ -7,46 +7,51 @@ import java.util.logging.Logger;
 
 import Properties.propertiesHandler;
 
-/* Den här klassen lyssnar på loggen och avgör när ett mail ska skickas.  */
+/* Den här klassen lyssnar på all loggning, och avgör när ett mail ska skickas.  */
 
 public class MailingHandler extends Handler {
 
 	private static final Logger LOGGER = Logger.getLogger(MailingHandler.class.getName());
-	private String mailTo;
-	private String mailFrom;
-	private String content;
-	private String subject;
-	private String fileName;
-	private String userName;
-	private String passWord;
+	private String mailTo;				// e-post till mottagare
+	private String mailFrom;			// e-post till avsändare
+	private String mailContent;			// meddelande i e-post
+	private String mailSubject;			// ämnesrad i e-post
+	private String logFileName;			// loggfilens namn
+	private String mailFromUserName;	// användarnamn till avsändares e-postkonto
+	private String mailFromPassWord;	// lösenord till avsändares e-postkonto
 
 
+	/* Konstruktor, hämtar all data som krävs för att skicka e-post. */
 	public MailingHandler(propertiesHandler hp) {
 		mailTo = hp.getEmail();
 		mailFrom = hp.getEmailSender();
-		content = hp.getMailContent();
-		subject = hp.getMailSubject();
-		fileName = hp.getLogFileName();
-		userName = hp.getEmailSenderUserName();
-		passWord = hp.getEmailSenderPassWord();
+		mailContent = hp.getMailContent();
+		mailSubject = hp.getMailSubject();
+		mailFromUserName = hp.getEmailSenderUserName();
+		mailFromPassWord = hp.getEmailSenderPassWord();
+		logFileName = hp.getLogFileName();
 	}
 
+	/* Konverterar nivån (level) på loggmeddelandet till en sträng, 
+	 * kontrollerar den och triggar mailfunktion om den är "SEVERE" */
 	public void publish(LogRecord record) 
 	{
-		//Konverterar level till String
+		  
 		String checkLevel = record.getLevel().toString();
 
-		// Kontrollen ska vara SEVERE, men kör på INFO om man vill komma vidare in i mailfunktionen.
-		if (checkLevel.equals("INFO"))
+		if (checkLevel.equals("SEVERE"))
 		{
 
-			System.out.println("Mailfunktion triggad.");
-			new MailCreator(mailFrom,  mailTo, subject, content, fileName, userName, passWord).sendMail();
+			LOGGER.log(Level.INFO, "Mailfunktion triggad.");
+			new MailCreator(mailFrom,  mailTo, mailSubject, mailContent, 
+					logFileName, mailFromUserName, mailFromPassWord).sendMail();
 		}
 	}
 
+	/* Används inte */
 	public void close() {}
 
+	/* Används inte */
 	public void flush() {}
 
 }

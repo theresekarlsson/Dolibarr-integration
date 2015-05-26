@@ -62,7 +62,8 @@ public class MailCreator {
 	           }); 
 	        
 	    // Sätter ihop epost-meddelande
-	    try {
+	    try 
+	    {
 	      	Message message = new MimeMessage(session);
 	       	message.setFrom(new InternetAddress(fromAddress));
 	       	message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toAddress));
@@ -81,10 +82,12 @@ public class MailCreator {
 	        // Skickar epost
 			Transport.send(message);
 		} 
-	    catch (AddressException e) {
+	    catch (AddressException e) 
+	    {
 	    	LOGGER.log(Level.INFO, "Något gick fel med epost-adresserna", e);
 	    }
-	    catch (MessagingException e) {
+	    catch (MessagingException e) 
+	    {
 	        LOGGER.log(Level.INFO, "Något gick fel med meddelandet", e);
 		}
 			
