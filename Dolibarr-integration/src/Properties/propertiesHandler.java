@@ -15,6 +15,7 @@ public class propertiesHandler {
 	private String dbName;
 	private String dbPassword;
 	private String logFileName;
+	private String logFilePath;
 	private String mailSubject;
 	private String mailContent;
 	private String emailSender;
@@ -30,8 +31,8 @@ public class propertiesHandler {
 		
 		try 
 		{
-			String fileName = "config.properties";
-			input = getClass().getClassLoader().getResourceAsStream(fileName);
+			String propsFileName = "config.properties";
+			input = getClass().getClassLoader().getResourceAsStream(propsFileName);
 			
 			LOGGER.log(Level.INFO, "Startar hämtning av properties.");
 			properties.load(input);
@@ -43,6 +44,7 @@ public class propertiesHandler {
 			email = properties.getProperty("email");
 			URLDolibarrDB = properties.getProperty("URLDolibarrDB");
 			logFileName = properties.getProperty("logFileName");
+			logFilePath = properties.getProperty("logFilePath");
 			mailSubject = properties.getProperty("mailSubject");
 			mailContent = properties.getProperty("mailContent");
 			emailSender = properties.getProperty("emailSender");
@@ -117,6 +119,11 @@ public class propertiesHandler {
 	public String getLogFileName() 
 	{
 		return logFileName;
+	}
+	
+	public String getLogFilePath() 
+	{
+		return logFilePath;
 	}
 	
 	public String getMailSubject() 

@@ -1,6 +1,8 @@
 package Log;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
@@ -14,15 +16,17 @@ import Properties.propertiesHandler;
 
 public class logHandler {
 	
-	FileHandler fileHandler = null;
+	private FileHandler fileHandler = null;
 
-	/* Sätter filhanterare, mailhanterare och formatterare på root-loggern. Returnerar sedan loggern. */
-	public Logger startLogging(Logger logger, String logFileName, propertiesHandler hp) 
+	/* Skapar filhanterare, och sätter mailhanterare och formatterare på root-loggern. Returnerar sedan loggern. */
+	public Logger startLogging(Logger logger, String logFileName, String logFilePath, propertiesHandler hp) 
 	{
-		
+		SimpleDateFormat timeStamp = new SimpleDateFormat("yyyy-MM-dd HH.mm");	//Bestämmer format på tidsstämpeln i filnamnet.
 		try 
 		{
-			fileHandler = new FileHandler(logFileName);
+			// Skapar filhanterare med eventuell filväg, tidsstämpel och filnamn till loggfilen.
+			fileHandler = new FileHandler(logFilePath + timeStamp.format(Calendar.getInstance().getTime()) + " " + logFileName);
+			
 			
 		} catch (SecurityException | IOException e) 
 		{
@@ -30,8 +34,9 @@ public class logHandler {
 		}
 		SimpleFormatter formatter = new SimpleFormatter();
 		fileHandler.setFormatter(formatter);
-	    Logger.getLogger("").addHandler(new MailingHandler(hp)); //lägger till mailhanterare
-		Logger.getLogger("").addHandler(fileHandler); //Lägger till filhanterare till "root-loggern"
+	    Logger.getLogger("").addHandler(new MailingHandler(hp)); 	//lägger till mailhanterare
+		Logger.getLogger("").addHandler(fileHandler); 				//Lägger till filhanterare
+		
 		logger.log(Level.INFO, "Filhanterare och loggfil skapad. Loggning till fil påbörjad.");
 		
 		return logger;
