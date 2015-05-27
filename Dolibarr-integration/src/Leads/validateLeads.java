@@ -1,14 +1,16 @@
 package Leads;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.io.FileUtils;
 
 public class validateLeads {
 
@@ -23,18 +25,14 @@ public class validateLeads {
 		checkIfEmpty(aLeadsList);
 		checkForDuplicates(aLeadsList);
 		checkValues(aLeadsList);
-		
-		// TODO jämför förra veckans lista
 		compareToLastWeek(aLeadsList);
-		
 		
 		if(failReport.isEmpty())
 		{
 			
-			System.out.println("Inga fel");
 			LOGGER.log(Level.INFO, "Inga fel i listan hittades.");
-			
 			saveListToFile(aLeadsList);
+			
 
 		}
 		else
@@ -42,8 +40,7 @@ public class validateLeads {
 			for(int i = 0; i<failReport.size(); i++)
 			{
 				
-			LOGGER.log(Level.SEVERE, "Fel i listan: " + failReport.get(i));	
-				
+			LOGGER.log(Level.SEVERE, "Fel i listan: " + failReport.get(i));				
 			}	
 		}
 	}
@@ -53,7 +50,8 @@ public class validateLeads {
 		LOGGER.log(Level.INFO, "Kollar om listan är tom");
 		if(aLeadsList.size() < 1)	
 		{
-		failReport.add("Whole list is empty");
+		
+			failReport.add("Whole list is empty");
 	
 		}
 		for(int i=0; i<aLeadsList.size(); i++)
@@ -90,17 +88,16 @@ public class validateLeads {
 	
 	public void checkForDuplicates(ArrayList<leads> aLeadsList)
 	{
-		LOGGER.log(Level.INFO, "Kollar om lista innehållet dubbletter");
+		LOGGER.log(Level.INFO, "Kollar om lista innehållet dubletter");
 		leads tmpLead = new leads();
 		boolean duplicates = false;
+		
 		for(int i = 0; i < aLeadsList.size(); i++)
 		{
 			tmpLead = aLeadsList.get(i);
 			
 			for(int y = 0; y < aLeadsList.size(); y++)
 			{
-				
-				
 				if(tmpLead == aLeadsList.get(y))
 				{
 					
@@ -109,13 +106,10 @@ public class validateLeads {
 						failReport.add("Item number: " + y + " has a duplicate" );	
 					} 
 					duplicates = true;
-					
 				}
-				
 			}
 			
 			duplicates = false;
-			
 		}
 		
 		
@@ -168,67 +162,84 @@ public class validateLeads {
 	 * Om de är lika loggas SEVERE */
 	public void compareToLastWeek(ArrayList<leads> aLeadsList)
 	{
-		LOGGER.log(Level.INFO, "Jämför med förra veckans lista");
+		LOGGER.log(Level.INFO, "Påbörjar jämförelse med förra veckans lista");
+		
+		File tmpFileWithLeads = new File("tmpFileWithLeads.txt");
+		
 		try
 		{
-			File newLeadsFile = new File("fileWithNewLeads.txt");
-			FileWriter fileWriter = new FileWriter(newLeadsFile);
-	    
-			for(int i = 0; i < aLeadsList.size(); i++)
+			FileInputStream fileInputStream = new FileInputStream(tmpFileWithLeads);
+			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+	        ArrayList<leads> oldLeads = (ArrayList<leads>) objectInputStream.readObject();
+			objectInputStream.close();
+			
+			int match = 0;
+			
+			for (int i = 0; i < aLeadsList.size(); i++) 
 			{
-				fileWriter.append(aLeadsList.get(i).getName());
-				fileWriter.append(", ");
-				fileWriter.append(aLeadsList.get(i).getAddress());
-				fileWriter.append(", ");
+				for (int j = 0; j < oldLeads.size(); j++)
+				{
+					if (oldLeads.get(j).getName().equals(aLeadsList.get(i).getName()))
+					{
+						match++;
+					}
+				}
 			}
 			
-			fileWriter.close();
-		
-			File oldLeadsFile = new File("src/tmpLeads.txt");
-			boolean compareFiles = FileUtils.contentEquals(newLeadsFile, oldLeadsFile);
+			LOGGER.log(Level.INFO, "Antal poster i den nya listan som finns i den gamla listan: " + match);
 			
-			if (compareFiles)
+			if (match == aLeadsList.size())
 			{
-				LOGGER.log(Level.SEVERE, "Leadslistan är likadan som förra veckans lista.");
+				LOGGER.log(Level.INFO, "Innehållet på " + match + " poster i båda listorna innehåller samma data.");
+				//failReport.add("The leads in the new list already exists in the old list");	
 			}
-			
 			else
 			{
-				// TODO Gör så nya filen blir aktuell lista (fileWithNewLeads.txt = tmpLeads.txt)
+				LOGGER.log(Level.INFO, "Gammal och ny lista jämförda. Den nya är ok.");
 			}
 		} 
-		catch(FileNotFoundException e) {
-			e.printStackTrace();
+		catch(FileNotFoundException e) 
+		{
+			LOGGER.log(Level.INFO, "Filen med den gamla listan kunde inte hittas.", e);
 		} 
-		catch (IOException e) {
-			e.printStackTrace();
+		catch (IOException e) 
+		{
+			LOGGER.log(Level.INFO, "Fel uppstod vid inläsning av fil med den gamla listan.", e);
+		} 
+		catch (ClassNotFoundException e) 
+		{
+			LOGGER.log(Level.INFO, "Fel uppstod vid inläsning av fil med den gamla listan.", e);
 		}
 	}
 	
-	/* Sparar lista med namn och adress till leads till fil. */
+	/* Sparar nya listan med leads till fil. */
 	public void saveListToFile(ArrayList<leads> aLeadsList) 
 	{
-		LOGGER.log(Level.INFO, "Sparar lista till fil.");
-	
+		LOGGER.log(Level.INFO, "Påbörjar spar av ny lista till fil.");
+		
+		File tmpFileWithLeads = new File("tmpFileWithLeads.txt");
+		FileOutputStream fileOutputStream;
+		ObjectOutputStream objectOutputStream;
+		
 		try 
-		{	
-			File tmpFile = new File("tmpLeads.txt");
-		    FileWriter fileWriter = new FileWriter(tmpFile);
-		    
-		    for(int i = 0; i < aLeadsList.size(); i++)
-		    {
-		    	fileWriter.append(aLeadsList.get(i).getName());
-		    	fileWriter.append(", ");
-		    	fileWriter.append(aLeadsList.get(i).getAddress());
-		    	fileWriter.append(", ");
-		    }
-		    fileWriter.close();
+		{
+			fileOutputStream = new FileOutputStream(tmpFileWithLeads);
+			objectOutputStream = new ObjectOutputStream(fileOutputStream);   
+			objectOutputStream.writeObject(aLeadsList);
+			objectOutputStream.close();
+		
 		} 
-		catch(FileNotFoundException e) {
-		    e.printStackTrace();
+		catch(FileNotFoundException e) 
+		{
+			LOGGER.log(Level.INFO, "Ny lista kunde inte sparas.", e);
 		} 
-		catch (IOException e) {
-			e.printStackTrace();
+		catch (IOException e) 
+		{
+			LOGGER.log(Level.INFO, "Ny lista kunde inte sparas.", e);
+		}
+		finally
+		{
+			LOGGER.log(Level.INFO, "Ny lista sparad till fil");
 		}
 	}
 }
