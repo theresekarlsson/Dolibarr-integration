@@ -9,9 +9,9 @@ import Properties.propertiesHandler;
 
 /* Den här klassen lyssnar på all loggning, och avgör när ett mail ska skickas.  */
 
-public class MailingHandler extends Handler {
+public class mailingHandler extends Handler {
 
-	private static final Logger LOGGER = Logger.getLogger(MailingHandler.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(mailingHandler.class.getName());
 	private String mailTo;				// e-post till mottagare
 	private String mailFrom;			// e-post till avsändare
 	private String mailContent;			// meddelande i e-post
@@ -22,7 +22,7 @@ public class MailingHandler extends Handler {
 
 
 	/* Konstruktor, hämtar all data som krävs för att skicka e-post. */
-	public MailingHandler(propertiesHandler hp) {
+	public mailingHandler(propertiesHandler hp) {
 		mailTo = hp.getEmail();
 		mailFrom = hp.getEmailSender();
 		mailContent = hp.getMailContent();
@@ -43,7 +43,7 @@ public class MailingHandler extends Handler {
 		{
 
 			LOGGER.log(Level.INFO, "Mailfunktion triggad.");
-			new MailCreator(mailFrom,  mailTo, mailSubject, mailContent, 
+			new mailCreator(mailFrom,  mailTo, mailSubject, mailContent, 
 					logFileName, mailFromUserName, mailFromPassWord).sendMail();
 		}
 	}

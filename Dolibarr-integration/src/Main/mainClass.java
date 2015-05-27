@@ -8,6 +8,7 @@ import java.util.logging.*;
 import Leads.JDBCinsert;
 import Leads.getLeads;
 import Leads.leads;
+import Leads.removeLeads;
 import Log.logHandler;
 import Log.logMessageHandler;
 
@@ -19,7 +20,7 @@ public class mainClass
 	private logHandler HL;
 	private getLeads GL;
 	private JDBCinsert JI;
-	private Leads.removeLeads RL;
+	private removeLeads RL;
 	private logMessageHandler MH;
 	
 	private String URI;
@@ -40,14 +41,15 @@ public class mainClass
 	
 	public mainClass()
 	{
-		importLogMesseges();
+		logMessageHandler.getAllLogMessagesFromFile();
+		
+		LOGGER.log(Level.INFO, logMessageHandler.startingProgram);
+		
 		importProperties();
 		startLogToFile();
-		
-		LOGGER.log(Level.INFO, "Program körs.");
-		
+	
 		leadsList = getLeads();
-		RL = new Leads.removeLeads();
+		RL = new removeLeads();
 		
 		RL.deleteProspectLeads();
 		RL.colseConnection();
@@ -62,12 +64,6 @@ public class mainClass
 		stopLogToFile();
 	}
 	
-	private void importLogMesseges() {
-		MH = new logMessageHandler();
-		MH.getAllLogMessagesFromFile();
-	}
-
-
 	public void importProperties()
 	{
 		HP = new propertiesHandler();

@@ -7,6 +7,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Log.logMessageHandler;
+
 public class propertiesHandler {
 	private String URI;
 	private String oauth2Key;
@@ -21,6 +23,9 @@ public class propertiesHandler {
 	private String emailSender;
 	private String emailSenderUserName;
 	private String emailSenderPassWord;
+	
+	
+	
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
 	
 	/* Hämtar properties från config.properties och sparar som strängar. */
@@ -34,7 +39,7 @@ public class propertiesHandler {
 			String propsFileName = "config.properties";
 			input = getClass().getClassLoader().getResourceAsStream(propsFileName);
 			
-			LOGGER.log(Level.INFO, "Startar hämtning av properties.");
+			LOGGER.log(Level.INFO, logMessageHandler.getPropertiesMessage);
 			properties.load(input);
 			
 			dbName = properties.getProperty("dbName");
@@ -56,12 +61,12 @@ public class propertiesHandler {
 		
 		catch (FileNotFoundException e) 
 		{
-			LOGGER.log(Level.WARNING, "config.properties-filen kan inte hittas",e);
+			LOGGER.log(Level.SEVERE, logMessageHandler.propertiesFileNotFound,e);
 		}
 		
 		catch (IOException e) 
 		{
-			LOGGER.log(Level.WARNING, "Något gick fel vid hämtning av data från config.properties",e);
+			LOGGER.log(Level.SEVERE, logMessageHandler.propertiesIOException,e);
 		} 
 		
 		finally 
@@ -72,12 +77,12 @@ public class propertiesHandler {
 				try 
 				{
 					input.close();
-					LOGGER.log(Level.INFO, "Hämtning av properties klar.");
+					LOGGER.log(Level.INFO, logMessageHandler.getPropertiesMessageFinished);
 				} 
 				
 				catch (IOException e)
 				{
-					LOGGER.log(Level.WARNING, "Något gick fel.", e);
+					LOGGER.log(Level.WARNING, logMessageHandler.closeReadPropertiesIOexception, e);
 				}
 			}
 		}

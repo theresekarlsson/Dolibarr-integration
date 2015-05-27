@@ -20,9 +20,9 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 
-public class MailCreator {
+public class mailCreator {
 	
-	private static final Logger LOGGER = Logger.getLogger(MailCreator.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(mailCreator.class.getName());
 	
 	private String fromAddress;
 	private String toAddress;
@@ -34,7 +34,7 @@ public class MailCreator {
 	private String fileName;
 	
 	
-	public MailCreator(String fromEmail, String toEmail, String subject, String content, String file, String username, String password) 
+	public mailCreator(String fromEmail, String toEmail, String subject, String content, String file, String username, String password) 
 	{
 		fromAddress = fromEmail;
 		toAddress = toEmail;
@@ -84,14 +84,14 @@ public class MailCreator {
 		} 
 	    catch (AddressException e) 
 	    {
-	    	LOGGER.log(Level.INFO, "Något gick fel med epost-adresserna", e);
+	    	LOGGER.log(Level.WARNING, logMessageHandler.mailCreatorAddressException, e);
 	    }
 	    catch (MessagingException e) 
 	    {
-	        LOGGER.log(Level.INFO, "Något gick fel med meddelandet", e);
+	        LOGGER.log(Level.WARNING, logMessageHandler.mailCreatorMessagingException, e);
 		}
 			
-		LOGGER.log(Level.INFO, "Epost har sänts till: " + toAddress);
+		LOGGER.log(Level.INFO, logMessageHandler.mailSent + toAddress);
 	}
 }
 

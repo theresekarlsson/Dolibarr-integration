@@ -34,7 +34,7 @@ public class logHandler {
 		}
 		SimpleFormatter formatter = new SimpleFormatter();
 		fileHandler.setFormatter(formatter);
-	    Logger.getLogger("").addHandler(new MailingHandler(hp)); 	//lägger till mailhanterare
+	    Logger.getLogger("").addHandler(new mailingHandler(hp)); 	//lägger till mailhanterare
 		Logger.getLogger("").addHandler(fileHandler); 				//Lägger till filhanterare
 		
 		logger.log(Level.INFO, "Filhanterare och loggfil skapad. Loggning till fil påbörjad.");
