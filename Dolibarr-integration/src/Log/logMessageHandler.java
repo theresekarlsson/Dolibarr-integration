@@ -11,11 +11,16 @@ import Properties.propertiesHandler;
 
 public class logMessageHandler {
 
-	private String logTest;	
+	private String getLogMessages;	
+	private String getLogMessagesFinished;
+	
+	private String logPropertiesFileNotFound;
+	private String logPropertiesIOException;
 	
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
 	
-public void getAllLogMessagesFromFile() {
+	/* Hämtar logg meddelanden från configLogMessages.properties och sparar som strängar. */
+	public void getAllLogMessagesFromFile() {
 		
 		Properties _p = new Properties();
 		InputStream input = null;
@@ -25,21 +30,27 @@ public void getAllLogMessagesFromFile() {
 			String propsFileName = "configLogMessages.properties";
 			input = getClass().getClassLoader().getResourceAsStream(propsFileName);
 			
-			logTest = _p.getProperty(logTest);
-			LOGGER.log(Level.INFO, "Startar hämtning av logg meddelanden");
+			
+			
 			_p.load(input);
-	
+			
+			getLogMessages = _p.getProperty("info.getLogMessages");
+			getLogMessagesFinished = _p.getProperty("info.getLogMessagesFinished");
+			
+			logPropertiesFileNotFound = _p.getProperty("warning.logPropertiesFileNotFound");
+			logPropertiesIOException = _p.getProperty("warning.logPropertiesIOException");
+			LOGGER.log(Level.INFO, getLogMessages);
 			
 		} 
 		
 		catch (FileNotFoundException e) 
 		{
-			LOGGER.log(Level.WARNING, "configLogMessages.properties-filen kan inte hittas",e);
+			LOGGER.log(Level.WARNING, logPropertiesFileNotFound,e);
 		}
 		
 		catch (IOException e) 
 		{
-			LOGGER.log(Level.WARNING, "Något gick fel vid hämtning av data från configLogMessages.properties",e);
+			LOGGER.log(Level.WARNING, logPropertiesIOException,e);
 		} 
 		
 		finally 
@@ -50,7 +61,7 @@ public void getAllLogMessagesFromFile() {
 				try 
 				{
 					input.close();
-					LOGGER.log(Level.INFO, "Hämtning av Loggmeddelanden klar.");
+					LOGGER.log(Level.INFO, getLogMessagesFinished);
 				} 
 				
 				catch (IOException e)
