@@ -15,21 +15,12 @@ import Log.logMessageHandler;
 public class mainClass
 {
 	private static final Logger LOGGER = Logger.getLogger(mainClass.class.getName()); 
-
-	private propertiesHandler HP;
+	
 	private logHandler HL;
 	private getLeads GL;
 	private JDBCinsert JI;
 	private removeLeads RL;
 	private logMessageHandler MH;
-	
-	private String URI;
-	private String OAUTH2KEY;
-	private String URLDOLIBARRDB;
-	private String DBNAME;
-	private String DBPASSWORD;
-	private String LOGFILENAME;
-	private String LOGFILEPATH;
 	
 	ArrayList<leads> leadsList = new ArrayList<leads>();
 	
@@ -42,18 +33,19 @@ public class mainClass
 	public mainClass()
 	{
 		logMessageHandler.getAllLogMessagesFromFile();
-		
+		propertiesHandler.getAllPropertiesFromPropertiesFile();
 		LOGGER.log(Level.INFO, logMessageHandler.startingProgram);
 		
-		importProperties();
 		startLogToFile();
 	
-		leadsList = getLeads();
-		RL = new removeLeads();
 		
+		RL = new removeLeads();
 		RL.deleteProspectLeads();
 		RL.colseConnection();
-		JI = new JDBCinsert(URLDOLIBARRDB, DBNAME, DBPASSWORD);
+		
+		leadsList = getLeads();
+		
+		JI = new JDBCinsert();
 		
 		for (int i = 0; i < leadsList.size(); i++)
 		{
@@ -64,29 +56,16 @@ public class mainClass
 		stopLogToFile();
 	}
 	
-	public void importProperties()
-	{
-		HP = new propertiesHandler();
-		HP.getAllPropertiesFromPropertiesFile();
-		URI = HP.getURI();
-		OAUTH2KEY = HP.getOauth2Key();
-		URLDOLIBARRDB = HP.getURLDolibarrDB();
-		DBNAME = HP.getDbName();
-		DBPASSWORD = HP.getDbPassword();
-		LOGFILENAME = HP.getLogFileName();
-		LOGFILEPATH = HP.getLogFilePath();
-	}
-	
 	public ArrayList<leads> getLeads()
 	{
 		GL = new getLeads();
-		return GL.createLeadArray(GL.getResponse(URI, OAUTH2KEY));
+		return GL.createLeadArray(GL.getResponse());
 	}
 	
 	public void startLogToFile()
 	{
 		HL = new logHandler();
-		HL.startLogging(LOGGER, LOGFILENAME, LOGFILEPATH, HP);
+		HL.startLogging(LOGGER);
 	}
 	
 	private void stopLogToFile() {

@@ -2,20 +2,17 @@ package Leads;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import Properties.propertiesHandler;
 public class JDBCinsert
 {
 	private static final Logger LOGGER = Logger.getLogger(JDBCinsert.class.getName());
-	private final String URL;
-	private final String DBNAME;
-	private final String DBPASSWORD;
 	private Connection conn = null;
 	
-	public JDBCinsert(String aURL, String adbName, String adbPassword)
+	public JDBCinsert()
 	{
 		LOGGER.log(Level.INFO, "JDBCinsert körs");
-		URL = aURL;
-		DBNAME = adbName;
-		DBPASSWORD = adbPassword;
+	
 		try 
 		{
 			
@@ -37,7 +34,7 @@ public class JDBCinsert
 		 
 		try {
 			
-			conn = DriverManager.getConnection(URL, DBNAME, DBPASSWORD);
+			conn = DriverManager.getConnection(propertiesHandler.URLDolibarrDB, propertiesHandler.dbName, propertiesHandler.dbPassword);
 			LOGGER.log(Level.INFO, "");
 			System.out.println("Skapar en anslutning till dolibarrs databas");
 			

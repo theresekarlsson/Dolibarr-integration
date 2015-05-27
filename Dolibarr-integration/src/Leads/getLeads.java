@@ -35,18 +35,19 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.xml.sax.InputSource;
 
 import Main.mainClass;
+import Properties.propertiesHandler;
 
 public class getLeads {
 
 	private static final Logger LOGGER = Logger.getLogger(getLeads.class.getName());
 	private validateLeads vl;
 	
-	public String getResponse(String URI, String oauth2Key)
+	public String getResponse()
 	{
 		LOGGER.log(Level.INFO, "getLeads.getResponse() körs");
 		@SuppressWarnings({ "deprecation", "resource" })
 		HttpClient httpClient = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(URI);
+		HttpGet httpGet = new HttpGet(propertiesHandler.URI);
 		HttpResponse response = null;
 		InputStream content= null;
 		String result = "";
@@ -54,7 +55,7 @@ public class getLeads {
 		try 
 		{
 			
-			httpGet.addHeader("Authorization", oauth2Key);
+			httpGet.addHeader("Authorization", propertiesHandler.oauth2Key);
 			response = httpClient.execute(httpGet);
 			LOGGER.log(Level.INFO, "Http-request genomförd.");
 			
@@ -99,7 +100,6 @@ public class getLeads {
 			e.printStackTrace();
 		}
 	
-		System.out.println(result);
 		
 		LOGGER.log(Level.INFO, "Hämtning av XML filen klar.");
 		return result;
@@ -107,19 +107,16 @@ public class getLeads {
 	
 	public ArrayList<leads> createLeadArray(String result){
 		
-		LOGGER.log(Level.INFO, "getLeads.createLeadArray() körs");
 		ArrayList<leads> leadsList = new ArrayList<leads>();
 		
 		String tmpString = "";
 
-		
 		String init = "<leads>";
 		String removeFromTag = " xmlns=\"http://ws.wso2.org/dataservice\"";
 		
 		result = result.replaceAll(removeFromTag,"");
 		
-		System.out.println(result);
-		LOGGER.log(Level.INFO, "Fixar XML listan så den kan valideras");
+		LOGGER.log(Level.INFO, "Leads i XML filen läggs in i en sträng och taggar strippas");
 		
 		for(char c: result.toCharArray())
 		{

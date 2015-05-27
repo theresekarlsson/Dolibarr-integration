@@ -50,7 +50,6 @@ public class removeLeads {
 			while(rs.next())
 			{
 				rowId = rs.getString(1);
-				System.out.println(rowId +"remove");
 				deleteRowsInContacts(rowId);
 				
 				

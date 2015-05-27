@@ -9,27 +9,32 @@ import java.util.logging.Logger;
 
 import Log.logMessageHandler;
 
-public class propertiesHandler {
-	private String URI;
-	private String oauth2Key;
-	private String email;
-	private String URLDolibarrDB;
-	private String dbName;
-	private String dbPassword;
-	private String logFileName;
-	private String logFilePath;
-	private String mailSubject;
-	private String mailContent;
-	private String emailSender;
-	private String emailSenderUserName;
-	private String emailSenderPassWord;
+public final class propertiesHandler {
+	public static String URI;
+	public static String oauth2Key;
+	public static String email;
+	public static String URLDolibarrDB;
+	public static String dbName;
+	public static String dbPassword;
+	public static String logFileName;
+	public static String logFilePath;
+	public static String mailSubject;
+	public static String mailContent;
+	public static String emailSender;
+	public static String emailSenderUserName;
+	public static String emailSenderPassWord;
 	
 	
 	
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
 	
 	/* Hämtar properties från config.properties och sparar som strängar. */
-	public void getAllPropertiesFromPropertiesFile() {
+	private propertiesHandler()
+	{
+		
+	}
+	
+	public static void getAllPropertiesFromPropertiesFile() {
 		
 		Properties properties = new Properties();
 		InputStream input = null;
@@ -37,7 +42,7 @@ public class propertiesHandler {
 		try 
 		{
 			String propsFileName = "config.properties";
-			input = getClass().getClassLoader().getResourceAsStream(propsFileName);
+			input = propertiesHandler.class.getClassLoader().getResourceAsStream(propsFileName);
 			
 			LOGGER.log(Level.INFO, logMessageHandler.getPropertiesMessage);
 			properties.load(input);
@@ -88,68 +93,4 @@ public class propertiesHandler {
 		}
 	}
 	
-	/* Returnerar URI */
-	public String getURI()
-	{
-		return URI;
-	}
-	
-	/* Returnerar nyckel */
-	public String getOauth2Key()
-	{
-		return oauth2Key;
-	}
-	
-	/* Returnerar e-post */
-	public String getEmail()
-	{
-		return email;
-	}
-	
-	public String getURLDolibarrDB()
-	{
-		return URLDolibarrDB;
-	}
-	
-	public String getDbName()
-	{	
-	return dbName;	
-	}
-	
-	public String getDbPassword()
-	{
-		return dbPassword;
-	}
-
-	public String getLogFileName() 
-	{
-		return logFileName;
-	}
-	
-	public String getLogFilePath() 
-	{
-		return logFilePath;
-	}
-	
-	public String getMailSubject() 
-	{
-		return mailSubject;
-	}
-	
-	public String getMailContent() 
-	{
-		return mailContent;
-	}
-
-	public String getEmailSender() {
-		return emailSender;
-	}
-	
-	public String getEmailSenderUserName() {
-		return emailSenderUserName;
-	}
-	
-	public String getEmailSenderPassWord() {
-		return emailSenderPassWord;
-	}
 }

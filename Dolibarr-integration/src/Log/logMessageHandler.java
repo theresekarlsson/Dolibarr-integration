@@ -26,6 +26,15 @@ public final class logMessageHandler {
 	//Info meddelanden till mailCeator
 	public static String mailSent;
 	
+	//Info meddelanden till getLeads
+	public static String getLeadsStart;
+	public static String httprequest;
+	public static String tmpXMLfile;
+	public static String gettingXMLFileDone;
+	public static String strippXMLFile;
+	public static String puttingLeadsInLeadsList;
+	public static String getLeadsFinished;
+	
 	//Warning meddelanden till logMessageHandler
 	public static String logMessageFileNotFound;
 	public static String logMessageIOException;
@@ -91,6 +100,16 @@ public final class logMessageHandler {
 			//Hämtar Warning meddelanden till mailCreator
 			mailCreatorAddressException = _p.getProperty("warning.mailCreatorAddressException");
 			mailCreatorMessagingException = _p.getProperty("warning.mailCreatorMessagingException");
+			
+			//Hämtar Info meddelanden till getLeads
+			
+			getLeadsStart = _p.getProperty("info.getLeadsStart");
+			httprequest = _p.getProperty("info.httprequest");
+			tmpXMLfile;
+			gettingXMLFileDone;
+			strippXMLFile;
+			puttingLeadsInLeadsList;
+			getLeadsFinished;
 			
 			LOGGER.log(Level.INFO, getLogMessages);
 			
