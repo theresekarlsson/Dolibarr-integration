@@ -22,16 +22,17 @@ public class mailingHandler extends Handler {
 
 
 	/* Konstruktor, hämtar all data som krävs för att skicka e-post. */
-	public mailingHandler(propertiesHandler hp) {
-		mailTo = hp.getEmail();
-		mailFrom = hp.getEmailSender();
-		mailContent = hp.getMailContent();
-		mailSubject = hp.getMailSubject();
-		mailFromUserName = hp.getEmailSenderUserName();
-		mailFromPassWord = hp.getEmailSenderPassWord();
-		logFileName = hp.getLogFileName();
+	public mailingHandler() {
+		mailTo = propertiesHandler.email;
+		mailFrom = propertiesHandler.emailSender;
+		mailContent = propertiesHandler.mailContent;
+		mailSubject = propertiesHandler.mailSubject;
+		mailFromUserName = propertiesHandler.emailSenderUserName;
+		mailFromPassWord = propertiesHandler.emailSenderPassWord;
+		logFileName = propertiesHandler.logFileName;
 	}
 
+	
 	/* Konverterar nivån (level) på loggmeddelandet till en sträng, 
 	 * kontrollerar den och triggar mailfunktion om den är "SEVERE" */
 	public void publish(LogRecord record) 

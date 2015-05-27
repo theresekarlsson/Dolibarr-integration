@@ -179,6 +179,7 @@ public class validateLeads {
 				fileWriter.append(aLeadsList.get(i).getName());
 				fileWriter.append(", ");
 				fileWriter.append(aLeadsList.get(i).getAddress());
+				fileWriter.append(", ");
 			}
 			
 			fileWriter.close();
@@ -219,6 +220,7 @@ public class validateLeads {
 		    	fileWriter.append(aLeadsList.get(i).getName());
 		    	fileWriter.append(", ");
 		    	fileWriter.append(aLeadsList.get(i).getAddress());
+		    	fileWriter.append(", ");
 		    }
 		    fileWriter.close();
 		} 
