@@ -36,9 +36,6 @@ import org.xml.sax.InputSource;
 
 import Main.mainClass;
 
-
-
-
 public class getLeads {
 
 	private static final Logger LOGGER = Logger.getLogger(getLeads.class.getName());
@@ -101,18 +98,7 @@ public class getLeads {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		/*
-		try 
-		{
-			
-			LOGGER.log(Level.INFO, "Läser XML filen och gör om den till en String");
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.SEVERE, "Kunde inte läsa XML filen", e);
-		}
-		*/
+	
 		System.out.println(result);
 		
 		LOGGER.log(Level.INFO, "Hämtning av XML filen klar.");
@@ -172,12 +158,10 @@ public class getLeads {
 			
 		}
 		
-		
 		//TODO Logga hur många som hämtas, antal felvaliderade. 
 		LOGGER.log(Level.INFO, "Hämtning av leads listan genomförd");
 		vl = new validateLeads();
 		vl.checkList(leadsList);
-		return leadsList;
-			
+		return leadsList;	
 		}
 	}
