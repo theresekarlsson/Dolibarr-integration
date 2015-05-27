@@ -9,6 +9,7 @@ import Leads.JDBCinsert;
 import Leads.getLeads;
 import Leads.leads;
 import Log.logHandler;
+import Log.logMessageHandler;
 
 public class mainClass
 {
@@ -19,6 +20,7 @@ public class mainClass
 	private getLeads GL;
 	private JDBCinsert JI;
 	private Leads.removeLeads RL;
+	private logMessageHandler MH;
 	
 	private String URI;
 	private String OAUTH2KEY;
@@ -38,6 +40,7 @@ public class mainClass
 	
 	public mainClass()
 	{
+		importLogMesseges();
 		importProperties();
 		startLogToFile();
 		
@@ -59,6 +62,12 @@ public class mainClass
 		stopLogToFile();
 	}
 	
+	private void importLogMesseges() {
+		MH = new logMessageHandler();
+		MH.getAllLogMessagesFromFile();
+	}
+
+
 	public void importProperties()
 	{
 		HP = new propertiesHandler();
