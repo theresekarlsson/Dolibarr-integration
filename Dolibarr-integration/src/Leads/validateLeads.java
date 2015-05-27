@@ -216,7 +216,6 @@ public class validateLeads {
 		    
 		    for(int i = 0; i < aLeadsList.size(); i++)
 		    {
-		    	System.out.println(i);
 		    	fileWriter.append(aLeadsList.get(i).getName());
 		    	fileWriter.append(", ");
 		    	fileWriter.append(aLeadsList.get(i).getAddress());
