@@ -1,9 +1,14 @@
 package Leads;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.io.FileUtils;
 
 public class validateLeads {
 
@@ -19,12 +24,18 @@ public class validateLeads {
 		checkForDuplicates(aLeadsList);
 		checkValues(aLeadsList);
 		
+		// TODO jämför förra veckans lista
+		compareToLastWeek(aLeadsList);
+		
+		
 		if(failReport.isEmpty())
 		{
 			
 			System.out.println("Inga fel");
-			LOGGER.log(Level.INFO, "Inga fel i listan hittades");
+			LOGGER.log(Level.INFO, "Inga fel i listan hittades.");
 			
+			saveListToFile(aLeadsList);
+
 		}
 		else
 		{
@@ -33,12 +44,8 @@ public class validateLeads {
 				
 			LOGGER.log(Level.SEVERE, "Fel i listan: " + failReport.get(i));	
 				
-			}
-			
+			}	
 		}
-		
-		
-		
 	}
 	
 	public void checkIfEmpty(ArrayList<leads> aLeadsList)
@@ -79,7 +86,6 @@ public class validateLeads {
 			if(aLeadsList.get(i).getSize() == "" || aLeadsList.get(i).getSize() == null)
 				failReport.add("Item number " + i + " has no Size");	
 		}
-		
 	}
 	
 	public void checkForDuplicates(ArrayList<leads> aLeadsList)
@@ -154,11 +160,74 @@ public class validateLeads {
 
 	        if(!mat.matches()){
 	            failReport.add("Item number: " + i + " Has invalid email");
-	        }
-	        
-			
+	        }	
 		}
-		
 	}
 	
+	/* TODO Sparar fil men nya leadslistan, jämför med fil med förra listan. 
+	 * Om de är lika loggas SEVERE */
+	public void compareToLastWeek(ArrayList<leads> aLeadsList)
+	{
+		LOGGER.log(Level.INFO, "Jämför med förra veckans lista");
+		try
+		{
+			File newLeadsFile = new File("fileWithNewLeads.txt");
+			FileWriter fileWriter = new FileWriter(newLeadsFile);
+	    
+			for(int i = 0; i < aLeadsList.size(); i++)
+			{
+				fileWriter.append(aLeadsList.get(i).getName());
+				fileWriter.append(", ");
+				fileWriter.append(aLeadsList.get(i).getAddress());
+			}
+			
+			fileWriter.close();
+		
+			File oldLeadsFile = new File("src/tmpLeads.txt");
+			boolean compareFiles = FileUtils.contentEquals(newLeadsFile, oldLeadsFile);
+			
+			if (compareFiles)
+			{
+				LOGGER.log(Level.SEVERE, "Leadslistan är likadan som förra veckans lista.");
+			}
+			
+			else
+			{
+				// TODO Gör så nya filen blir aktuell lista (fileWithNewLeads.txt = tmpLeads.txt)
+			}
+		} 
+		catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* Sparar lista med namn och adress till leads till fil. */
+	public void saveListToFile(ArrayList<leads> aLeadsList) 
+	{
+		LOGGER.log(Level.INFO, "Sparar lista till fil.");
+	
+		try 
+		{	
+			File tmpFile = new File("tmpLeads.txt");
+		    FileWriter fileWriter = new FileWriter(tmpFile);
+		    
+		    for(int i = 0; i < aLeadsList.size(); i++)
+		    {
+		    	System.out.println(i);
+		    	fileWriter.append(aLeadsList.get(i).getName());
+		    	fileWriter.append(", ");
+		    	fileWriter.append(aLeadsList.get(i).getAddress());
+		    }
+		    fileWriter.close();
+		} 
+		catch(FileNotFoundException e) {
+		    e.printStackTrace();
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
