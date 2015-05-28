@@ -6,11 +6,7 @@ import java.util.logging.Logger;
 
 public class leads implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
 	private static final Logger LOGGER = Logger.getLogger(leads.class.getName());
 
 	private int lead;
