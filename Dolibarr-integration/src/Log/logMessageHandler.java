@@ -105,11 +105,11 @@ public final class logMessageHandler {
 			
 			getLeadsStart = _p.getProperty("info.getLeadsStart");
 			httprequest = _p.getProperty("info.httprequest");
-			tmpXMLfile;
-			gettingXMLFileDone;
-			strippXMLFile;
-			puttingLeadsInLeadsList;
-			getLeadsFinished;
+			tmpXMLfile = _p.getProperty("info.tmpXMLfile");
+			gettingXMLFileDone = _p.getProperty("info.gettingXMLFileDone");
+			strippXMLFile = _p.getProperty("info.strippXMLFile");
+			puttingLeadsInLeadsList = _p.getProperty("info.puttingLeadsInLeadsList");
+			getLeadsFinished = _p.getProperty("info.getLeadsFinished");
 			
 			LOGGER.log(Level.INFO, getLogMessages);
 			
