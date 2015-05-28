@@ -36,20 +36,32 @@ public final class logMessageHandler {
 	public static String getLeadsFinished;
 	
 	//Warning meddelanden till logMessageHandler
-	public static String logMessageFileNotFound;
-	public static String logMessageIOException;
 	public static String closeReadLogMessageIOException;
 
 	//Warning meddelanden till propertiesHandler
-	public static String propertiesFileNotFound;
-	public static String propertiesIOException;
 	public static String closeReadPropertiesIOexception;
 	
 	//Warning meddelanden till mailCreator
 	public static String mailCreatorAddressException;
 	public static String mailCreatorMessagingException;
 	
+	//Severe meddelanden  till logMessageHandler
+	public static String logMessageFileNotFound;
+	public static String logMessageIOException;
+	
+	//Severe meddelanden  till propertiesHandler
+	public static String propertiesFileNotFound;
+	public static String propertiesIOException;
+	
+	//Severe meddelanden till getLeads
+	public static String httpRequestFailed;
+	public static String connectionFailed;
+	public static String couldNotStoreXML;
+	public static String somethingWentWrongXML;
+	public static String couldNotUnmarchall;
+	
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
+	
 	
 	private logMessageHandler(){
 		
@@ -102,7 +114,6 @@ public final class logMessageHandler {
 			mailCreatorMessagingException = _p.getProperty("warning.mailCreatorMessagingException");
 			
 			//Hämtar Info meddelanden till getLeads
-			
 			getLeadsStart = _p.getProperty("info.getLeadsStart");
 			httprequest = _p.getProperty("info.httprequest");
 			tmpXMLfile = _p.getProperty("info.tmpXMLfile");
@@ -111,6 +122,12 @@ public final class logMessageHandler {
 			puttingLeadsInLeadsList = _p.getProperty("info.puttingLeadsInLeadsList");
 			getLeadsFinished = _p.getProperty("info.getLeadsFinished");
 			
+			//Hämtar Severe meddelanden till getLeads
+			httpRequestFailed = _p.getProperty("severe.httpRequestFailed");
+			connectionFailed = _p.getProperty("severe.connectionFailed");
+			couldNotStoreXML = _p.getProperty("severe.couldNotStoreXML");
+			somethingWentWrongXML = _p.getProperty("severe.somethingWentWrongXML");
+			couldNotUnmarchall = _p.getProperty("severe.JABXExceptions");
 			LOGGER.log(Level.INFO, getLogMessages);
 			
 		} 
