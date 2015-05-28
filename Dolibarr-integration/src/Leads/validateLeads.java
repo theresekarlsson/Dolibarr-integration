@@ -24,6 +24,7 @@ public class validateLeads {
 	
 	public void checkList(ArrayList<leads> aLeadsList)
 	{
+		System.out.println("Inne i checkList.");
 		checkIfEmpty(aLeadsList);
 		checkForDuplicates(aLeadsList);
 		checkValues(aLeadsList);
@@ -42,7 +43,6 @@ public class validateLeads {
 		{
 			for(int i = 0; i<failReport.size(); i++)
 			{
-				
 			LOGGER.log(Level.SEVERE, "Fel i listan: " + failReport.get(i));				
 			}	
 		}
@@ -159,26 +159,7 @@ public class validateLeads {
 	        }	
 		}
 	}
-	
-	/* Räknar antalet leads. Vid färre än 50 eller fler än 5000 görs en felrapport. */
-	public void countLeads(ArrayList<leads> aLeadsList)
-	{
-		int count = 0;
-		for (int i = 0; i < aLeadsList.size(); i++) 
-		{
-			count++;
-		}
-		
-		LOGGER.log(Level.INFO, "Antal leads i listan: " + count);
 
-		int minValue = Integer.parseInt(propertiesHandler.minValueLeads);
-		int maxValue = Integer.parseInt(propertiesHandler.maxValueLeads);
-		
-		if (count < minValue || count > maxValue)
-		{
-			failReport.add(count + " is not an approved number of leads. The value should be above " + minValue + " and below " + maxValue);
-		}
-	}
 	
 	/* Jämför gamla listan med den nya TODO Hur hitta gamla listan? */
 	public void compareToLastWeek(ArrayList<leads> aLeadsList)
@@ -261,6 +242,31 @@ public class validateLeads {
 		finally
 		{
 			LOGGER.log(Level.INFO, "Ny lista sparad till fil");
+		}
+	}
+	
+	
+	/* Räknar antalet leads i nya listan. Vid färre än 50 eller fler än 5000 görs en felrapport. */
+	public void countLeads(ArrayList<leads> aLeadsList)
+	{
+		int count = 0;
+		for (int i = 0; i < aLeadsList.size(); i++) 
+		{
+			count++;
+		}
+		
+		LOGGER.log(Level.INFO, "Antal leads i listan: " + count);
+
+		int minValue = Integer.parseInt(propertiesHandler.minValueLeads);
+		int maxValue = Integer.parseInt(propertiesHandler.maxValueLeads);
+		
+		if (count < minValue || count > maxValue)
+		{
+			failReport.add(count + " is not an approved number of leads. The value should be above " + minValue + " and below " + maxValue);
+		}
+		else 
+		{
+			LOGGER.log(Level.INFO, "Antal leads är ok.");
 		}
 	}
 }
