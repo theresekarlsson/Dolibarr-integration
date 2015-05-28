@@ -214,10 +214,10 @@ public class validateLeads {
 		}
 	}
 	
-	/* Sparar nya listan med leads till fil. TODO: Hur ska den sparas? Med datum? */
+	/* Sparar nya listan med leads till fil. */
 	public void saveListToFile(ArrayList<leads> aLeadsList) 
 	{
-		LOGGER.log(Level.INFO, "Påbörjar spar av ny lista till fil.");
+		LOGGER.log(Level.INFO, "Påbörjar sparning av ny lista till fil.");
 		
 		File tmpFileWithLeads = new File("tmpFileWithLeads.txt");
 		FileOutputStream fileOutputStream;
@@ -246,7 +246,7 @@ public class validateLeads {
 	}
 	
 	
-	/* Räknar antalet leads i nya listan. Vid färre än 50 eller fler än 5000 görs en felrapport. */
+	/* Räknar antalet leads i nya listan. Vid färre än min.värde eller fler än maxvärde görs en felrapport. */
 	public void countLeads(ArrayList<leads> aLeadsList)
 	{
 		int count = 0;
