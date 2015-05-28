@@ -1,5 +1,6 @@
 package Log;
 
+import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,10 +32,10 @@ public class mailCreator {
 	private String host;
 	private String mailUserNameSender;
 	private String mailPasswordSender;
-	private String fileName;
+	private String filePath;
 	
 	
-	public mailCreator(String fromEmail, String toEmail, String subject, String content, String file, String username, String password) 
+	public mailCreator(String fromEmail, String toEmail, String subject, String content, String filepath,String username, String password) 
 	{
 		fromAddress = fromEmail;
 		toAddress = toEmail;
@@ -43,7 +44,7 @@ public class mailCreator {
 		mailUserNameSender = username;
 		mailPasswordSender = password;
 		host = "smtp.gmail.com";
-		fileName = file;
+		filePath = filepath;
 	}
 	
 	public void sendMail() 
@@ -61,26 +62,33 @@ public class mailCreator {
 	                }
 	           }); 
 	        
-	    // Sätter ihop epost-meddelande
+	    
 	    try 
 	    {
+	    	// Sätter ihop mail
 	      	Message message = new MimeMessage(session);
-	       	message.setFrom(new InternetAddress(fromAddress));
-	       	message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toAddress));
-	        message.setSubject(mailSubject);
-	       	BodyPart msgBodyPart = new MimeBodyPart();
-	       	msgBodyPart.setText(mailContent);
+	       	message.setFrom(new InternetAddress(fromAddress));					//Sätter avsändaradress
+	       	message.setRecipients(Message.RecipientType.TO, 
+	       			InternetAddress.parse(toAddress));							//Sätter mottagaradress
+	        message.setSubject(mailSubject);									//Sätter ämne i ämnesrad
+	        
+	       	BodyPart msgBodyPart = new MimeBodyPart();							//Skapar innehåll i mailet
+	       	msgBodyPart.setText(mailContent);									//Textmeddelande i mailet
 	       	Multipart multipart = new MimeMultipart();
 	       	multipart.addBodyPart(msgBodyPart);
 	        msgBodyPart = new MimeBodyPart();
-	        DataSource source = new FileDataSource(fileName);	
+	         
+	        String getLogFile = getLatestLogFile(filePath).getAbsolutePath();	//Hämtar namn på den senaste loggfilen
+	        System.out.println(getLogFile);
+	        
+	        DataSource source = new FileDataSource(getLogFile);					//Bifogar loggfil
 	        msgBodyPart.setDataHandler(new DataHandler(source));
-	        msgBodyPart.setFileName(fileName);
-	        multipart.addBodyPart(msgBodyPart);
+	        msgBodyPart.setFileName(getLogFile);
+	        
+	        multipart.addBodyPart(msgBodyPart);									//Sätter ihop hela mailet
 	        message.setContent(multipart);
 	        	
-	        // Skickar epost
-			Transport.send(message);
+			Transport.send(message);											// Skickar epost
 		} 
 	    catch (AddressException e) 
 	    {
@@ -92,6 +100,30 @@ public class mailCreator {
 		}
 			
 		LOGGER.log(Level.INFO, logMessageHandler.mailSent + toAddress);
+	}
+	
+
+	/* Hämtar senast skapad fil på angedd plats. */
+	private File getLatestLogFile(String filepath)
+	{
+		File dir = new File(filepath);							//Filväg till plats där loggfilerna ligger
+		File[] allLogFiles = dir.listFiles();					//Skapar array med alla filer på platsen.
+		    
+		if (allLogFiles == null || allLogFiles.length == 0) 
+		{
+			return null;
+		}
+		
+		File lastlogFile = allLogFiles[0];
+		
+		for (int i = 1; i < allLogFiles.length; i++) 
+		{
+			if (lastlogFile.lastModified() < allLogFiles[i].lastModified())
+		    {
+				lastlogFile = allLogFiles[i];					//Hämtar den senast ändrade filen
+		    }
+		}
+		return lastlogFile;										//Returnerar filen
 	}
 }
 

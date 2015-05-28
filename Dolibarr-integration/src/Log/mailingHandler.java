@@ -16,7 +16,7 @@ public class mailingHandler extends Handler {
 	private String mailFrom;			// e-post till avsändare
 	private String mailContent;			// meddelande i e-post
 	private String mailSubject;			// ämnesrad i e-post
-	private String logFileName;			// loggfilens namn
+	private String logFilePath;			// filväg till loggfilen
 	private String mailFromUserName;	// användarnamn till avsändares e-postkonto
 	private String mailFromPassWord;	// lösenord till avsändares e-postkonto
 
@@ -29,11 +29,11 @@ public class mailingHandler extends Handler {
 		mailSubject = propertiesHandler.mailSubject;
 		mailFromUserName = propertiesHandler.emailSenderUserName;
 		mailFromPassWord = propertiesHandler.emailSenderPassWord;
-		logFileName = propertiesHandler.logFileName;
+		logFilePath = propertiesHandler.logFilePath;
 	}
 
 	
-	/* Konverterar nivån (level) på loggmeddelandet till en sträng, 
+	/* Konverterar allvarlighetsgraden (level) på loggmeddelandet till en sträng, 
 	 * kontrollerar den och triggar mailfunktion om den är "SEVERE" */
 	public void publish(LogRecord record) 
 	{
@@ -44,8 +44,9 @@ public class mailingHandler extends Handler {
 		{
 
 			LOGGER.log(Level.INFO, "Mailfunktion triggad.");
+			
 			new mailCreator(mailFrom,  mailTo, mailSubject, mailContent, 
-					logFileName, mailFromUserName, mailFromPassWord).sendMail();
+					logFilePath, mailFromUserName, mailFromPassWord).sendMail();
 		}
 	}
 
