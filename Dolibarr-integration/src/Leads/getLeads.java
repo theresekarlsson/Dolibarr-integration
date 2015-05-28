@@ -34,6 +34,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.xml.sax.InputSource;
 
+import Log.logMessageHandler;
 import Main.mainClass;
 import Properties.propertiesHandler;
 
@@ -44,7 +45,7 @@ public class getLeads {
 	
 	public String getResponse()
 	{
-		LOGGER.log(Level.INFO, "getLeads.getResponse() körs");
+		LOGGER.log(Level.INFO, logMessageHandler.getLeadsStart);
 		@SuppressWarnings({ "deprecation", "resource" })
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(propertiesHandler.URI);
@@ -57,18 +58,18 @@ public class getLeads {
 			
 			httpGet.addHeader("Authorization", propertiesHandler.oauth2Key);
 			response = httpClient.execute(httpGet);
-			LOGGER.log(Level.INFO, "Http-request genomförd.");
+			LOGGER.log(Level.INFO, logMessageHandler.httprequest);
 			
 		} 
 		catch (ClientProtocolException e) 
 		{
 			
-			LOGGER.log(Level.SEVERE, "Http-request till servern misslyckad: ", e);
+			LOGGER.log(Level.SEVERE, logMessageHandler.httpRequestFailed, e);
 			
 		}
 		catch (IOException e) 
 		{
-			LOGGER.log(Level.SEVERE, "Något gick fel och anslutning kunde inte upprättas: ", e);
+			LOGGER.log(Level.SEVERE, logMessageHandler.connectionFailed, e);
 		} 
 		
 		HttpEntity httpEntity = response.getEntity();
@@ -76,15 +77,15 @@ public class getLeads {
 		try
 		{
 			content = httpEntity.getContent();
-			LOGGER.log(Level.INFO, "Lagrar den hämtade XML filen tillfälligt");
+			LOGGER.log(Level.INFO, logMessageHandler.tmpXMLfile);
 		} 
 		catch (UnsupportedOperationException e)
 		{
-			LOGGER.log(Level.SEVERE, "XML filen kunde inte lagras: ", e);
+			LOGGER.log(Level.SEVERE, logMessageHandler.couldNotStoreXML, e);
 		}
 		catch (IOException e)
 		{
-			LOGGER.log(Level.SEVERE, "Något gick fel när XML filen skulle lagras: ", e);
+			LOGGER.log(Level.SEVERE, logMessageHandler.somethingWentWrongXML , e);
 		}
 		
 	
@@ -101,7 +102,7 @@ public class getLeads {
 		}
 	
 		
-		LOGGER.log(Level.INFO, "Hämtning av XML filen klar.");
+		LOGGER.log(Level.INFO, logMessageHandler.gettingXMLFileDone);
 		return result;
 	}
 	
@@ -116,7 +117,7 @@ public class getLeads {
 		
 		result = result.replaceAll(removeFromTag,"");
 		
-		LOGGER.log(Level.INFO, "Leads i XML filen läggs in i en sträng och taggar strippas");
+		LOGGER.log(Level.INFO, logMessageHandler.strippXMLFile);
 		
 		for(char c: result.toCharArray())
 		{
@@ -142,13 +143,13 @@ public class getLeads {
 				   leads aLead = (leads)je.getValue();
 				   
 				   leadsList.add(aLead);
-				   LOGGER.log(Level.INFO, "Lägger in leads i leadslistan");
+				   LOGGER.log(Level.INFO, logMessageHandler.puttingLeadsInLeadsList);
 				   
 				   
 				  } 
 					catch (JAXBException e) 
 					{
-						LOGGER.log(Level.SEVERE, "Kunde inte genomföra unmarchall på XML filen", e);
+						LOGGER.log(Level.SEVERE, logMessageHandler.couldNotUnmarchall, e);
 					}
 					tmpString = "";
 				 }		
@@ -156,7 +157,7 @@ public class getLeads {
 		}
 		
 		//TODO Logga hur många som hämtas, antal felvaliderade. 
-		LOGGER.log(Level.INFO, "Hämtning av leads listan genomförd");
+		LOGGER.log(Level.INFO, logMessageHandler.getLeadsFinished);
 		vl = new validateLeads();
 		vl.checkList(leadsList);
 		return leadsList;	
