@@ -42,6 +42,12 @@ public final class logMessageHandler {
 	public static String leadsInserted;
 	public static String JDBCconnectionClosed;
 	
+	//Info meddelanden till removeLeads
+	public static String removeLeadsLoadDriver;
+	public static String removeLeadsConnectionMade;
+	public static String leadsDeleted;
+	public static String removeLeadsConnectionClosed;
+	
 	//Warning meddelanden till logMessageHandler
 	public static String closeReadLogMessageIOException;
 
@@ -72,6 +78,13 @@ public final class logMessageHandler {
 	public static String databaseConnectionFailed;
 	public static String SQLExecuteFailed;
 	public static String couldNotCloseConnection;
+	
+	//Severe meddelanden till JDBCinsert
+	public static String RLcouldNotLoadDriver;
+	public static String RLdatabaseConnectionFailed;
+	public static String RLcouldNotRemoveLeads;
+	public static String RLcouldNotRemoveChildLeads;
+	public static String RLcouldNotCloseConnection;
 	
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
 	
@@ -155,6 +168,18 @@ public final class logMessageHandler {
 			SQLExecuteFailed = _p.getProperty("severe.SQLExecuteFailed");
 			couldNotCloseConnection = _p.getProperty("severe.couldNotCloseConnection");
 			
+			//Hämtar Info meddelanden till removeLeads
+			removeLeadsLoadDriver = _p.getProperty("info.removeLeadsLoadDriver");
+			removeLeadsConnectionMade = _p.getProperty("info.removeLeadsConnectionMade");
+			leadsDeleted = _p.getProperty("info.leadsDeleted");
+			removeLeadsConnectionClosed = _p.getProperty("info.removeLeadsConnectionClosed");
+			
+			//Hämtar Severe meddelanden till removeLeads
+			RLcouldNotLoadDriver = _p.getProperty("severe.RLcouldNotLoadDriver");
+			RLdatabaseConnectionFailed = _p.getProperty("severe.RLdatabaseConnectionFailed");
+			RLcouldNotRemoveLeads = _p.getProperty("severe.RLcouldNotRemoveLeads");
+			RLcouldNotRemoveChildLeads = _p.getProperty("severe.RLcouldNotRemoveChildLeads");
+			RLcouldNotCloseConnection = _p.getProperty("severe.RLcouldNotCloseConnection");
 			
 			
 			LOGGER.log(Level.INFO, getLogMessages);
