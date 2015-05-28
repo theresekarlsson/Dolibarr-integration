@@ -3,6 +3,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Log.logMessageHandler;
 import Properties.propertiesHandler;
 public class JDBCinsert
 {
@@ -11,18 +12,19 @@ public class JDBCinsert
 	
 	public JDBCinsert()
 	{
-		LOGGER.log(Level.INFO, "JDBCinsert körs");
+		LOGGER.log(Level.INFO, logMessageHandler.JDBCinsertStart);
 	
 		try 
 		{
 			
 			Class.forName("com.mysql.jdbc.Driver");
-			LOGGER.log(Level.INFO, "Laddar JDBC driver");
+			
 		} 
 		catch (ClassNotFoundException e) 
 		{
-			LOGGER.log(Level.SEVERE, "JDBC driver kunde inte laddas", e);
+			LOGGER.log(Level.SEVERE, logMessageHandler.couldNotLoadDriver, e);
 		}
+		LOGGER.log(Level.INFO, logMessageHandler.loadJDBCdriver);
 		establishConnection();
 		
 		
@@ -30,25 +32,24 @@ public class JDBCinsert
 	
 	public void establishConnection()
 	{
-		LOGGER.log(Level.INFO, "JDBCinsert.establichConnection() körs");
+		
 		 
 		try {
 			
 			conn = DriverManager.getConnection(propertiesHandler.URLDolibarrDB, propertiesHandler.dbName, propertiesHandler.dbPassword);
-			LOGGER.log(Level.INFO, "");
-			System.out.println("Skapar en anslutning till dolibarrs databas");
 			
 		} catch (SQLException e) {
 			
-			LOGGER.log(Level.SEVERE, "Gick inte att skapa en anslutning till dolibarrs databas", e);
+			LOGGER.log(Level.SEVERE, logMessageHandler.databaseConnectionFailed, e);
 		} 
-
+		
+		LOGGER.log(Level.INFO, logMessageHandler.JDBCconnectionMade);
 		
 	}
 	
 	public void insertLead(leads aLead)
 	{
-		LOGGER.log(Level.INFO, "JDBC.instertLead() körs");
+		
 		try {
 			ResultSet rs;
 			String rowId = null;
@@ -64,7 +65,6 @@ public class JDBCinsert
 			while(rs.next())
 			{
 				rowId = rs.getString(1);
-				System.out.println("ID =" + rowId);
 			}
 			
 			st.executeUpdate("INSERT INTO llx_socpeople (fk_soc, fk_user_creat, firstname, lastname, phone, email) "
@@ -76,25 +76,27 @@ public class JDBCinsert
 							+ "'"+ aLead.getEmail() +"')");
 			
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (SQLException e) 
+		{
+			LOGGER.log(Level.SEVERE, logMessageHandler.SQLExecuteFailed, e);
 		}
-		
+		LOGGER.log(Level.INFO, logMessageHandler.leadsInserted);
 		
 	}
 	
 	
 	public void closeConnection()
 	{
-		LOGGER.log(Level.INFO, "Stänger connection till dolibarrs databs");
 		try {
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			LOGGER.log(Level.SEVERE, "Något gick fel när anslutningen till dolibarrs databas skulle stängas",e);
+			LOGGER.log(Level.SEVERE, logMessageHandler.couldNotCloseConnection,e);
 		}
+
+		LOGGER.log(Level.INFO, logMessageHandler.JDBCconnectionClosed);
+
 	}
 	
 	

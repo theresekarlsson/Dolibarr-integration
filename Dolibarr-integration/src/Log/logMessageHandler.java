@@ -35,6 +35,13 @@ public final class logMessageHandler {
 	public static String puttingLeadsInLeadsList;
 	public static String getLeadsFinished;
 	
+	//Info meddelanden till JDBCinsert
+	public static String JDBCinsertStart;
+	public static String loadJDBCdriver;
+	public static String JDBCconnectionMade;
+	public static String leadsInserted;
+	public static String JDBCconnectionClosed;
+	
 	//Warning meddelanden till logMessageHandler
 	public static String closeReadLogMessageIOException;
 
@@ -59,6 +66,12 @@ public final class logMessageHandler {
 	public static String couldNotStoreXML;
 	public static String somethingWentWrongXML;
 	public static String couldNotUnmarchall;
+	
+	//Severe meddelanden till JDBCinsert
+	public static String couldNotLoadDriver;
+	public static String databaseConnectionFailed;
+	public static String SQLExecuteFailed;
+	public static String couldNotCloseConnection;
 	
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
 	
@@ -128,6 +141,22 @@ public final class logMessageHandler {
 			couldNotStoreXML = _p.getProperty("severe.couldNotStoreXML");
 			somethingWentWrongXML = _p.getProperty("severe.somethingWentWrongXML");
 			couldNotUnmarchall = _p.getProperty("severe.JABXExceptions");
+			
+			//Hämtar Info meddelanden till JDBCinsert
+			JDBCinsertStart = _p.getProperty("info.JDBCinsertStart");
+			loadJDBCdriver = _p.getProperty("info.loadJDBCdriver");
+			JDBCconnectionMade = _p.getProperty("info.JDBCconnectionMade");
+			leadsInserted = _p.getProperty("info.leadsInserted");
+			JDBCconnectionClosed = _p.getProperty("info.JDBCconnectionClosed");
+			
+			//Hämtar Severe meddelanden till JDBCinsert
+			couldNotLoadDriver = _p.getProperty("severe.couldNotLoadDriver");
+			databaseConnectionFailed = _p.getProperty("severe.databaseConnectionFailed");
+			SQLExecuteFailed = _p.getProperty("severe.SQLExecuteFailed");
+			couldNotCloseConnection = _p.getProperty("severe.couldNotCloseConnection");
+			
+			
+			
 			LOGGER.log(Level.INFO, getLogMessages);
 			
 		} 
