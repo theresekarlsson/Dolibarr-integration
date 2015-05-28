@@ -23,17 +23,18 @@ public final class propertiesHandler {
 	public static String emailSender;
 	public static String emailSenderUserName;
 	public static String emailSenderPassWord;
-	
-	
+	public static String minValueLeads;
+	public static String maxValueLeads;
 	
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
 	
-	/* Hämtar properties från config.properties och sparar som strängar. */
+	
 	private propertiesHandler()
 	{
 		
 	}
 	
+	/* Hämtar properties från config.properties och sparar som strängar. */
 	public static void getAllPropertiesFromPropertiesFile() {
 		
 		Properties properties = new Properties();
@@ -60,8 +61,9 @@ public final class propertiesHandler {
 			emailSender = properties.getProperty("emailSender");
 			emailSenderUserName = properties.getProperty("emailSenderUserName");
 			emailSenderPassWord = properties.getProperty("emailSenderPassWord");
-			
-			
+			minValueLeads = properties.getProperty("minValueLeads");
+			maxValueLeads = properties.getProperty("maxValueLeads");
+	
 		} 
 		
 		catch (FileNotFoundException e) 

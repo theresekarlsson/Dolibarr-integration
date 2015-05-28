@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Properties.propertiesHandler;
+
 public class validateLeads {
 
 	private static final Logger LOGGER = Logger.getLogger(validateLeads.class.getName());
@@ -26,6 +28,7 @@ public class validateLeads {
 		checkForDuplicates(aLeadsList);
 		checkValues(aLeadsList);
 		compareToLastWeek(aLeadsList);
+		countLeads(aLeadsList);
 		
 		if(failReport.isEmpty())
 		{
@@ -111,8 +114,7 @@ public class validateLeads {
 			
 			duplicates = false;
 		}
-		
-		
+
 	}
 	
 	public void checkValues(ArrayList<leads> aLeadsList)
@@ -158,8 +160,27 @@ public class validateLeads {
 		}
 	}
 	
-	/* TODO Sparar fil men nya leadslistan, jämför med fil med förra listan. 
-	 * Om de är lika loggas SEVERE */
+	/* Räknar antalet leads. Vid färre än 50 eller fler än 5000 görs en felrapport. */
+	public void countLeads(ArrayList<leads> aLeadsList)
+	{
+		int count = 0;
+		for (int i = 0; i < aLeadsList.size(); i++) 
+		{
+			count++;
+		}
+		
+		LOGGER.log(Level.INFO, "Antal leads i listan: " + count);
+
+		int minValue = Integer.parseInt(propertiesHandler.minValueLeads);
+		int maxValue = Integer.parseInt(propertiesHandler.maxValueLeads);
+		
+		if (count < minValue || count > maxValue)
+		{
+			failReport.add(count + " is not an approved number of leads. The value should be above " + minValue + " and below " + maxValue);
+		}
+	}
+	
+	/* Jämför gamla listan med den nya TODO Hur hitta gamla listan? */
 	public void compareToLastWeek(ArrayList<leads> aLeadsList)
 	{
 		LOGGER.log(Level.INFO, "Påbörjar jämförelse med förra veckans lista");
@@ -190,8 +211,8 @@ public class validateLeads {
 			
 			if (match == aLeadsList.size())
 			{
-				LOGGER.log(Level.INFO, "Innehållet på " + match + " poster i båda listorna innehåller samma data.");
-				//failReport.add("The leads in the new list already exists in the old list");	
+				LOGGER.log(Level.INFO, "Leadsen i den nya listan finns i den gamla listan.");
+				failReport.add("The leads in the new list already exists in the old list");	
 			}
 			else
 			{
@@ -212,7 +233,7 @@ public class validateLeads {
 		}
 	}
 	
-	/* Sparar nya listan med leads till fil. */
+	/* Sparar nya listan med leads till fil. TODO: Hur ska den sparas? Med datum? */
 	public void saveListToFile(ArrayList<leads> aLeadsList) 
 	{
 		LOGGER.log(Level.INFO, "Påbörjar spar av ny lista till fil.");
