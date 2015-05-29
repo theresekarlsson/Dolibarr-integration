@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -19,9 +17,9 @@ import Properties.propertiesHandler;
 public class validateLeads {
 
 	private static final Logger LOGGER = Logger.getLogger(validateLeads.class.getName());
-	
-	private boolean value;
-	private int countDeletedLeads = 0;	// variabel som räknar antalet felaktiga leads
+	//private boolean value;
+	private int countInvalidLeads = 0;	// Antal felaktiga leads
+	private int countCorrectLeads;		// Antal validerade leads, dvs. efter att ev. felaktiga leads tagits bort.
 	
 	ArrayList<String> failReport = new ArrayList<String>();
 	ArrayList<String> invalidLeads = new ArrayList<String>();
@@ -34,21 +32,14 @@ public class validateLeads {
 		compareToLastWeek(aLeadsList);
 		countLeads(aLeadsList);
 		
-		/*TODO Kanske klart... Testas. 
-		 * I varje funktion: Skapa ännu en array (deletedLeads kanske?) där de felaktiga leadsens felmeddelanden läggs. 
-		Ta bort de felaktiga leadsen ur aLeadsList, som går vidare till nästa valideringsfunktion. 
-		Räkna sedan antalet i deletedLeads, logga dem och medföljande felmeddelanden. 
-		Vissa funktioner ska dock fortfarande trigga mailfunktion. */
-		
-		
 		if (!invalidLeads.isEmpty()) 
 		{
 			for (int i = 0; i<invalidLeads.size(); i++) 
 			{
-				countDeletedLeads++;
+				countInvalidLeads++;
 				LOGGER.log(Level.WARNING, "Följande fel hittades i listan: " + invalidLeads.get(i));
 			}
-			LOGGER.log(Level.WARNING, countDeletedLeads + " antal felaktiga leads hittades.");
+			LOGGER.log(Level.WARNING, countInvalidLeads + " antal felaktiga leads hittades.");
 			
 		}
 		
@@ -73,6 +64,7 @@ public class validateLeads {
 		{
 			failReport.add("Whole list is empty");
 		}
+		
 		for(int i=0; i<aLeadsList.size(); i++)
 		{
 			// Här ska den felaktiga leaden tas bort, (räknas som felaktig för logg), men inget mail ska skickas.
@@ -157,7 +149,7 @@ public class validateLeads {
 	public void checkValues(ArrayList<leads> aLeadsList)
 	{
 		
-		// Här ska den felaktikta leaden tas bort, (räknas som felaktig för logg), men inget mail ska skickas.
+		// Här ska den felaktikta leaden tas bort, (räknas som felaktig för loggens skull), men inget mail ska skickas.
 		
 		LOGGER.log(Level.INFO, "Kollar om listan innehåller korrupta värden");
 		String regex = "[0-9]+";
@@ -266,20 +258,21 @@ public class validateLeads {
 	/* Räknar antalet leads i nya listan. Vid färre än min.värde eller fler än maxvärde görs en felrapport. */
 	public void countLeads(ArrayList<leads> aLeadsList)
 	{
-		int count = 0;
+		countCorrectLeads = 0;
+		
 		for (int i = 0; i < aLeadsList.size(); i++) 
 		{
-			count++;
+			countCorrectLeads++;
 		}
 		
-		LOGGER.log(Level.INFO, "Antal validerade leads i listan: " + count);
+		LOGGER.log(Level.INFO, "Antal validerade leads i listan: " + countCorrectLeads);
 
 		int minValue = Integer.parseInt(propertiesHandler.minValueLeads);
 		int maxValue = Integer.parseInt(propertiesHandler.maxValueLeads);
 		
-		if (count < minValue || count > maxValue)
+		if (countCorrectLeads < minValue || countCorrectLeads > maxValue)
 		{
-			failReport.add(count + " is not an approved number of leads. The value should be above " + minValue + " and below " + maxValue);
+			failReport.add(countCorrectLeads + " is not an approved number of leads. The value should be above " + minValue + " and below " + maxValue);
 		}
 		else 
 		{
