@@ -18,6 +18,8 @@ public final class propertiesHandler {
 	public static String dbPassword;
 	public static String logFileName;
 	public static String logFilePath;
+	public static String tmpLeadsListFile;
+	public static String tmpLeadsListFilePath;
 	public static String mailSubject;
 	public static String mailContent;
 	public static String emailSender;
@@ -56,6 +58,8 @@ public final class propertiesHandler {
 			URLDolibarrDB = properties.getProperty("URLDolibarrDB");
 			logFileName = properties.getProperty("logFileName");
 			logFilePath = properties.getProperty("logFilePath");
+			tmpLeadsListFile = properties.getProperty("tmpLeadsListFile");
+			tmpLeadsListFilePath = properties.getProperty("tmpLeadsListFilePath");
 			mailSubject = properties.getProperty("mailSubject");
 			mailContent = properties.getProperty("mailContent");
 			emailSender = properties.getProperty("emailSender");

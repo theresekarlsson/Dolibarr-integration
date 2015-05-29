@@ -5,37 +5,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.text.Document;
-import javax.swing.text.html.HTMLEditorKit.Parser;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import org.apache.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.xml.sax.InputSource;
-
 import Log.logMessageHandler;
-import Main.mainClass;
 import Properties.propertiesHandler;
 
 public class getLeads {
@@ -143,20 +128,16 @@ public class getLeads {
 				   leads aLead = (leads)je.getValue();
 				   
 				   leadsList.add(aLead);
-				   LOGGER.log(Level.INFO, logMessageHandler.puttingLeadsInLeadsList);
 				   
-				   
-				  } 
-					catch (JAXBException e) 
-					{
-						LOGGER.log(Level.SEVERE, logMessageHandler.couldNotUnmarchall, e);
-					}
-					tmpString = "";
-				 }		
+			} 
+			catch (JAXBException e) 
+			{
+				LOGGER.log(Level.SEVERE, logMessageHandler.couldNotUnmarchall, e);
+			}
+				tmpString = "";
+			}		
 			
 		}
-		
-		//TODO Logga hur många som hämtas, antal felvaliderade. 
 		LOGGER.log(Level.INFO, logMessageHandler.getLeadsFinished);
 		vl = new validateLeads();
 		vl.checkList(leadsList);

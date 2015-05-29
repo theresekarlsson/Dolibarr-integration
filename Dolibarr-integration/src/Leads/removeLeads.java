@@ -4,17 +4,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Log.logMessageHandler;
+import Properties.propertiesHandler;
 
 public class removeLeads {
 	
 	private static final Logger LOGGER = Logger.getLogger(removeLeads.class.getName());
 	private Connection conn = null;
-	private String URL = "jdbc:mysql://localhost/dolibarr";
-	private String DBNAME = "dolibarrmysql";
-	private String DBPASSWORD = "ingenaning";
+	private String URLDolibarrDB;
+	private String dbName;
+	private String dbPassword;
 	
 	public removeLeads()
 	{
+		URLDolibarrDB = propertiesHandler.URLDolibarrDB;
+		dbName = propertiesHandler.dbName;
+		dbPassword = propertiesHandler.dbPassword;
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -33,22 +37,18 @@ public class removeLeads {
 	public void establishConnection()
 	{
 		 
-		try {
-					
-			conn = DriverManager.getConnection(URL, DBNAME, DBPASSWORD);
-			System.out.println("conn made");
-			
-		} catch (SQLException e) {
-			
+		try 
+		{
+			conn = DriverManager.getConnection(URLDolibarrDB, dbName, dbPassword);
+			LOGGER.log(Level.INFO, "Upprättar databasanslutning."); //TODO Lägg in i logpropfil
+		}
+		
+		catch (SQLException e) 
+		{
 			LOGGER.log(Level.SEVERE, logMessageHandler.RLdatabaseConnectionFailed, e);
-			
-
-			
 		} 
 		
 		LOGGER.log(Level.INFO, logMessageHandler.removeLeadsConnectionMade);
-
-		
 	}
 	
 	public void deleteProspectLeads(){
