@@ -99,7 +99,7 @@ public class removeLeads {
 
 	}
 	
-	public void colseConnection()
+	public void closeConnection()
 	{
 		try {
 			conn.close();

@@ -40,7 +40,6 @@ public class validateLeads {
 				LOGGER.log(Level.WARNING, "Följande fel hittades i listan: " + invalidLeads.get(i));
 			}
 			LOGGER.log(Level.WARNING, countInvalidLeads + " antal felaktiga leads hittades.");
-			
 		}
 		
 		if(failReport.isEmpty())
@@ -52,7 +51,7 @@ public class validateLeads {
 		{
 			for(int i = 0; i<failReport.size(); i++)
 			{
-			LOGGER.log(Level.SEVERE, "Följande fel triggade mailfunktion: " + failReport.get(i));			
+				LOGGER.log(Level.SEVERE, "Följande fel triggade mailfunktion: " + failReport.get(i));			
 			}	
 		}
 	}
@@ -67,8 +66,7 @@ public class validateLeads {
 		
 		for(int i=0; i<aLeadsList.size(); i++)
 		{
-			// Här ska den felaktiga leaden tas bort, (räknas som felaktig för logg), men inget mail ska skickas.
-		
+
 			if(aLeadsList.get(i).getName() == "" || aLeadsList.get(i).getName() == null) {
 				invalidLeads.add("Item number " + i + " has no name");
 				invalidLeads.remove(i);
@@ -143,15 +141,12 @@ public class validateLeads {
 			}
 			duplicates = false;
 		}
-
 	}
 	
 	public void checkValues(ArrayList<leads> aLeadsList)
 	{
-		
-		// Här ska den felaktikta leaden tas bort, (räknas som felaktig för loggens skull), men inget mail ska skickas.
-		
 		LOGGER.log(Level.INFO, "Kollar om listan innehåller korrupta värden");
+		
 		String regex = "[0-9]+";
 		
 		String tmpTele;
@@ -201,7 +196,6 @@ public class validateLeads {
 	/* Jämför gamla listan med den nya */
 	public void compareToLastWeek(ArrayList<leads> aLeadsList)
 	{
-		
 		File tmpFileWithLeads = new File(propertiesHandler.tmpLeadsListFilePath + propertiesHandler.tmpLeadsListFile);
 		
 		try
@@ -228,11 +222,9 @@ public class validateLeads {
 					}
 				}
 			
-				LOGGER.log(Level.INFO, "Antal poster i den nya listan som finns i den gamla listan: " + match);
-				
 				if (match == aLeadsList.size())
 				{
-					LOGGER.log(Level.INFO, "Det finns " + match + " leads i den nya listan. Alla fanns i den gamla listan.");
+					LOGGER.log(Level.WARNING, "Det finns " + match + " leads i den nya listan. Alla fanns i den gamla listan.");
 					failReport.add("The leads in the new list already exists in the old list");	
 				}
 				else
@@ -243,15 +235,15 @@ public class validateLeads {
 		} 
 		catch(FileNotFoundException e) 
 		{
-			LOGGER.log(Level.INFO, "Filen med den gamla listan kunde inte hittas.", e);
+			LOGGER.log(Level.WARNING, "Filen med den gamla listan kunde inte hittas.", e);
 		} 
 		catch (IOException e) 
 		{
-			LOGGER.log(Level.INFO, "Fel uppstod vid inläsning av fil med den gamla listan.", e);
+			LOGGER.log(Level.WARNING, "Fel uppstod vid inläsning av fil med den gamla listan.", e);
 		} 
 		catch (ClassNotFoundException e) 
 		{
-			LOGGER.log(Level.INFO, "Fel uppstod vid inläsning av fil med den gamla listan.", e);
+			LOGGER.log(Level.WARNING, "Fel uppstod vid inläsning av fil med den gamla listan.", e);
 		}
 	}
 	
@@ -285,9 +277,7 @@ public class validateLeads {
 	{
 		LOGGER.log(Level.INFO, "Påbörjar sparning av ny lista till fil.");
 		
-		
 		File tmpFileWithLeads = new File(propertiesHandler.tmpLeadsListFilePath + propertiesHandler.tmpLeadsListFile);
-		// kanske behövs getAbsolutePath()
 		
 		FileOutputStream fileOutputStream;
 		ObjectOutputStream objectOutputStream;
@@ -302,15 +292,15 @@ public class validateLeads {
 		} 
 		catch(FileNotFoundException e) 
 		{
-			LOGGER.log(Level.INFO, "Ny lista kunde inte sparas.", e);
+			LOGGER.log(Level.WARNING, "Ny lista kunde inte sparas.", e);
 		} 
 		catch (IOException e) 
 		{
-			LOGGER.log(Level.INFO, "Ny lista kunde inte sparas.", e);
+			LOGGER.log(Level.WARNING, "Ny lista kunde inte sparas.", e);
 		}
 		finally
 		{
-			LOGGER.log(Level.INFO, "Ny lista sparad till fil");
+			LOGGER.log(Level.WARNING, "Ny lista sparad till fil");
 		}
 	}
 }

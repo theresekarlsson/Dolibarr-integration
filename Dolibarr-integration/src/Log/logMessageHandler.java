@@ -1,17 +1,19 @@
 package Log;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import Properties.propertiesHandler;
+
 
 public final class logMessageHandler {
 
+	//Info meddelanden till logHandler
+	public static String loggingStartSuccess;
+	
 	//Info meddelanden till logMessageHandler
 	public static String getLogMessages;	
 	public static String getLogMessagesFinished;
@@ -23,8 +25,14 @@ public final class logMessageHandler {
 	//Info meddelanden till mainClass
 	public static String startingProgram;
 	
-	//Info meddelanden till mailCeator
+	//Info meddelanden till mailCreator
 	public static String mailSent;
+	public static String creatingEmail;
+	public static String getLatestLog;
+	public static String filePathToLastLog;
+	
+	//Infomeddelanden till mailingHandler
+	public static String triggingMailFunction;
 	
 	//Info meddelanden till getLeads
 	public static String getLeadsStart;
@@ -32,7 +40,6 @@ public final class logMessageHandler {
 	public static String tmpXMLfile;
 	public static String gettingXMLFileDone;
 	public static String strippXMLFile;
-	public static String puttingLeadsInLeadsList;
 	public static String getLeadsFinished;
 	
 	//Info meddelanden till JDBCinsert
@@ -57,6 +64,10 @@ public final class logMessageHandler {
 	//Warning meddelanden till mailCreator
 	public static String mailCreatorAddressException;
 	public static String mailCreatorMessagingException;
+	
+	
+	//Severe meddelanden till logHandler
+	public static String logFileCreationFailedException;
 	
 	//Severe meddelanden  till logMessageHandler
 	public static String logMessageFileNotFound;
@@ -93,7 +104,7 @@ public final class logMessageHandler {
 		
 	}
 	
-	//Hämtar logg meddelanden från configLogMessages.properties och sparar som strängar. 
+	/* Hämtar loggmeddelanden från configLogMessages.properties och sparar som strängar.*/ 
 	public static  void getAllLogMessagesFromFile() {
 		
 		Properties _p = new Properties();
@@ -101,11 +112,16 @@ public final class logMessageHandler {
 		
 		try 
 		{
-			String propsFileName = "configLogMessages.properties";
+			String propsFileName = "configLogMessages.properties";								
 			input = logMessageHandler.class.getClassLoader().getResourceAsStream(propsFileName);
 			
-			
 			_p.load(input);
+			
+			//Hämtar Info meddelanden till logHandler
+			loggingStartSuccess = _p.getProperty("info.loggingStartSuccess");
+			
+			//Hämtar Severe meddelanden till logHandler
+			logFileCreationFailedException = _p.getProperty("severe.logFileCreationFailed");
 			
 			//Hämtar Info meddelanden till logMessageHandler
 			getLogMessages = _p.getProperty("info.getLogMessages");
@@ -134,6 +150,12 @@ public final class logMessageHandler {
 			
 			//Hämtar Info meddelanden till mailCreator
 			mailSent = _p.getProperty("info.mailSent");
+			creatingEmail = _p.getProperty("info.creatingEmail");
+			getLatestLog = _p.getProperty("info.getLatestLog");
+			filePathToLastLog = _p.getProperty("info.filePathToLastLog");
+			
+			//Hämtar Infomeddelanden till mailingHandler
+			triggingMailFunction = _p.getProperty("info.triggingMailFunction");
 			
 			//Hämtar Warning meddelanden till mailCreator
 			mailCreatorAddressException = _p.getProperty("warning.mailCreatorAddressException");
@@ -145,7 +167,6 @@ public final class logMessageHandler {
 			tmpXMLfile = _p.getProperty("info.tmpXMLfile");
 			gettingXMLFileDone = _p.getProperty("info.gettingXMLFileDone");
 			strippXMLFile = _p.getProperty("info.strippXMLFile");
-			puttingLeadsInLeadsList = _p.getProperty("info.puttingLeadsInLeadsList");
 			getLeadsFinished = _p.getProperty("info.getLeadsFinished");
 			
 			//Hämtar Severe meddelanden till getLeads
@@ -214,5 +235,4 @@ public final class logMessageHandler {
 			}
 		}
 	}	
-	
 }
