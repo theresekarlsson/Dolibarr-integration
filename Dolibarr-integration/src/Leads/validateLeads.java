@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -26,14 +28,14 @@ public class validateLeads {
 	
 	public void checkList(ArrayList<leads> aLeadsList)
 	{
-		System.out.println("Inne i checkList.");
 		checkIfEmpty(aLeadsList);
 		checkForDuplicates(aLeadsList);
 		checkValues(aLeadsList);
 		compareToLastWeek(aLeadsList);
 		countLeads(aLeadsList);
 		
-		/*TODO I varje funktion: Skapa ännu en array (deletedLeads kanske?) där de felaktiga leadsens felmeddelanden läggs. 
+		/*TODO Kanske klart... Testas. 
+		 * I varje funktion: Skapa ännu en array (deletedLeads kanske?) där de felaktiga leadsens felmeddelanden läggs. 
 		Ta bort de felaktiga leadsen ur aLeadsList, som går vidare till nästa valideringsfunktion. 
 		Räkna sedan antalet i deletedLeads, logga dem och medföljande felmeddelanden. 
 		Vissa funktioner ska dock fortfarande trigga mailfunktion. */
@@ -54,13 +56,12 @@ public class validateLeads {
 		{
 			saveListToFile(aLeadsList);
 		}
+		
 		else
 		{
 			for(int i = 0; i<failReport.size(); i++)
 			{
-				
 			LOGGER.log(Level.SEVERE, "Följande fel triggade mailfunktion: " + failReport.get(i));			
-			
 			}	
 		}
 	}
@@ -70,9 +71,7 @@ public class validateLeads {
 		LOGGER.log(Level.INFO, "Kollar om listan är tom");
 		if(aLeadsList.size() < 1)	
 		{
-		
 			failReport.add("Whole list is empty");
-	
 		}
 		for(int i=0; i<aLeadsList.size(); i++)
 		{
@@ -150,7 +149,6 @@ public class validateLeads {
 					duplicates = true;
 				}
 			}
-			
 			duplicates = false;
 		}
 
@@ -211,40 +209,44 @@ public class validateLeads {
 	/* Jämför gamla listan med den nya */
 	public void compareToLastWeek(ArrayList<leads> aLeadsList)
 	{
-		LOGGER.log(Level.INFO, "Påbörjar jämförelse med förra veckans lista");
 		
-		File tmpFileWithLeads = new File("tmpFileWithLeads.txt"); //hittar inte den filen nu.
+		File tmpFileWithLeads = new File(propertiesHandler.tmpLeadsListFilePath + propertiesHandler.tmpLeadsListFile);
 		
 		try
 		{
-			FileInputStream fileInputStream = new FileInputStream(tmpFileWithLeads);
-			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-	        ArrayList<leads> oldLeads = (ArrayList<leads>) objectInputStream.readObject();
-			objectInputStream.close();
-			
-			int match = 0;
-			
-			for (int i = 0; i < aLeadsList.size(); i++) 
+			if (tmpFileWithLeads.exists() && !tmpFileWithLeads.isDirectory())
 			{
-				for (int j = 0; j < oldLeads.size(); j++)
+				LOGGER.log(Level.INFO, "Påbörjar jämförelse med förra veckans lista");
+				
+				FileInputStream fileInputStream = new FileInputStream(tmpFileWithLeads);			
+				ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+		        ArrayList<leads> oldLeads = (ArrayList<leads>) objectInputStream.readObject();
+				objectInputStream.close();
+				
+				int match = 0;
+				
+				for (int i = 0; i < aLeadsList.size(); i++) 
 				{
-					if (oldLeads.get(j).getName().equals(aLeadsList.get(i).getName()))
+					for (int j = 0; j < oldLeads.size(); j++)
 					{
-						match++;
+						if (oldLeads.get(j).getName().equals(aLeadsList.get(i).getName()))
+						{
+							match++;
+						}
 					}
 				}
-			}
 			
-			LOGGER.log(Level.INFO, "Antal poster i den nya listan som finns i den gamla listan: " + match);
-			
-			if (match == aLeadsList.size())
-			{
-				LOGGER.log(Level.INFO, "Det finns " + match + " leads i den nya listan. Alla fanns i den gamla listan.");
-				failReport.add("The leads in the new list already exists in the old list");	
-			}
-			else
-			{
-				LOGGER.log(Level.INFO, "Gammal och ny lista jämförda. Den nya är ok.");
+				LOGGER.log(Level.INFO, "Antal poster i den nya listan som finns i den gamla listan: " + match);
+				
+				if (match == aLeadsList.size())
+				{
+					LOGGER.log(Level.INFO, "Det finns " + match + " leads i den nya listan. Alla fanns i den gamla listan.");
+					failReport.add("The leads in the new list already exists in the old list");	
+				}
+				else
+				{
+					LOGGER.log(Level.INFO, "Gammal och ny lista jämförda. Den nya är ok.");
+				}
 			}
 		} 
 		catch(FileNotFoundException e) 
@@ -290,7 +292,10 @@ public class validateLeads {
 	{
 		LOGGER.log(Level.INFO, "Påbörjar sparning av ny lista till fil.");
 		
-		File tmpFileWithLeads = new File("tmpFileWithLeads.txt");
+		
+		File tmpFileWithLeads = new File(propertiesHandler.tmpLeadsListFilePath + propertiesHandler.tmpLeadsListFile);
+		// kanske behövs getAbsolutePath()
+		
 		FileOutputStream fileOutputStream;
 		ObjectOutputStream objectOutputStream;
 		
