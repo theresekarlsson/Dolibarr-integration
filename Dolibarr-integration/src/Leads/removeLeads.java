@@ -11,7 +11,7 @@ public class removeLeads {
 	private Connection conn = null;
 	private String URL = "jdbc:mysql://localhost/dolibarr";
 	private String DBNAME = "dolibarrmysql";
-	private String DBPASSWORD = "admin";
+	private String DBPASSWORD = "ingenaning";
 	
 	public removeLeads()
 	{
@@ -53,23 +53,27 @@ public class removeLeads {
 	
 	public void deleteProspectLeads(){
 		
-		try {
+		try 
+		{
 			ResultSet rs;
 			String rowId = null;
 			Statement st = conn.createStatement();
+			//TODO NullPointerException här då det inte finns några leads att ta bort. Fixa.
 			
 			rs = st.executeQuery("SELECT rowid FROM llx_societe WHERE client='2'");
+			
 			while(rs.next())
 			{
 				rowId = rs.getString(1);
 				deleteRowsInContacts(rowId);
 				
-				
 			}
 			
 			st.executeUpdate("DELETE FROM llx_societe WHERE client='2'");
 			
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) 
+		{
 			
 			LOGGER.log(Level.SEVERE, logMessageHandler.RLcouldNotRemoveLeads, e);
 

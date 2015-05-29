@@ -19,8 +19,10 @@ public class validateLeads {
 	private static final Logger LOGGER = Logger.getLogger(validateLeads.class.getName());
 	
 	private boolean value;
+	private int countDeletedLeads = 0;	// variabel som räknar antalet felaktiga leads
 	
 	ArrayList<String> failReport = new ArrayList<String>();
+	ArrayList<String> invalidLeads = new ArrayList<String>();
 	
 	public void checkList(ArrayList<leads> aLeadsList)
 	{
@@ -31,19 +33,34 @@ public class validateLeads {
 		compareToLastWeek(aLeadsList);
 		countLeads(aLeadsList);
 		
+		/*TODO I varje funktion: Skapa ännu en array (deletedLeads kanske?) där de felaktiga leadsens felmeddelanden läggs. 
+		Ta bort de felaktiga leadsen ur aLeadsList, som går vidare till nästa valideringsfunktion. 
+		Räkna sedan antalet i deletedLeads, logga dem och medföljande felmeddelanden. 
+		Vissa funktioner ska dock fortfarande trigga mailfunktion. */
+		
+		
+		if (!invalidLeads.isEmpty()) 
+		{
+			for (int i = 0; i<invalidLeads.size(); i++) 
+			{
+				countDeletedLeads++;
+				LOGGER.log(Level.WARNING, "Följande fel hittades i listan: " + invalidLeads.get(i));
+			}
+			LOGGER.log(Level.WARNING, countDeletedLeads + " antal felaktiga leads hittades.");
+			
+		}
+		
 		if(failReport.isEmpty())
 		{
-			
-			LOGGER.log(Level.INFO, "Inga fel i listan hittades.");
 			saveListToFile(aLeadsList);
-			
-
 		}
 		else
 		{
 			for(int i = 0; i<failReport.size(); i++)
 			{
-			LOGGER.log(Level.SEVERE, "Fel i listan: " + failReport.get(i));				
+				
+			LOGGER.log(Level.SEVERE, "Följande fel triggade mailfunktion: " + failReport.get(i));			
+			
 			}	
 		}
 	}
@@ -59,38 +76,59 @@ public class validateLeads {
 		}
 		for(int i=0; i<aLeadsList.size(); i++)
 		{
+			// Här ska den felaktiga leaden tas bort, (räknas som felaktig för logg), men inget mail ska skickas.
 		
-			if(aLeadsList.get(i).getName() == "" || aLeadsList.get(i).getName() == null)
-				failReport.add("Item number " + i + " has no name");
-				
-			if(aLeadsList.get(i).getAddress() == "" || aLeadsList.get(i).getAddress() == null)
-				failReport.add("Item number " + i + " has no address");
+			if(aLeadsList.get(i).getName() == "" || aLeadsList.get(i).getName() == null) {
+				invalidLeads.add("Item number " + i + " has no name");
+				invalidLeads.remove(i);
+			}
 			
-			if(aLeadsList.get(i).getCity() == "" || aLeadsList.get(i).getCity() == null)
-				failReport.add("Item number " + i + " has no City");
+			if(aLeadsList.get(i).getAddress() == "" || aLeadsList.get(i).getAddress() == null) {
+				invalidLeads.add("Item number " + i + " has no address");
+				invalidLeads.remove(i);
+			}
+			
+			if(aLeadsList.get(i).getCity() == "" || aLeadsList.get(i).getCity() == null) {
+				invalidLeads.add("Item number " + i + " has no City");
+				invalidLeads.remove(i);
+			}
 		
-			if(aLeadsList.get(i).getContact() == "" || aLeadsList.get(i).getContact() == null)
-				failReport.add("Item number " + i + " has no contact");
+			if(aLeadsList.get(i).getContact() == "" || aLeadsList.get(i).getContact() == null) {
+				invalidLeads.add("Item number " + i + " has no contact");
+				invalidLeads.remove(i);
+			}
 			
-			if(aLeadsList.get(i).getTele() == "" || aLeadsList.get(i).getTele() == null)
-				failReport.add("Item number " + i + " has no tele");
+			if(aLeadsList.get(i).getTele() == "" || aLeadsList.get(i).getTele() == null) {
+				invalidLeads.add("Item number " + i + " has no tele");
+				invalidLeads.remove(i);
+			}
 			
-			if(aLeadsList.get(i).getZip() == "" || aLeadsList.get(i).getZip() == null)
-				failReport.add("Item number " + i + " has no zip");
+			if(aLeadsList.get(i).getZip() == "" || aLeadsList.get(i).getZip() == null) {
+				invalidLeads.add("Item number " + i + " has no zip");
+				invalidLeads.remove(i);
+			}
 			
-			if(aLeadsList.get(i).getEmail() == "" || aLeadsList.get(i).getEmail() == null)
-				failReport.add("Item number " + i + " has no Email");
+			if(aLeadsList.get(i).getEmail() == "" || aLeadsList.get(i).getEmail() == null) {
+				invalidLeads.add("Item number " + i + " has no Email");
+				invalidLeads.remove(i);
+			}
 
-			if(aLeadsList.get(i).getCurrent_provider() == "" || aLeadsList.get(i).getCurrent_provider() == null)
-				failReport.add("Item number " + i + " has no Current provider");	
+			if(aLeadsList.get(i).getCurrent_provider() == "" || aLeadsList.get(i).getCurrent_provider() == null) {
+				invalidLeads.add("Item number " + i + " has no Current provider");	
+				invalidLeads.remove(i);
+			}
 			
-			if(aLeadsList.get(i).getSize() == "" || aLeadsList.get(i).getSize() == null)
-				failReport.add("Item number " + i + " has no Size");	
+			if(aLeadsList.get(i).getSize() == "" || aLeadsList.get(i).getSize() == null) {
+				invalidLeads.add("Item number " + i + " has no Size");
+				invalidLeads.remove(i);
+			}
 		}
 	}
 	
 	public void checkForDuplicates(ArrayList<leads> aLeadsList)
 	{
+		// Här ska den felaktiga leaden tas bort, (räknas som felaktig för logg), men inget mail ska skickas.
+		
 		LOGGER.log(Level.INFO, "Kollar om lista innehållet dubletter");
 		leads tmpLead = new leads();
 		boolean duplicates = false;
@@ -106,7 +144,8 @@ public class validateLeads {
 					
 					if(duplicates)
 					{
-						failReport.add("Item number: " + y + " has a duplicate" );	
+						invalidLeads.add("Item number: " + y + " has a duplicate." );	
+						invalidLeads.remove(i);
 					} 
 					duplicates = true;
 				}
@@ -119,6 +158,9 @@ public class validateLeads {
 	
 	public void checkValues(ArrayList<leads> aLeadsList)
 	{
+		
+		// Här ska den felaktikta leaden tas bort, (räknas som felaktig för logg), men inget mail ska skickas.
+		
 		LOGGER.log(Level.INFO, "Kollar om listan innehåller korrupta värden");
 		String regex = "[0-9]+";
 		
@@ -132,22 +174,26 @@ public class validateLeads {
 			
 			if(!aLeadsList.get(i).getZip().matches(regex))
 			{
-				failReport.add("Item number: " + i + " has unvalid zipcode(can only contain numbers)");
+				invalidLeads.add("Item number: " + i + " has unvalid zipcode(can only contain numbers)");
+				invalidLeads.remove(i);
 			}
 			
 			if(aLeadsList.get(i).getCity().matches(regex))
 			{
-				failReport.add("Item number: " + i + " City cannot contain numbers");
+				invalidLeads.add("Item number: " + i + " City cannot contain numbers");
+				invalidLeads.remove(i);
 			}
 			
 			if(aLeadsList.get(i).getContact().matches(regex))
 			{
-				failReport.add("Item number: " + i + " contact name cannot contain numbers");
+				invalidLeads.add("Item number: " + i + " contact name cannot contain numbers");
+				invalidLeads.remove(i);
 			}
 			
 			if(!tmpTele.matches(regex))
 			{
-				failReport.add("Item number: " + i + " has unvalid phonenumber (can only contain numbers)");
+				invalidLeads.add("Item number: " + i + " has unvalid phonenumber (can only contain numbers)");
+				invalidLeads.remove(i);
 			}
 			
 			String email = aLeadsList.get(i).getEmail();
@@ -155,18 +201,19 @@ public class validateLeads {
 	        Matcher mat = pattern.matcher(email);
 
 	        if(!mat.matches()){
-	            failReport.add("Item number: " + i + " Has invalid email");
+	        	invalidLeads.add("Item number: " + i + " Has invalid email");
+	        	invalidLeads.remove(i);
 	        }	
 		}
 	}
 
 	
-	/* Jämför gamla listan med den nya TODO Hur hitta gamla listan? */
+	/* Jämför gamla listan med den nya */
 	public void compareToLastWeek(ArrayList<leads> aLeadsList)
 	{
 		LOGGER.log(Level.INFO, "Påbörjar jämförelse med förra veckans lista");
 		
-		File tmpFileWithLeads = new File("tmpFileWithLeads.txt");
+		File tmpFileWithLeads = new File("tmpFileWithLeads.txt"); //hittar inte den filen nu.
 		
 		try
 		{
@@ -192,7 +239,7 @@ public class validateLeads {
 			
 			if (match == aLeadsList.size())
 			{
-				LOGGER.log(Level.INFO, "Leadsen i den nya listan finns i den gamla listan.");
+				LOGGER.log(Level.INFO, "Det finns " + match + " leads i den nya listan. Alla fanns i den gamla listan.");
 				failReport.add("The leads in the new list already exists in the old list");	
 			}
 			else
@@ -211,6 +258,30 @@ public class validateLeads {
 		catch (ClassNotFoundException e) 
 		{
 			LOGGER.log(Level.INFO, "Fel uppstod vid inläsning av fil med den gamla listan.", e);
+		}
+	}
+	
+	/* Räknar antalet leads i nya listan. Vid färre än min.värde eller fler än maxvärde görs en felrapport. */
+	public void countLeads(ArrayList<leads> aLeadsList)
+	{
+		int count = 0;
+		for (int i = 0; i < aLeadsList.size(); i++) 
+		{
+			count++;
+		}
+		
+		LOGGER.log(Level.INFO, "Antal validerade leads i listan: " + count);
+
+		int minValue = Integer.parseInt(propertiesHandler.minValueLeads);
+		int maxValue = Integer.parseInt(propertiesHandler.maxValueLeads);
+		
+		if (count < minValue || count > maxValue)
+		{
+			failReport.add(count + " is not an approved number of leads. The value should be above " + minValue + " and below " + maxValue);
+		}
+		else 
+		{
+			LOGGER.log(Level.INFO, "Antal leads är ok.");
 		}
 	}
 	
@@ -242,31 +313,6 @@ public class validateLeads {
 		finally
 		{
 			LOGGER.log(Level.INFO, "Ny lista sparad till fil");
-		}
-	}
-	
-	
-	/* Räknar antalet leads i nya listan. Vid färre än min.värde eller fler än maxvärde görs en felrapport. */
-	public void countLeads(ArrayList<leads> aLeadsList)
-	{
-		int count = 0;
-		for (int i = 0; i < aLeadsList.size(); i++) 
-		{
-			count++;
-		}
-		
-		LOGGER.log(Level.INFO, "Antal leads i listan: " + count);
-
-		int minValue = Integer.parseInt(propertiesHandler.minValueLeads);
-		int maxValue = Integer.parseInt(propertiesHandler.maxValueLeads);
-		
-		if (count < minValue || count > maxValue)
-		{
-			failReport.add(count + " is not an approved number of leads. The value should be above " + minValue + " and below " + maxValue);
-		}
-		else 
-		{
-			LOGGER.log(Level.INFO, "Antal leads är ok.");
 		}
 	}
 }
