@@ -7,7 +7,8 @@ import java.util.logging.Logger;
 
 import Properties.propertiesHandler;
 
-/* Den här klassen lyssnar på all loggning, och avgör när ett mail ska skickas.  */
+/* Den här klassen lyssnar på all loggning som sker under tiden programmet körs, 
+ * och avgör när ett mail ska skickas.  */
 
 public class mailingHandler extends Handler {
 
@@ -21,7 +22,7 @@ public class mailingHandler extends Handler {
 	private String mailFromPassWord;	// lösenord till avsändares e-postkonto
 
 
-	/* Konstruktor, hämtar all data som krävs för att skicka e-post. */
+	/* Hämtar data från config.properties som krävs för att skicka e-post. */
 	public mailingHandler() {
 		mailTo = propertiesHandler.email;
 		mailFrom = propertiesHandler.emailSender;
@@ -29,7 +30,7 @@ public class mailingHandler extends Handler {
 		mailSubject = propertiesHandler.mailSubject;
 		mailFromUserName = propertiesHandler.emailSenderUserName;
 		mailFromPassWord = propertiesHandler.emailSenderPassWord;
-		logFilePath = propertiesHandler.logFilePath;
+		logFilePath = propertiesHandler.logFilePath;				
 	}
 
 	
@@ -37,23 +38,19 @@ public class mailingHandler extends Handler {
 	 * kontrollerar den och triggar mailfunktion om den är "SEVERE" */
 	public void publish(LogRecord record) 
 	{
-		  
-		String checkLevel = record.getLevel().toString();
+		String checkLevel = record.getLevel().toString();							// Konverterar till en sträng
 
-		if (checkLevel.equals("SEVERE"))
+		if (checkLevel.equals("SEVERE"))											// Kontrollerar om strängen är SEVERE
 		{
 
-			LOGGER.log(Level.INFO, "Mailfunktion triggad.");
+			LOGGER.log(Level.INFO, logMessageHandler.triggingMailFunction);
 			
 			new mailCreator(mailFrom,  mailTo, mailSubject, mailContent, 
-					logFilePath, mailFromUserName, mailFromPassWord).sendMail();
+					logFilePath, mailFromUserName, mailFromPassWord).sendMail();	//Om så är fallet, skapas ett mailobjekt
 		}
 	}
 
-	/* Används inte */
-	public void close() {}
+	public void close() { /* Används inte */ }
 
-	/* Används inte */
-	public void flush() {}
-
+	public void flush() { /* Används inte */ }
 }

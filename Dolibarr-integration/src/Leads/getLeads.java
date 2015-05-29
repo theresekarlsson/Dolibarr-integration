@@ -9,17 +9,20 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+
 import Log.logMessageHandler;
 import Properties.propertiesHandler;
 
@@ -91,7 +94,7 @@ public class getLeads {
 		return result;
 	}
 	
-	public ArrayList<leads> createLeadArray(String result){
+	public ArrayList<leads> createLeadArray(String result) {
 		
 		ArrayList<leads> leadsList = new ArrayList<leads>();
 		
@@ -140,6 +143,14 @@ public class getLeads {
 		}
 		LOGGER.log(Level.INFO, logMessageHandler.getLeadsFinished);
 		vl = new validateLeads();
+		
+		/* leadsList = vl.checkList(leadsList); 
+		 * TODO Vi har eventuellt förändrat listan under valideringen, så vi måste få 
+		 * den tillbaka i retur från validateLeads, för att sedan returnera. 
+		 * Nu skickas samma lista som vi skickade in i validateLeads
+		 * 
+		 * Dessutom fortsätter programmet köras även om mailfunktionen körts. */
+		
 		vl.checkList(leadsList);
 		return leadsList;	
 		}

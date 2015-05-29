@@ -20,7 +20,6 @@ public class mainClass
 	private getLeads GL;
 	private JDBCinsert JI;
 	private removeLeads RL;
-	private logMessageHandler MH;
 	
 	ArrayList<leads> leadsList = new ArrayList<leads>();
 	
@@ -37,22 +36,16 @@ public class mainClass
 		LOGGER.log(Level.INFO, logMessageHandler.startingProgram);
 		
 		startLogToFile();
-	
-		
-		RL = new removeLeads();
-		RL.deleteProspectLeads();
-		RL.colseConnection();
-		
+		removeLeads();
 		leadsList = getLeads();
-		
 		JI = new JDBCinsert();
 		
 		for (int i = 0; i < leadsList.size(); i++)
 		{
 			JI.insertLead(leadsList.get(i));
 		}
-		JI.closeConnection();
 		
+		JI.closeConnection();
 		stopLogToFile();
 	}
 	
@@ -74,6 +67,8 @@ public class mainClass
 	
 	public void removeLeads()
 	{
-		// TODO run revoeLeads	
+		RL = new removeLeads();
+		RL.deleteProspectLeads();
+		RL.closeConnection();
 	}	
 }
