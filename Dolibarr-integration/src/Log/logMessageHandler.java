@@ -55,6 +55,18 @@ public final class logMessageHandler {
 	public static String leadsDeleted;
 	public static String removeLeadsConnectionClosed;
 	
+	//Info meddelande till validateLeads
+	public static String validateLeadsCheckIfEmpty;
+	public static String validateLeadsCheckForDuplicates;
+	public static String validateLeadsCheckValues;
+	public static String validateLeadsCompareToLastWeek;
+	public static String validateLeadsNewListOK;
+	public static String validateLeadsCorrectLeads;
+	public static String validateLeadsNumberOfLeads;
+	public static String validateLeadsSaveListToFile;
+	public static String validateLeadsSaveListToFileOK;
+	public static String validateLeadsLeadsValidated;
+	
 	//Warning meddelanden till logMessageHandler
 	public static String closeReadLogMessageIOException;
 
@@ -65,6 +77,13 @@ public final class logMessageHandler {
 	public static String mailCreatorAddressException;
 	public static String mailCreatorMessagingException;
 	
+	//Warning meddelanden till validateLeads
+	public static String validateLeadsCorruptedLeads;
+	public static String validateLeadsNumberOfCorruptedLeads;
+	public static String validateLeadsNumberOfDuplicatedLeads;
+	public static String validateLeadsOldListNotFound;
+	public static String validateLeadsCouldNotReadOldList;
+	public static String validateLeadsCouldNotSaveNewList;
 	
 	//Severe meddelanden till logHandler
 	public static String logFileCreationFailedException;
@@ -96,6 +115,9 @@ public final class logMessageHandler {
 	public static String RLcouldNotRemoveLeads;
 	public static String RLcouldNotRemoveChildLeads;
 	public static String RLcouldNotCloseConnection;
+	
+	//Severe meddelanden till validateLeads
+	public static String validateLeadsTriggedMail;
 	
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
 	
@@ -202,6 +224,28 @@ public final class logMessageHandler {
 			RLcouldNotRemoveChildLeads = _p.getProperty("severe.RLcouldNotRemoveChildLeads");
 			RLcouldNotCloseConnection = _p.getProperty("severe.RLcouldNotCloseConnection");
 			
+			//Hämtar Info meddelanden till validateLeads
+			validateLeadsCheckIfEmpty = _p.getProperty("info.validateLeadsCheckIfEmpty");
+			validateLeadsCheckForDuplicates = _p.getProperty("info.validateLeadsCheckForDuplicates");
+			validateLeadsCheckValues = _p.getProperty("info.validateLeadsCheckValues");
+			validateLeadsCompareToLastWeek = _p.getProperty("info.validateLeadsCompareToLastWeek");
+			validateLeadsNewListOK = _p.getProperty("info.validateLeadsNewListOK");
+			validateLeadsCorrectLeads = _p.getProperty("info.validateLeadsCorrectLeads");
+			validateLeadsNumberOfLeads = _p.getProperty("info.validateLeadsNumberOfLeads");
+			validateLeadsSaveListToFile  = _p.getProperty("info.validateLeadsSaveListToFile");
+			validateLeadsSaveListToFileOK  = _p.getProperty("info.validateLeadsSaveListToFileOK");
+			validateLeadsLeadsValidated = _p.getProperty("info.validateLeadsLeadsValidated");
+
+			//Hämtar Warning meddelanden till validateLeads
+			validateLeadsCorruptedLeads = _p.getProperty("warning.validateLeadsCorruptedLeads");
+			validateLeadsNumberOfCorruptedLeads = _p.getProperty("warning.validateLeadsNumberOfCorruptedLeads");
+			validateLeadsNumberOfDuplicatedLeads = _p.getProperty("warning.validateLeadsNumberOfDuplicatedLeads");
+			validateLeadsOldListNotFound = _p.getProperty("warning.validateLeadsOldListNotFound");
+			validateLeadsCouldNotReadOldList = _p.getProperty("warning.validateLeadsCouldNotReadOldList");
+			validateLeadsCouldNotSaveNewList = _p.getProperty("warning.validateLeadsCouldNotSaveNewList");
+			
+			//Hämtar Severe meddelanden till validateLeads
+			validateLeadsTriggedMail = _p.getProperty("severe.validateLeadsTriggedMail");
 			
 			LOGGER.log(Level.INFO, getLogMessages);
 			
