@@ -8,7 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import Properties.propertiesHandler;
 
-
+/* Denna klass hanterar alla properties kopplade till loggning, 
+ * d.v.s. alla loggmeddelanden som körs i programmet */
 public final class logMessageHandler {
 
 	//Info meddelanden till logHandler

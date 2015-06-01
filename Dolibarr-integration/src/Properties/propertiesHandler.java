@@ -9,47 +9,47 @@ import java.util.logging.Logger;
 
 import Log.logMessageHandler;
 
+/* Denna klass hanterar alla propertiesvariabler, d.v.s. värden som används i körning av programmet. */
 public final class propertiesHandler {
-	public static String URI;
-	public static String oauth2Key;
-	public static String email;
-	public static String URLDolibarrDB;
-	public static String dbName;
-	public static String dbPassword;
-	public static String logFileName;
-	public static String logFilePath;
-	public static String tmpLeadsListFile;
-	public static String tmpLeadsListFilePath;
-	public static String mailSubject;
-	public static String mailContent;
-	public static String emailSender;
-	public static String emailSenderUserName;
-	public static String emailSenderPassWord;
-	public static String minValueLeads;
-	public static String maxValueLeads;
+	public static String URI;						// webadress för hämtning av leads
+	public static String oauth2Key;					// nyckel
+	public static String email;						// e-post till mottagare av larm
+	public static String URLDolibarrDB;				// adress till databas
+	public static String dbName;					// Anv.namn för inloggning i Dolibarrs databas
+	public static String dbPassword;				// Lösenord för inloggnign i Dolibarrs databas
+	public static String logFileName;				// Loggfilensnamn
+	public static String logFilePath;				// Filväg till loggfilen
+	public static String tmpLeadsListFile;			// Namn på fil med lista med leads
+	public static String tmpLeadsListFilePath;		// Filväg till fil med lista med leads
+	public static String mailSubject;				// Ämsesrad i e-postmeddelande för larm
+	public static String mailContent;				// Textinnehåll för e-postmeddelande för larm
+	public static String emailSender;				// Avsändarens e-postadress
+	public static String emailSenderUserName;		// Avsändarens anv.namn
+	public static String emailSenderPassWord;		// Avsändaren lösenord 
+	public static String emailHost;					// Mailhost
+	public static String minValueLeads;				// Minsta antal tillåtna leads
+	public static String maxValueLeads;				// Maximalt antal tillåtna leads
 	
 	private static final Logger LOGGER = Logger.getLogger(propertiesHandler.class.getName());
 	
 	
-	private propertiesHandler()
-	{
-		
-	}
+	private propertiesHandler() { }
 	
 	/* Hämtar properties från config.properties och sparar som strängar. */
 	public static void getAllPropertiesFromPropertiesFile() {
 		
-		Properties properties = new Properties();
+		Properties properties = new Properties();				// Skapar properties-objekt
 		InputStream input = null;
 		
 		try 
 		{
-			String propsFileName = "config.properties";
-			input = propertiesHandler.class.getClassLoader().getResourceAsStream(propsFileName);
+			String propsFileName = "config.properties"; 		// Namn på fil där variablerna hämtas
+			input = propertiesHandler.class.getClassLoader()	// Laddar upp innehållet från filen till en stream
+					.getResourceAsStream(propsFileName);
 			
 			LOGGER.log(Level.INFO, logMessageHandler.getPropertiesMessage);
-			properties.load(input);
-			
+			properties.load(input);								//	Laddar upp streamen i properties-objektet
+				
 			dbName = properties.getProperty("dbName");
 			dbPassword = properties.getProperty("dbPassword");
 			URI = properties.getProperty("URI");
@@ -65,6 +65,7 @@ public final class propertiesHandler {
 			emailSender = properties.getProperty("emailSender");
 			emailSenderUserName = properties.getProperty("emailSenderUserName");
 			emailSenderPassWord = properties.getProperty("emailSenderPassWord");
+			emailHost = properties.getProperty("emailHost");
 			minValueLeads = properties.getProperty("minValueLeads");
 			maxValueLeads = properties.getProperty("maxValueLeads");
 	

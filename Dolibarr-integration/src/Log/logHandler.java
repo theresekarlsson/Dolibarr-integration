@@ -11,12 +11,13 @@ import java.util.logging.SimpleFormatter;
 
 import Properties.propertiesHandler;
 
-/* Skapar logg och loggfil. */
+/* Denna klass hanterar loggning i programmet. Skapar logg och loggfil. */
 public class logHandler {
 	
 	private FileHandler fileHandler = null;
 
-	/* Skapar filhanterare, och sätter mailhanterare och formatterare på root-loggern. Returnerar sedan loggern. */
+	/* Skapar filhanterare, och sätter mailhanterare och formatterare på root-loggern. 
+	 * Returnerar sedan loggern. */
 	public Logger startLogging(Logger logger) 
 	{
 		//Bestämmer format på tidsstämpeln i filnamnet.
