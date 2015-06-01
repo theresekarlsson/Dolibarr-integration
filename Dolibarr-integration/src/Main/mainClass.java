@@ -21,7 +21,7 @@ public class mainClass
 	private JDBCinsert JI;
 	private removeLeads RL;
 	
-	ArrayList<leads> leadsList = new ArrayList<leads>();
+	ArrayList<leads> leadsList = new ArrayList<leads>();				// Array för lista med leads.
 	
 	public static void main(String[] args)
 	{
@@ -31,36 +31,40 @@ public class mainClass
 	
 	public mainClass()
 	{
-		logMessageHandler.getAllLogMessagesFromFile();
-		propertiesHandler.getAllPropertiesFromPropertiesFile();
+		logMessageHandler.getAllLogMessagesFromFile();					// Hämtar alla meddelanden för loggning
+		propertiesHandler.getAllPropertiesFromPropertiesFile();			// Hämtar data nödvändig för körning
 		LOGGER.log(Level.INFO, logMessageHandler.startingProgram);
 		
-		startLogToFile();
-		removeLeads();
-		leadsList = getLeads();
-		JI = new JDBCinsert();
+		startLogToFile();												// Påbörjar loggning
+		removeLeads();													// Tar bort gamla leads
+		leadsList = getLeads();											// Hämtyar leads, uppdaterar lista
+		JI = new JDBCinsert();				
 		
 		for (int i = 0; i < leadsList.size(); i++)
 		{
-			JI.insertLead(leadsList.get(i));
+			JI.insertLead(leadsList.get(i));							// Kör in leads i Dolibarrs databas
 		}
 		
-		JI.closeConnection();
-		stopLogToFile();
+		JI.closeConnection();											// Stänger uppkoppling mot databas
+		stopLogToFile();												// Avslutar loggning
 	}
 	
+	/* Skapar referens till getLeads-klassen, 
+	 * skapar uppkoppling, hämtar leads */
 	public ArrayList<leads> getLeads()
 	{
-		GL = new getLeads();
+		GL = new getLeads();											
 		return GL.createLeadArray(GL.getResponse());
 	}
 	
+	/* Skapar referens till logHandler, påbörjar loggning. */
 	public void startLogToFile()
 	{
 		HL = new logHandler();
 		HL.startLogging(LOGGER);
 	}
 	
+	/* Avslutar loggning */
 	private void stopLogToFile() {
 		HL.closeLogFile();
 	}
