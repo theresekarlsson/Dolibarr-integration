@@ -12,6 +12,7 @@ import Leads.removeLeads;
 import Log.logHandler;
 import Log.logMessageHandler;
 
+/* Programmets main-klass */
 public class mainClass
 {
 	private static final Logger LOGGER = Logger.getLogger(mainClass.class.getName()); 

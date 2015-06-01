@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -20,23 +21,23 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-
+/* Denna klass skapar och skickar e-postmeddelande */ 
 public class mailCreator {
 	
 	private static final Logger LOGGER = Logger.getLogger(mailCreator.class.getName());
 	
-	private String fromAddress;
-	private String toAddress;
-	private String mailSubject;
-	private String mailContent;
-	private String mailHost;
-	private String mailUserNameSender;
-	private String mailPasswordSender;
-	private String filePath;
+	private String fromAddress;				// avsändarense-post 
+	private String toAddress;				// mottagarens e-post
+	private String mailSubject;				// ämnesrad i e-postmeddelande
+	private String mailContent;				// Textinnehåll i e-postmeddelande
+	private String mailHost;				// Mailhost
+	private String mailUserNameSender;		// Avsändarens anv.namn
+	private String mailPasswordSender;		// Avsändarens lösenord
+	private String filePath;				// Filväg till loggfil
 	
 	
 	public mailCreator(String fromEmail, String toEmail, String subject, String content, 
-			String filepath,String username, String password) 
+			String filepath,String username, String password, String mailhost) 
 	{
 		fromAddress = fromEmail;
 		toAddress = toEmail;
@@ -44,7 +45,7 @@ public class mailCreator {
 		mailContent = content;
 		mailUserNameSender = username;
 		mailPasswordSender = password;
-		mailHost = "smtp.gmail.com";
+		mailHost = mailhost;
 		filePath = filepath;
 	}
 	
@@ -62,7 +63,6 @@ public class mailCreator {
 	                }
 	           }); 
 	        
-	    
 	    try 
 	    {
 	    	LOGGER.log(Level.INFO, logMessageHandler.creatingEmail);
