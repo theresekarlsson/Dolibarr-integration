@@ -69,6 +69,7 @@ public class mainClass
 		HL.closeLogFile();
 	}
 	
+	/* Skapar referens till removeLeads-klassen, tar bort gamla leads */
 	public void removeLeads()
 	{
 		RL = new removeLeads();

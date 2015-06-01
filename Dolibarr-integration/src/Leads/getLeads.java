@@ -43,17 +43,13 @@ public class getLeads {
 		
 		try 
 		{
-			
 			httpGet.addHeader("Authorization", propertiesHandler.oauth2Key);
 			response = httpClient.execute(httpGet);
-			LOGGER.log(Level.INFO, logMessageHandler.httprequest);
-			
-		} 
+			LOGGER.log(Level.INFO, logMessageHandler.httprequest);	
+		}
 		catch (ClientProtocolException e) 
 		{
-			
 			LOGGER.log(Level.SEVERE, logMessageHandler.httpRequestFailed, e);
-			
 		}
 		catch (IOException e) 
 		{
@@ -88,7 +84,6 @@ public class getLeads {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
 		
 		LOGGER.log(Level.INFO, logMessageHandler.gettingXMLFileDone);
 		return result;
@@ -97,12 +92,9 @@ public class getLeads {
 	public ArrayList<leads> createLeadArray(String result) {
 		
 		ArrayList<leads> leadsList = new ArrayList<leads>();
-		
 		String tmpString = "";
-
 		String init = "<leads>";
 		String removeFromTag = " xmlns=\"http://ws.wso2.org/dataservice\"";
-		
 		result = result.replaceAll(removeFromTag,"");
 		
 		LOGGER.log(Level.INFO, logMessageHandler.strippXMLFile);
@@ -119,34 +111,27 @@ public class getLeads {
 			if(tmpString.toString().contains("</lead>"))
 			{
 			
-				
 			try {
+				JAXBContext jc = JAXBContext.newInstance(leads.class);
+				Unmarshaller unmarshaller = jc.createUnmarshaller();
+				StreamSource streamSource = new StreamSource(new StringReader(tmpString.toString()));
+				JAXBElement<leads> je = unmarshaller.unmarshal(streamSource,
+				leads.class);
 				   
-				   JAXBContext jc = JAXBContext.newInstance(leads.class);
-				   Unmarshaller unmarshaller = jc.createUnmarshaller();
-				   StreamSource streamSource = new StreamSource(new StringReader(tmpString.toString()));
-				   JAXBElement<leads> je = unmarshaller.unmarshal(streamSource,
-				     leads.class);
+				leads aLead = (leads)je.getValue();
 				   
-				   leads aLead = (leads)je.getValue();
-				   
-				   leadsList.add(aLead);
-				   
-			} 
+				leadsList.add(aLead);   
+			}
 			catch (JAXBException e) 
 			{
 				LOGGER.log(Level.SEVERE, logMessageHandler.couldNotUnmarchall, e);
 			}
-				tmpString = "";
+			tmpString = "";
 			}		
-			
 		}
 		LOGGER.log(Level.INFO, logMessageHandler.getLeadsFinished);
+		
 		vl = new validateLeads();
-		
-		//vl.checkList(leadsList);
-		//return leadsList;	
-		
 		ArrayList <leads> tmpLeadsList = new ArrayList<leads>();	
 		tmpLeadsList = vl.checkList(leadsList);
 		return tmpLeadsList;
