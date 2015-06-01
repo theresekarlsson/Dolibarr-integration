@@ -4,7 +4,6 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-
 import Properties.propertiesHandler;
 
 /* Den här klassen lyssnar på all loggning som sker under tiden programmet körs, 
@@ -47,6 +46,9 @@ public class mailingHandler extends Handler {
 			
 			new mailCreator(mailFrom,  mailTo, mailSubject, mailContent, 
 					logFilePath, mailFromUserName, mailFromPassWord).sendMail();	//Om så är fallet, skapas ett mailobjekt
+		
+			LOGGER.log(Level.INFO, logMessageHandler.closingProgram);		
+			System.exit(0);															//Avslutar program
 		}
 	}
 
