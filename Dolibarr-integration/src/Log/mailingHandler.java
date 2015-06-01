@@ -47,7 +47,8 @@ public class mailingHandler extends Handler {
 			new mailCreator(mailFrom,  mailTo, mailSubject, mailContent, 
 					logFilePath, mailFromUserName, mailFromPassWord).sendMail();	//Om så är fallet, skapas ett mailobjekt
 		
-			LOGGER.log(Level.INFO, logMessageHandler.closingProgram);		
+			//TODO lägg till i configLogProperties
+			//LOGGER.log(Level.INFO, logMessageHandler.closingProgram);		
 			System.exit(0);															//Avslutar program
 		}
 	}
