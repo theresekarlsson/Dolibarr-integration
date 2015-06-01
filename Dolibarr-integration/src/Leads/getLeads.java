@@ -143,7 +143,6 @@ public class getLeads {
 		}
 		LOGGER.log(Level.INFO, logMessageHandler.getLeadsFinished);
 		vl = new validateLeads();
-		
 		/* leadsList = vl.checkList(leadsList); 
 		 * TODO Vi har eventuellt förändrat listan under valideringen, så vi måste få 
 		 * den tillbaka i retur från validateLeads, för att sedan returnera. 

@@ -40,10 +40,10 @@ public class validateLeads {
 			for (int i = 0; i<invalidLeads.size(); i++) 
 			{
 				countInvalidLeads++;
-				LOGGER.log(Level.WARNING, "Följande fel hittades i listan: " + invalidLeads.get(i));
+				LOGGER.log(Level.WARNING, logMessageHandler.validateLeadsCorruptedLeads + invalidLeads.get(i));
 			}
 			
-			LOGGER.log(Level.WARNING,"Antal felaktiga leads hittades: " + countInvalidLeads);
+			LOGGER.log(Level.WARNING,logMessageHandler.validateLeadsNumberOfCorruptedLeads + countInvalidLeads);
 		}
 		
 		if(failReport.isEmpty())
@@ -55,7 +55,7 @@ public class validateLeads {
 		{
 			for(int i = 0; i<failReport.size(); i++)
 			{
-				LOGGER.log(Level.SEVERE, "Följande fel triggade mailfunktion: " + failReport.get(i));			
+				LOGGER.log(Level.SEVERE, logMessageHandler.validateLeadsTriggedMail + failReport.get(i));			
 			}	
 		}
 		
@@ -233,7 +233,7 @@ public class validateLeads {
 			
 				if (match == aLeadsList.size())
 				{
-					LOGGER.log(Level.WARNING, "Det finns " + match + " leads i den nya listan. Alla fanns i den gamla listan.");
+					LOGGER.log(Level.WARNING, logMessageHandler.validateLeadsNumberOfDuplicatedLeads + match);
 					failReport.add("The leads in the new list already exists in the old list");	
 				}
 				else
@@ -244,15 +244,15 @@ public class validateLeads {
 		} 
 		catch(FileNotFoundException e) 
 		{
-			LOGGER.log(Level.WARNING, "Filen med den gamla listan kunde inte hittas.", e);
+			LOGGER.log(Level.WARNING, logMessageHandler.validateLeadsOldListNotFound, e);
 		} 
 		catch (IOException e) 
 		{
-			LOGGER.log(Level.WARNING, "Fel uppstod vid inläsning av fil med den gamla listan.", e);
+			LOGGER.log(Level.WARNING, logMessageHandler.validateLeadsCouldNotReadOldList, e);
 		} 
 		catch (ClassNotFoundException e) 
 		{
-			LOGGER.log(Level.WARNING, "Fel uppstod vid inläsning av fil med den gamla listan.", e);
+			LOGGER.log(Level.WARNING, logMessageHandler.validateLeadsCouldNotReadOldList, e);
 		}
 	}
 	
@@ -305,11 +305,11 @@ public class validateLeads {
 		} 
 		catch(FileNotFoundException e) 
 		{
-			LOGGER.log(Level.WARNING, "Ny lista kunde inte sparas.", e);
+			LOGGER.log(Level.WARNING, logMessageHandler.validateLeadsCouldNotSaveNewList, e);
 		} 
 		catch (IOException e) 
 		{
-			LOGGER.log(Level.WARNING, "Ny lista kunde inte sparas.", e);
+			LOGGER.log(Level.WARNING, logMessageHandler.validateLeadsCouldNotSaveNewList, e);
 		}
 		finally
 		{
