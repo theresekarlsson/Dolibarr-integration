@@ -33,6 +33,7 @@ public final class logMessageHandler {
 	
 	//Infomeddelanden till mailingHandler
 	public static String triggingMailFunction;
+	public static String closingProgram;
 	
 	//Info meddelanden till getLeads
 	public static String getLeadsStart;
@@ -178,6 +179,7 @@ public final class logMessageHandler {
 			
 			//Hämtar Infomeddelanden till mailingHandler
 			triggingMailFunction = _p.getProperty("info.triggingMailFunction");
+			closingProgram = _p.getProperty("info.closingProgram");
 			
 			//Hämtar Warning meddelanden till mailCreator
 			mailCreatorAddressException = _p.getProperty("warning.mailCreatorAddressException");

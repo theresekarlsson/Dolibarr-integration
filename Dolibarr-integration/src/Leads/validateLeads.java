@@ -18,7 +18,6 @@ import Properties.propertiesHandler;
 public class validateLeads {
 
 	private static final Logger LOGGER = Logger.getLogger(validateLeads.class.getName());
-	//private boolean value;
 	private int countInvalidLeads = 0;	// Antal felaktiga leads
 	private int countCorrectLeads;		// Antal validerade leads, dvs. efter att ev. felaktiga leads tagits bort.
 	
@@ -32,7 +31,7 @@ public class validateLeads {
 		checkIfEmpty();
 		checkForDuplicates();
 		checkValues();
-		//compareToLastWeek();
+		compareToLastWeek();
 		countLeads();
 		
 		if (!invalidLeads.isEmpty()) 
