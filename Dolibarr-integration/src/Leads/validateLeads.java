@@ -26,7 +26,7 @@ public class validateLeads {
 	ArrayList<String> invalidLeads = new ArrayList<String>();
 	ArrayList<leads> aLeadsList = new ArrayList<leads>();
 	
-	public void checkList(ArrayList<leads> aLeadsList)
+	public ArrayList<leads> checkList(ArrayList<leads> aLeadsList)
 	{
 		this.aLeadsList = aLeadsList;
 		checkIfEmpty();
@@ -60,6 +60,7 @@ public class validateLeads {
 		}
 		
 		LOGGER.log(Level.INFO, logMessageHandler.validateLeadsLeadsValidated);
+		return aLeadsList;
 	}
 	
 	public void checkIfEmpty()

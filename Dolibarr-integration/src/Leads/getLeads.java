@@ -143,14 +143,12 @@ public class getLeads {
 		}
 		LOGGER.log(Level.INFO, logMessageHandler.getLeadsFinished);
 		vl = new validateLeads();
-		/* leadsList = vl.checkList(leadsList); 
-		 * TODO Vi har eventuellt förändrat listan under valideringen, så vi måste få 
-		 * den tillbaka i retur från validateLeads, för att sedan returnera. 
-		 * Nu skickas samma lista som vi skickade in i validateLeads
-		 * 
-		 * Dessutom fortsätter programmet köras även om mailfunktionen körts. */
 		
-		vl.checkList(leadsList);
-		return leadsList;	
+		//vl.checkList(leadsList);
+		//return leadsList;	
+		
+		ArrayList <leads> tmpLeadsList = new ArrayList<leads>();	
+		tmpLeadsList = vl.checkList(leadsList);
+		return tmpLeadsList;
 		}
 	}
