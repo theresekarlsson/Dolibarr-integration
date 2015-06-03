@@ -80,7 +80,7 @@ public class JDBCinsert
 		{
 			LOGGER.log(Level.SEVERE, logMessageHandler.SQLExecuteFailed, e);
 		}
-		LOGGER.log(Level.INFO, logMessageHandler.leadsInserted);
+		
 		
 	}
 	
@@ -94,7 +94,7 @@ public class JDBCinsert
 			e.printStackTrace();
 			LOGGER.log(Level.SEVERE, logMessageHandler.couldNotCloseConnection,e);
 		}
-
+		LOGGER.log(Level.INFO, logMessageHandler.leadsInserted);
 		LOGGER.log(Level.INFO, logMessageHandler.JDBCconnectionClosed);
 
 	}
