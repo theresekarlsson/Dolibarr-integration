@@ -59,7 +59,7 @@ public class validateLeads {
 		{
 			for(int i = 0; i<failReport.size(); i++)
 			{
-				LOGGER.log(Level.SEVERE, logMessageHandler.validateLeadsTriggedMail + failReport.get(i));			
+				LOGGER.log(Level.SEVERE, logMessageHandler.validateLeadsTriggedMail + failReport.get(i));
 			}	
 		}
 		
