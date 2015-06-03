@@ -40,10 +40,11 @@ public class mailingHandler extends Handler {
 	public void publish(LogRecord record) 
 	{
 		String checkLevel = record.getLevel().toString();							// Konverterar till en sträng
+		String failure = record.getMessage();
 
 		if (checkLevel.equals("SEVERE"))											// Kontrollerar om strängen är SEVERE
 		{
-
+			LOGGER.log(Level.INFO, failure);
 			LOGGER.log(Level.INFO, logMessageHandler.triggingMailFunction);
 			
 			new mailCreator(mailFrom,  mailTo, mailSubject, mailContent, 

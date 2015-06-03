@@ -41,6 +41,7 @@ public class logHandler {
 		fileHandler.setFormatter(formatter);						//lägger till formatterare så filen blir i txt-format
 	    Logger.getLogger("").addHandler(new mailingHandler()); 		//lägger till mailhanterare
 		Logger.getLogger("").addHandler(fileHandler); 				//Lägger till filhanterare
+		fileHandler.setLevel(Level.ALL);
 		
 		logger.log(Level.INFO, logMessageHandler.loggingStartSuccess);
 		return logger;
