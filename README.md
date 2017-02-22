@@ -1,5 +1,5 @@
 # Dolibarr-integration
-Grupp-projekt, genomförd i Scrum. Integration mot affärssystem för import av data. 
+Scrum-projekt i kurs på Karlstad universitet. Integration mot affärssystem för import av data.
 (Gruppdeltagarna hade förbestämda roller, min var som javautvecklare.) 
 
 Från kravspec: 
